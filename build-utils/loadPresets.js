@@ -1,4 +1,3 @@
-// eslint-disable-next-line node/no-unpublished-require
 const webpackMerge = require('webpack-merge');
 
 const applyPresets = (env = { presets: [] }) => {
