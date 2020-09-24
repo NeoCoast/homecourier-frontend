@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open --env.mode development",
-    "build": "webpack --mode production",
+    "build": "webpack --env.mode production",
     "lint": "eslint ./ --ignore-pattern .gitignore --ignore-pattern dist --ext js,jsx .",
     "stylelint": "stylelint '**/*.scss'"
   },
@@ -42,12 +42,16 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "@reduxjs/toolkit": "^1.4.0",
+    "axios": "^0.19.2",
     "axios-case-converter": "^0.6.0",
     "dotenv": "^8.0.0",
+    "eslint-plugin-react-hooks": "^4.1.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-router-dom": "^5.2.0"
+    "react-redux": "^7.2.1",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5"
   },
   "husky": {
     "hooks": {
