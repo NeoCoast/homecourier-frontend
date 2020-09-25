@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Grid, TextInput, Button, Heading, Avatar } from 'grommet';
+import {
+  Box, Grid, TextInput, Button, Heading, Avatar,
+} from 'grommet';
 import usersService from '../../api/users.service';
 import BirthDatePicker from '../../components/Utils/BirthDatePicker/datepicker';
 

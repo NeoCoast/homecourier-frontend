@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Menu, Button, Header, Grommet, Footer, Main, Grid } from 'grommet';
+import { Header, Grommet, Main, Grid } from 'grommet';
 import theme from 'Components/Layout/theme';
-import { Home } from 'grommet-icons';
 import Background from 'Assets/background.svg';
 
-import './index.scss';
 import AppBar from '../AppBar';
 
 const Layout = ({ children }) => (

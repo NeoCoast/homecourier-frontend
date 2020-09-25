@@ -1,5 +1,7 @@
 import React from 'react';
-import { Box, Button, Grid, Heading, TextInput } from 'grommet';
+import {
+  Box, Button, Grid, Heading, TextInput,
+} from 'grommet';
 import { Link } from 'react-router-dom';
 
 const Login = () => (
