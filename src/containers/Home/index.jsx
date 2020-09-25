@@ -1,17 +1,16 @@
 import React from 'react';
 import { ReactComponent as NeoCoastLogo } from 'Assets/neocoast-logo.svg';
 import './index.scss';
+import { Box, Heading, Markdown } from 'grommet';
 
 const Home = () => (
-  <div className="home">
-    <NeoCoastLogo width={300} />
-    <h1>
-      Welcome to the Home page of your React App
-    </h1>
-    <h5>
-      Boilerplate made with <span role="img" aria-label="love">♥️</span> by <a href="https://www.neocoast.com" target="_blank" rel="nofollow">NeoCoast</a>
-    </h5>
-  </div>
+  <Box fill align="center">
+    <Heading>Bienvenido!</Heading>
+    <Markdown>
+      ## Lorem ipsum,
+      [link](https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=PLj65iUKyj0nV8hP7hjZ9-XDJ3dpL4LRmm)
+    </Markdown>
+  </Box>
 );
 
 export default Home;

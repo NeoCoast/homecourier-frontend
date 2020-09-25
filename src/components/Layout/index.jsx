@@ -1,24 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { ROUTES } from 'Data/constants';
+import { Menu, Button, Header, Grommet, Footer, Main, Grid } from 'grommet';
+import theme from 'Components/Layout/theme';
+import { Home } from 'grommet-icons';
+import Background from 'Assets/background.svg';
 
 import './index.scss';
+import AppBar from '../AppBar';
 
 const Layout = ({ children }) => (
-  <div className="layout">
-    <header>
-      <ul>
-        <li>
-          <Link to={ROUTES.home}>Home</Link>
-        </li>
-        <li>
-          <Link to={ROUTES.about}>About Us</Link>
-        </li>
-      </ul>
-    </header>
-    {children}
-  </div>
+  <Grommet theme={theme} full>
+    <Grid
+      rows={['xxsmall', 'flex']}
+      columns={['flex']}
+      fill="vertical"
+      areas={[
+        { name: 'header', start: [0, 0], end: [0, 0] },
+
+        { name: 'main', start: [0, 1], end: [0, 1] },
+      ]}
+    >
+      <Header background="white" gridArea="header" elevation="small">
+        <AppBar />
+      </Header>
+      <Main gridArea="main" background={`url(${Background})`}>
+        {children}
+      </Main>
+    </Grid>
+  </Grommet>
 );
 
 Layout.propTypes = {
