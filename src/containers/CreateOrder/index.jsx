@@ -4,21 +4,30 @@ import {
   Box, Button, TextArea,
 } from 'grommet';
 import Select from 'react-select';
-
-const InitialList = [];
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 /*
   TODO Check if user is logged in
-  TODO Check if categories and description aren't empty attributes
 */
 
 const CreateOrder = () => {
-  const [categories, setCategories] = useState(InitialList);
+  const [categories, setCategories] = useState([]);
   const [description, setDescription] = useState('');
 
   const newOrder = async () => {
-    console.log(categories);
-    console.log(description);
+    let errorFlag = false;
+    if (categories.length === 0) {
+      notifyError('Debe seleccionar al menos una categoría');
+      errorFlag = true;
+    }
+    if (!description) {
+      notifyError('Descripción es obligatoria');
+      errorFlag = true;
+    }
+    if (!errorFlag) {
+      notifySuccess('Su pedido fue registrado con exito');
+    }
     // try {
     //   await ordersService.create({
     //     title,
@@ -61,6 +70,10 @@ const CreateOrder = () => {
     },
   };
 
+  const notifyError = (errorMsg) => toast.error(errorMsg);
+
+  const notifySuccess = (successMsg) => toast.success(successMsg);
+
   const [modalIsOpen, setIsOpen] = useState(false);
 
   return (
@@ -73,13 +86,24 @@ const CreateOrder = () => {
         style={customStyle}
         onRequestClose={closeModal}
       >
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <Box align="center" pad="large" gap="small" direction="column" fill="horizontal">
           <h3>Crear un pedido</h3>
-          <Box fill="horizontal">
+          <Box id="boxCategories" fill="horizontal">
             <h4>Categorías</h4>
             <Select isMulti id="categories" options={options} onChange={handleChange} width="fill" />
           </Box>
-          <Box fill="horizontal">
+          <Box id="boxDescription" fill="horizontal">
             <h4>Descripción</h4>
             <TextArea id="description" placeholder="Ingrese la descripción" value={description} onChange={(event) => setDescription(event.target.value)} required width="100%" />
           </Box>
