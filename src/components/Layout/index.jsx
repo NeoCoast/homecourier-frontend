@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header, Grommet, Main, Grid } from 'grommet';
+import {
+  Header, Grommet, Main, Grid,
+} from 'grommet';
 import theme from 'Components/Layout/theme';
 import Background from 'Assets/background.svg';
 
