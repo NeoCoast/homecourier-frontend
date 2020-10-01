@@ -74,7 +74,7 @@ const Login = (props) => {
       >
         <Heading level="2">Inicie sesión</Heading>
         <TextInput placeholder="Correo electronico" onChange={handleEmail} />
-        <TextInput placeholder="Contraseña" onChange={handlePassword} />
+        <TextInput placeholder="Contraseña" type="password" onChange={handlePassword} />
         <Button primary label="Login" fill="horizontal" onClick={validate} />
         <Link to="/register" style={{ width: '100%' }}><Button secondary label="Registrarse" fill="horizontal" /></Link>
 
