@@ -10,17 +10,12 @@ const presetConfig = require('./build-utils/loadPresets');
 const modeConfig = (env) => require(`./build-utils/webpack.${env}`)(env);
 /* eslint-enable */
 
-module.exports = ({
-  mode = 'production',
-  presets = ['babel', 'css', 'scss', 'svg'],
-}) => (
+module.exports = ({ mode = 'production', presets = ['babel', 'css', 'scss', 'svg', 'gif'] }) =>
   webpackMerge(
     {
       mode,
       entry: {
-        'src/index.jsx': [
-          path.join(__dirname, './src/index.jsx'),
-        ],
+        'src/index.jsx': [path.join(__dirname, './src/index.jsx')],
       },
       resolve: {
         extensions: ['*', '.js', '.jsx'],
@@ -42,6 +37,5 @@ module.exports = ({
       ],
     },
     modeConfig(mode),
-    presetConfig({ mode, presets }),
-  )
-);
+    presetConfig({ mode, presets })
+  );

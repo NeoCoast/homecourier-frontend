@@ -1,3 +1,4 @@
+import { css } from 'styled-components';
 const theme = {
   global: {
     colors: {
@@ -164,7 +165,7 @@ const theme = {
     },
     font: {
       family: '"Roboto", "Helvetica", "Arial", sans-serif',
-      size: '18px',
+      size: '14px',
       height: '24px',
       maxWidth: '432px',
     },
@@ -414,10 +415,11 @@ const theme = {
     },
   },
   formField: {
+    round: 'xsmall',
     border: {
       color: 'border',
       position: 'inner',
-      side: 'bottom',
+      side: 'all',
       error: {
         color: {
           dark: 'white',
@@ -452,13 +454,23 @@ const theme = {
     },
     label: {
       margin: {
-        vertical: 'xsmall',
-        horizontal: 'small',
+        vertical: 'xxsmall',
+        horizontal: 'none',
       },
     },
     margin: {
       bottom: 'small',
     },
+    extend: ({ noBorder }) =>
+      noBorder &&
+      css`
+        > label + div {
+          border: none;
+          > div {
+            padding: 0;
+          }
+        }
+      `,
   },
   grommet: {},
   heading: {

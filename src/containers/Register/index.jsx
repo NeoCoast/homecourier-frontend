@@ -1,39 +1,63 @@
-import React, { useState } from 'react';
-import {
-  Box, Grid, TextInput, Button, Heading, Avatar,
-} from 'grommet';
-import usersService from '../../api/users.service';
+import React from 'react';
+import { Box, Grid, TextInput, Button, Heading, Avatar, Form, FormField, Text } from 'grommet';
+import { useHistory } from 'react-router-dom';
+// import usersService from '../../api/users.service';
 import BirthDatePicker from '../../components/Utils/BirthDatePicker/datepicker';
+// import { DateTime } from 'luxon';
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
-  const [address, setAddress] = useState('');
-  const [day, setDay] = useState('');
-  const [month, setMonth] = useState('');
-  const [year, setYear] = useState('');
+  const history = useHistory();
+  const submit = () => history.push('/register-ok');
 
-  const submit = async () => {
-    const birthDate = `${day}/${month}/${year}`;
+  const message = (msg) => <Text size="small">{msg}</Text>;
+  const errorMessage = (msg) => (
+    <Text size="small" color="red">
+      {msg}
+    </Text>
+  );
 
-    try {
-      await usersService.create({
-        name,
-        lastname,
-        email,
-        username,
-        password,
-        address,
-        birthDate,
-      });
-    } catch (error) {
-      console.error('error: ', error);
-    }
+  const validateEmail = (value) => {
+    const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!regexEmail.test(value)) return { status: 'error', message: errorMessage('Inserte un email válido') };
+    return { status: 'info' };
   };
+
+  const validatePassword = (value, formValues) => {
+    if (value !== formValues.password) return { status: 'error', message: errorMessage('Las contraseñas no coinciden') };
+    return { status: 'info' };
+  };
+
+  const validateDay = (value) => {
+    if (Number.isNaN(Number(value)) || Number(value) > 31 || Number(value) <= 0) {
+      return { status: 'error', message: errorMessage('No valido') };
+    }
+    return { status: 'info' };
+  };
+
+  const validateYear = (value) => {
+    if (Number.isNaN(Number(value))) {
+      return { status: 'error', message: errorMessage('No valido') };
+    }
+    return { status: 'info' };
+  };
+  // TODO: submit form
+  // const submit = async () => {
+  //   const birthDate = `${day}/${month}/${year}`;
+
+  //   try {
+  //     await usersService.create({
+  //       name,
+  //       lastname,
+  //       email,
+  //       username,
+  //       password,
+  //       address,
+  //       birthDate,
+  //     });
+  //   } catch (error) {
+  //     console.error('error: ', error);
+  //   }
+  // };
 
   return (
     <Grid
@@ -57,29 +81,59 @@ const Register = () => {
           <Avatar size="xlarge" src="https://robohash.org/miraak" border="all" />
         </Box>
 
-        <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
-          <TextInput placeholder="Nombre" value={name} onChange={(event) => setName(event.target.value)} />
-          <TextInput placeholder="Apellido" value={lastname} onChange={(event) => setLastname(event.target.value)} />
-        </Box>
-        <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
-          <TextInput placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
-          <TextInput placeholder="Nombre de Usuario" value={username} onChange={(event) => setUsername(event.target.value)} />
-        </Box>
-        <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
-          <TextInput placeholder="Contraseña" type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
-          <TextInput
-            placeholder="Repetir Contraseña"
-            type="password"
-            value={repeatPassword}
-            onChange={(event) => setRepeatPassword(event.target.value)}
-          />
-        </Box>
-        <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
-          <TextInput placeholder="Dirección" value={address} onChange={(event) => setAddress(event.target.value)} />
-          <BirthDatePicker day={setDay} month={setMonth} year={setYear} />
-        </Box>
+        <Form
+          onSubmit={submit}
+          messages={{
+            required: errorMessage('Este campo no puede estar vacio'),
+          }}
+        >
+          <Box direction="row-responsive" gap="small" fill="horizontal" justify="stretch" alignContent="around">
+            <FormField name="username" htmlfor="username" label={message('Nombre de Usuario')} fill required>
+              <TextInput name="username" id="username" />
+            </FormField>
 
-        <Button primary label="Registrarse" fill="horizontal" onClick={submit} />
+            <FormField name="email" htmlfor="email" label={message('Email')} fill validate={validateEmail}>
+              <TextInput name="email" id="email" />
+            </FormField>
+          </Box>
+
+          <Box direction="row-responsive" gap="small" fill="horizontal" justify="stretch" alignContent="around">
+            <FormField name="name" htmlfor="name" label={message('Nombre')} fill required>
+              <TextInput id="name" name="name" />
+            </FormField>
+
+            <FormField name="lastname" htmlfor="lastname" label={message('Apellido')} fill required>
+              <TextInput id="lastname" name="lastname" />
+            </FormField>
+          </Box>
+
+          <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
+            <FormField name="password" htmlfor="password" label={message('Contraseña')} required fill>
+              <TextInput name="password" id="password" type="password" />
+            </FormField>
+
+            <FormField
+              name="repeatPassword"
+              htmlfor="repeatPassword"
+              label={message('Repetir Contraseña')}
+              fill
+              required
+              validate={validatePassword}
+            >
+              <TextInput name="repeatPassword" id="repeatPassword" type="password" />
+            </FormField>
+          </Box>
+
+          <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
+            <FormField name="adress" htmlfor="adress" label={message('Dirección')} fill required>
+              <TextInput name="adress" id="adress" />
+            </FormField>
+
+            <BirthDatePicker validateDay={validateDay} validateYear={validateYear} />
+          </Box>
+
+          <Button primary label="Registrarse" fill="horizontal" type="submit" />
+        </Form>
       </Box>
     </Grid>
   );
