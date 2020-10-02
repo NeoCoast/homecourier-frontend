@@ -6,4 +6,5 @@ export const ROUTES = {
   register: '/register',
   login: '/login',
   createOrder: '/createorder',
+  profile: '/profile',
 };
