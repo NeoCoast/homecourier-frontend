@@ -1,22 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import {
   Box, Button, TextArea,
 } from 'grommet';
 import Select from 'react-select';
 import { ToastContainer, toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { ROUTES } from 'Data/constants';
+import ordersService from '../../api/orders.service';
+import categoriesService from '../../api/categories.service';
 import 'react-toastify/dist/ReactToastify.css';
-
-/*
-  TODO Check if user is logged in
-*/
 
 const CreateOrder = () => {
   const [categories, setCategories] = useState([]);
   const [description, setDescription] = useState('');
+  const [options, setOptions] = useState([]);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const userToken = useSelector((state) => state.logUser.data.token);
+  const userLoggedIn = useSelector((state) => state.logUser.isLogged);
+  const history = useHistory();
+
+  if (!userLoggedIn) {
+    history.push('/login');
+  }
+
+  const getCategories = async () => {
+    const opts = [];
+    try {
+      const categoriesJson = await categoriesService.getCategories();
+      categoriesJson.forEach((opt) => {
+        opts.push({
+          value: opt.id,
+          label: opt.description,
+        });
+      });
+    } catch (error) {
+      notifyError(error);
+    }
+    setOptions(opts);
+  };
 
   const newOrder = async () => {
     let errorFlag = false;
+    const title = 'Titulo del pedido';
+    const helpeeId = 1;
     if (categories.length === 0) {
       notifyError('Debe seleccionar al menos una categoría');
       errorFlag = true;
@@ -28,34 +56,29 @@ const CreateOrder = () => {
     if (!errorFlag) {
       notifySuccess('Su pedido fue registrado con exito');
     }
-    // try {
-    //   await ordersService.create({
-    //     title,
-    //     categories,
-    //     description,
-    //   });
-    // } catch (error) {
-    //   alert('error: ', error);
-    // }
+    try {
+      await ordersService.create({
+        title,
+        helpeeId,
+        categories,
+        description,
+      });
+    } catch (error) {
+      notifyError(error);
+    }
   };
 
-  function openModal() {
+  const openModal = () => {
     setIsOpen(true);
-  }
+  };
 
-  function closeModal() {
+  const closeModal = () => {
     setIsOpen(false);
-  }
-
-  const options = [
-    { value: 'farmacia', label: 'Farmacia' },
-    { value: 'supermercado', label: 'Supermercado' },
-    { value: 'cobranza', label: 'Cobranza' },
-  ];
+  };
 
   const handleChange = (selectedOptions) => {
     if (selectedOptions) {
-      setCategories(Array.from(selectedOptions, (option) => option.value));
+      setCategories(Array.from(selectedOptions, (option) => ({ id: option.value })));
     } else {
       setCategories([]);
     }
@@ -74,7 +97,9 @@ const CreateOrder = () => {
 
   const notifySuccess = (successMsg) => toast.success(successMsg);
 
-  const [modalIsOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   return (
     <div>
@@ -85,6 +110,7 @@ const CreateOrder = () => {
         isOpen={modalIsOpen}
         style={customStyle}
         onRequestClose={closeModal}
+        ariaHideApp={false} // missing app appElement
       >
         <ToastContainer
           position="top-right"

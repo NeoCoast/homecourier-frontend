@@ -1,10 +1,10 @@
 import HTTP from './http';
 
 const create = ({
-  categories, description,
+  title, helpeeId, categories, description,
 }) => (
   HTTP.post('/orders', {
-    categories, description,
+    title, helpeeId, categories, description,
   })
     .then(({ data }) => data)
 );
