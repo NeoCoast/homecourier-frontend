@@ -5,15 +5,18 @@ import {
 } from 'grommet';
 
 import Hamburger from 'Assets/hamburger.svg';
-import PropTypes from 'prop-types';
-import LogoutContainer from '../../containers/Redux/Logout';
+import Logout from 'Containers/Logout';
+import { useSelector } from 'react-redux';
 
-const AppBar = (props) => {
+const AppBar = () => {
   const [isLogged, setLogged] = useState(false);
+  const userInfo = useSelector((state) => state.logUser.data);
+
   useEffect(() => {
-    if (props.data) setLogged(true);
+    if (userInfo) setLogged(true);
     else setLogged(false);
-  });
+  }, [userInfo]);
+
   return (
     <Grid rows={['full']} columns={['1/3', '1/3', '1/3']} fill>
       <Box align="start">
@@ -25,16 +28,16 @@ const AppBar = (props) => {
         </Heading>
       </Box>
       <Box align="end" pad="xsmall">
-        {leftElement(isLogged)}
+        {barButton(isLogged)}
       </Box>
     </Grid>
   );
 };
 
-const leftElement = (loggedin) => {
+const barButton = (loggedin) => {
   const location = useLocation();
   if (loggedin) {
-    return <LogoutContainer />;
+    return <Logout />;
   }
   if (!loggedin && location.pathname === '/login') {
     return <Box />;
@@ -49,14 +52,6 @@ const leftElement = (loggedin) => {
       </Link>
     </Box>
   );
-};
-
-AppBar.propTypes = {
-  data: PropTypes.object,
-};
-
-AppBar.defaultProps = {
-  data: undefined,
 };
 
 export default AppBar;

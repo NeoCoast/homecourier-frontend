@@ -1,3 +1,4 @@
+import store from 'Store/store';
 import HTTP from './http';
 
 const create = ({
@@ -9,14 +10,23 @@ const create = ({
     .then(({ data }) => data)
 );
 
-async function login(info) {
-  const response = await HTTP.post('/users/login', info);
-  return response;
-}
+const login = (info) => HTTP.post('/users/login', info);
 
-const logout = (token) => {
-  HTTP.delete('/users/logout', token);
-};
+const logout = () => HTTP.delete('/users/logout');
+
+HTTP.interceptors.request.use((
+  async (config) => {
+    if (store.getState().logUser.loggedIn) {
+      const configuration = config;
+      configuration.headers = {
+        ...config.headers,
+        'Authorization': store.getState().logUser.data.token,
+      };
+      return configuration;
+    }
+    return config;
+  }
+));
 
 export default {
   create,

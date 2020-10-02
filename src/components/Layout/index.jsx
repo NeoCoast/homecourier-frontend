@@ -6,7 +6,7 @@ import {
 import theme from 'Components/Layout/theme';
 import Background from 'Assets/background.svg';
 
-import AppBarContainer from '../../containers/Redux/AppBar';
+import AppBar from 'Components/AppBar';
 
 const Layout = ({ children }) => (
   <Grommet theme={theme} full>
@@ -21,7 +21,7 @@ const Layout = ({ children }) => (
       ]}
     >
       <Header background="white" gridArea="header" elevation="small">
-        <AppBarContainer />
+        <AppBar />
       </Header>
       <Main gridArea="main" background={`url(${Background})`}>
         {children}

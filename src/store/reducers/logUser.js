@@ -7,10 +7,12 @@ const logUser = (state = INITIAL_STATE, action) => {
     case 'LOGIN':
       return {
         data: action.data,
+        loggedIn: true,
       };
     case 'LOGOUT':
       return {
-        data: undefined,
+        data: '',
+        loggedIn: false,
       };
     default:
       return state;

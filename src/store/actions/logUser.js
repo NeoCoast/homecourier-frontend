@@ -5,5 +5,4 @@ export const login = (data) => ({
 
 export const logout = () => ({
   type: 'LOGOUT',
-  data: undefined,
 });

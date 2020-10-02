@@ -11,7 +11,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 
 import { combineReducers } from '@reduxjs/toolkit';
-import logUser from './reducers/logUser';
+import logUser from 'Reducers/logUser';
 
 const rootReducer = combineReducers({
   logUser,

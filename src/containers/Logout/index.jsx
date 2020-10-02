@@ -1,28 +1,26 @@
 import React from 'react';
 import { Button } from 'grommet';
-import { PropTypes } from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import usersService from '../../api/users.service';
+import usersService from 'Api/users.service';
+import { useDispatch } from 'react-redux';
+import { logout } from 'Actions/logUser';
 
-const Logout = (props) => {
+const Logout = () => {
   const history = useHistory();
-  const handleLogout = () => {
-    props.logout();
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
     try {
-      props.logout();
-      usersService.logout();
-      history.push('/');
+      await usersService.logout(); // Sends an HTTP.delete to the API
+      await dispatch(logout()); // Dispatches Redux's action
+      history.push('/login'); // Redirects to Login page
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
+
   return (
     <Button secondary onClick={handleLogout} label="Logout" />
   );
-};
-
-Logout.propTypes = {
-  logout: PropTypes.func.isRequired,
 };
 
 export default Logout;
