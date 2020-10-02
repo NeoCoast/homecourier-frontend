@@ -7,7 +7,6 @@ import Select from 'react-select';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { ROUTES } from 'Data/constants';
 import ordersService from '../../api/orders.service';
 import categoriesService from '../../api/categories.service';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,7 +16,7 @@ const CreateOrder = () => {
   const [description, setDescription] = useState('');
   const [options, setOptions] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
-  const userToken = useSelector((state) => state.logUser.data.token);
+  // const userToken = useSelector((state) => state.logUser.data.token);
   const userLoggedIn = useSelector((state) => state.logUser.isLogged);
   const history = useHistory();
 
