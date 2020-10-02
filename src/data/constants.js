@@ -6,4 +6,7 @@ export const ROUTES = {
   register: '/register',
   login: '/login',
   registerOk: '/register-ok',
+  registerVolunteer: '/register-volunteer',
 };
+
+export const PASSWORD_POLICY = /.{6}.*/;

@@ -13,7 +13,8 @@ const GeneralUserForm = ({ message, errorMessage }) => {
   };
 
   const validatePassword = (value) => {
-    if (value.length <= 6) {
+    const re = new RegExp(process.env.PASSWORD_POLICY);
+    if (!re.test(value)) {
       return {
         status: 'error',
         message: errorMessage('Las contraseñas deben tener al menos 6 caracteres'),
@@ -45,41 +46,17 @@ const GeneralUserForm = ({ message, errorMessage }) => {
 
   return (
     <Box>
-      <Box
-        direction="row-responsive"
-        gap="small"
-        fill="horizontal"
-        justify="stretch"
-        alignContent="around"
-      >
-        <FormField
-          name="username"
-          htmlfor="username"
-          label={message('Nombre de Usuario')}
-          fill
-          required
-        >
+      <Box direction="row-responsive" gap="small" fill="horizontal" justify="stretch" alignContent="around">
+        <FormField name="username" htmlfor="username" label={message('Nombre de Usuario')} fill required>
           <TextInput name="username" id="username" />
         </FormField>
 
-        <FormField
-          name="email"
-          htmlfor="email"
-          label={message('Email')}
-          fill
-          validate={validateEmail}
-        >
+        <FormField name="email" htmlfor="email" label={message('Email')} fill validate={validateEmail}>
           <TextInput name="email" id="email" />
         </FormField>
       </Box>
 
-      <Box
-        direction="row-responsive"
-        gap="small"
-        fill="horizontal"
-        justify="stretch"
-        alignContent="around"
-      >
+      <Box direction="row-responsive" gap="small" fill="horizontal" justify="stretch" alignContent="around">
         <FormField name="name" htmlfor="name" label={message('Nombre')} fill required>
           <TextInput id="name" name="name" />
         </FormField>
@@ -89,43 +66,17 @@ const GeneralUserForm = ({ message, errorMessage }) => {
         </FormField>
       </Box>
 
-      <Box
-        direction="row-responsive"
-        gap="small"
-        fill="horizontal"
-        justify="center"
-        alignContent="around"
-      >
-        <FormField
-          name="password"
-          htmlfor="password"
-          label={message('Contraseña')}
-          required
-          fill
-          validate={validatePassword}
-        >
+      <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
+        <FormField name="password" htmlfor="password" label={message('Contraseña')} required fill validate={validatePassword}>
           <TextInput name="password" id="password" type="password" />
         </FormField>
 
-        <FormField
-          name="repeatPassword"
-          htmlfor="repeatPassword"
-          label={message('Repetir Contraseña')}
-          fill
-          required
-          validate={validateRepeatPassword}
-        >
+        <FormField name="repeatPassword" htmlfor="repeatPassword" label={message('Repetir Contraseña')} fill required validate={validateRepeatPassword}>
           <TextInput name="repeatPassword" id="repeatPassword" type="password" />
         </FormField>
       </Box>
 
-      <Box
-        direction="row-responsive"
-        gap="small"
-        fill="horizontal"
-        justify="center"
-        alignContent="around"
-      >
+      <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
         <FormField name="address" htmlfor="address" label={message('Dirección')} fill required>
           <TextInput name="address" id="address" />
         </FormField>

@@ -3,20 +3,23 @@ import {
   Box, Grid, Button, Heading, Avatar, Form, Text,
 } from 'grommet';
 import { useHistory } from 'react-router-dom';
-import helpeeService from 'Api/helpee.service';
+import volunteerService from 'Api/volunteer.service';
 import GeneralUserForm from 'Components/Forms/GeneralUserForm';
 import ErrorModal from 'Components/Modals/ErrorModal';
 import UploadProfileModal from 'Components/Modals/UploadProfileModal';
 import Add from 'Assets/add-image.svg';
+import VolunteerForm from 'Components/Forms/VolunteerForm';
 import dataURItoBlob from 'Data/Base64ToBlob';
 
-const Register = () => {
+const RegisterVolunteer = () => {
   const history = useHistory();
 
   const [errorModalMessage, setErrorModalMessage] = useState('');
   const [errorModal, setErrorModal] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
   const [profilePicModal, setProfilePicModal] = useState(false);
+  const [docFront, setDocFront] = useState(null);
+  const [docBack, setDocBack] = useState(null);
 
   const message = (msg) => <Text size="small">{msg}</Text>;
 
@@ -28,15 +31,18 @@ const Register = () => {
 
   const submit = async (formValues) => {
     const values = JSON.parse(JSON.stringify(formValues.value));
+
     values.birthDate = `${values.birthDay}/${values.birthMonth.month}/${values.birthYear}`;
     delete values.birthDay;
     delete values.birthMonth;
     delete values.birthYear;
     delete values.repeatPassword;
+    values.documentFace = docFront;
+    values.documentBack = docBack;
     values.avatar = profilePic ? dataURItoBlob(profilePic) : null;
 
     try {
-      const response = await helpeeService.create(values);
+      const response = await volunteerService.create(values);
       if (!!response.status && response.status === 400) {
         setErrorModalMessage('Verifique que los datos introducidos sean correctos');
         setErrorModal(true);
@@ -83,6 +89,7 @@ const Register = () => {
           }}
         >
           <GeneralUserForm message={message} errorMessage={errorMessage} />
+          <VolunteerForm message={message} errorMessage={errorMessage} setDocFront={setDocFront} setDocBack={setDocBack} />
           <Button primary label="Registrarse" fill="horizontal" type="submit" />
         </Form>
       </Box>
@@ -90,4 +97,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterVolunteer;
