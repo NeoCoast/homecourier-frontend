@@ -9,6 +9,7 @@ import ErrorModal from 'Components/Modals/ErrorModal';
 import UploadProfileModal from 'Components/Modals/UploadProfileModal';
 import Add from 'Assets/add-image.svg';
 import dataURItoBlob from 'Data/Base64ToBlob';
+import Spinner from 'Components/Utils/Spinner';
 
 const Register = () => {
   const history = useHistory();
@@ -17,6 +18,7 @@ const Register = () => {
   const [errorModal, setErrorModal] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
   const [profilePicModal, setProfilePicModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const message = (msg) => <Text size="small">{msg}</Text>;
 
@@ -33,10 +35,13 @@ const Register = () => {
     delete values.birthMonth;
     delete values.birthYear;
     delete values.repeatPassword;
-    values.avatar = profilePic ? dataURItoBlob(profilePic) : null;
+    if (profilePic) values.avatar = dataURItoBlob(profilePic);
+    else delete values.avatar;
 
     try {
+      setLoading(true);
       const response = await helpeeService.create(values);
+      setLoading(false);
       if (!!response.status && response.status === 400) {
         setErrorModalMessage('Verifique que los datos introducidos sean correctos');
         setErrorModal(true);
@@ -47,6 +52,7 @@ const Register = () => {
         });
       }
     } catch (error) {
+      setLoading(false);
       setErrorModalMessage('Ha ocurrido un error inesperado.');
       setErrorModal(true);
     }
@@ -67,6 +73,8 @@ const Register = () => {
     >
       {errorModal && <ErrorModal errorMessage={errorModalMessage} setShow={setErrorModal} show={errorModal} />}
       {profilePicModal && <UploadProfileModal setShow={setProfilePicModal} setPreview={setProfilePic} />}
+      {loading && <Spinner />}
+
       <Box background="white" align="center" gridArea="center" elevation="medium" pad="large" gap="small" round="5px" direction="column">
         <Heading alignSelf="center" size="xsmall">
           ¡Bienvenido a HomeCourier!
@@ -83,7 +91,7 @@ const Register = () => {
           }}
         >
           <GeneralUserForm message={message} errorMessage={errorMessage} />
-          <Button primary label="Registrarse" fill="horizontal" type="submit" />
+          <Button primary label="Registrarse" fill="horizontal" type="submit" disabled={loading} />
         </Form>
       </Box>
     </Grid>

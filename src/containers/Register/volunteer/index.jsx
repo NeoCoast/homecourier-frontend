@@ -10,6 +10,7 @@ import UploadProfileModal from 'Components/Modals/UploadProfileModal';
 import Add from 'Assets/add-image.svg';
 import VolunteerForm from 'Components/Forms/VolunteerForm';
 import dataURItoBlob from 'Data/Base64ToBlob';
+import Spinner from 'Components/Utils/Spinner';
 
 const RegisterVolunteer = () => {
   const history = useHistory();
@@ -20,6 +21,7 @@ const RegisterVolunteer = () => {
   const [profilePicModal, setProfilePicModal] = useState(false);
   const [docFront, setDocFront] = useState(null);
   const [docBack, setDocBack] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const message = (msg) => <Text size="small">{msg}</Text>;
 
@@ -39,10 +41,13 @@ const RegisterVolunteer = () => {
     delete values.repeatPassword;
     values.documentFace = docFront;
     values.documentBack = docBack;
-    values.avatar = profilePic ? dataURItoBlob(profilePic) : null;
+    if (profilePic) values.avatar = dataURItoBlob(profilePic);
+    else delete values.avatar;
 
     try {
+      setLoading(true);
       const response = await volunteerService.create(values);
+      setLoading(false);
       if (!!response.status && response.status === 400) {
         setErrorModalMessage('Verifique que los datos introducidos sean correctos');
         setErrorModal(true);
@@ -53,6 +58,7 @@ const RegisterVolunteer = () => {
         });
       }
     } catch (error) {
+      setLoading(false);
       setErrorModalMessage('Ha ocurrido un error inesperado.');
       setErrorModal(true);
     }
@@ -73,6 +79,7 @@ const RegisterVolunteer = () => {
     >
       {errorModal && <ErrorModal errorMessage={errorModalMessage} setShow={setErrorModal} show={errorModal} />}
       {profilePicModal && <UploadProfileModal setShow={setProfilePicModal} setPreview={setProfilePic} />}
+      {loading && <Spinner />}
       <Box background="white" align="center" gridArea="center" elevation="medium" pad="large" gap="small" round="5px" direction="column">
         <Heading alignSelf="center" size="xsmall">
           ¡Bienvenido a HomeCourier!
@@ -90,7 +97,7 @@ const RegisterVolunteer = () => {
         >
           <GeneralUserForm message={message} errorMessage={errorMessage} />
           <VolunteerForm message={message} errorMessage={errorMessage} setDocFront={setDocFront} setDocBack={setDocBack} />
-          <Button primary label="Registrarse" fill="horizontal" type="submit" />
+          <Button primary label="Registrarse" fill="horizontal" type="submit" disabled={loading} />
         </Form>
       </Box>
     </Grid>
