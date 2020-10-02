@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Layer, Box, Paragraph, Button, Heading, Image } from 'grommet';
+import {
+  Layer, Box, Paragraph, Button, Heading, Image,
+} from 'grommet';
 import error from 'Assets/error.gif';
 
 const ErrorModal = ({ errorMessage, show, setShow }) => (

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormField, Grid, Select, TextInput, Text, Box } from 'grommet';
+import {
+  FormField, Grid, Select, TextInput, Text, Box,
+} from 'grommet';
 
 const BirthDatePicker = ({ validateDay, validateYear }) => {
   const months = [

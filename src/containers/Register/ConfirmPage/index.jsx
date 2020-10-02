@@ -1,4 +1,6 @@
-import { Box, Card, Grid, Heading, Image, Paragraph } from 'grommet';
+import {
+  Box, Card, Grid, Heading, Image, Paragraph,
+} from 'grommet';
 import React from 'react';
 import newEmail from 'Assets/new_email.gif';
 import { useLocation } from 'react-router-dom';
