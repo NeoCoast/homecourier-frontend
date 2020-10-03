@@ -138,7 +138,14 @@ const CreateOrder = () => {
             </Box>
             <Box id="boxDescription" fill="horizontal">
               <Heading level="3">Descripción</Heading>
-              <TextArea id="description" placeholder="Ingrese la descripción" value={description} onChange={(event) => setDescription(event.target.value)} required width="100%" />
+              <TextArea 
+                 id="description" 
+                 placeholder="Ingrese la descripción" 
+                 value={description} 
+                 onChange={(event) => setDescription(event.target.value)} 
+                 required 
+                 width="100%"
+              />
             </Box>
             <Box direction="row-responsive" gap="medium" justify="end">
               <Button label="Cancelar" onClick={closeModal} />
