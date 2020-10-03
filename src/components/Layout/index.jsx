@@ -4,6 +4,7 @@ import {
   Header, Grommet, Main, Grid,
 } from 'grommet';
 import theme from 'Theme/theme';
+import CustomToast from 'Components/customToast';
 
 import Background from 'Assets/background.svg';
 
@@ -23,6 +24,7 @@ const Layout = ({ children }) => (
     >
       <Header background="white" gridArea="header" elevation="small">
         <AppBar />
+        <CustomToast />
       </Header>
       <Main gridArea="main" background={`url(${Background})`}>
         {children}

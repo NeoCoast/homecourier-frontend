@@ -3,7 +3,7 @@ import {
   Box, Button, TextArea, Heading, Layer, TextInput,
 } from 'grommet';
 import Select from 'react-select';
-import { ToastContainer, toast } from 'react-toastify';
+import { notifySuccess, notifyError } from 'Helpers/toast.helper';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ordersService from 'Api/orders.service';
@@ -98,10 +98,6 @@ const CreateOrder = () => {
     }
   };
 
-  const notifyError = (errorMsg) => toast.error(errorMsg);
-
-  const notifySuccess = (successMsg) => toast.success(successMsg);
-
   useEffect(() => {
     if (!userLoggedIn) {
       history.push('/login');
@@ -113,17 +109,6 @@ const CreateOrder = () => {
   return (
     <div>
       <Button disabled={loading} primary onClick={openModal} label="Nuevo Pedido" />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       {modalIsOpen && (
         <Layer>
           <Box
