@@ -12,7 +12,7 @@ const modeConfig = (env) => require(`./build-utils/webpack.${env}`)(env);
 
 module.exports = ({
   mode = 'production',
-  presets = ['babel', 'css', 'scss', 'svg'],
+  presets = ['babel', 'css', 'scss', 'svg', 'gif'],
 }) => (
   webpackMerge(
     {
