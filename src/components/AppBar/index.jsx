@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
-  Menu, Button, Box, Heading, Grid,
+  Button, Box, Heading, Grid,
 } from 'grommet';
 
 import Hamburger from 'Assets/hamburger.svg';
+import Logout from 'Containers/Logout';
+import { useSelector } from 'react-redux';
 
 const AppBar = () => {
-  const loggedin = false;
+  const [isLogged, setLogged] = useState(false);
+  const userInfo = useSelector((state) => state.logUser.data);
+
+  useEffect(() => {
+    if (userInfo) setLogged(true);
+    else setLogged(false);
+  }, [userInfo]);
+
   return (
     <Grid rows={['full']} columns={['1/3', '1/3', '1/3']} fill>
       <Box align="start">
@@ -19,16 +28,16 @@ const AppBar = () => {
         </Heading>
       </Box>
       <Box align="end" pad="xsmall">
-        {leftElement(loggedin)}
+        {barButton(isLogged)}
       </Box>
     </Grid>
   );
 };
 
-const leftElement = (loggedin) => {
+const barButton = (loggedin) => {
   const location = useLocation();
   if (loggedin) {
-    return <Menu label="account" items={[{ label: 'logout' }]} />;
+    return <Logout />;
   }
   if (!loggedin && location.pathname === '/login') {
     return <Box />;
