@@ -48,7 +48,13 @@ const Register = ({ volunteer }) => {
     delete values.repeatPassword;
     delete values.documentFace;
     delete values.documentBack;
-    if (values.userId) values.documentTypeId = 1; // For now we only work with CI
+
+    if (values.userId) {
+      values.documentNumber = values.userId;
+      values.documentTypeId = 1; // For now we only work with CI
+      delete values.userId;
+    }
+
     if (docFront) values.documentFacePic = docFront;
     if (docBack) values.documentBackPic = docBack;
     if (profilePic) values.avatar = dataURItoBlob(profilePic);
