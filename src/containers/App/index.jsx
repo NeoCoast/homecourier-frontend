@@ -6,6 +6,7 @@ import Home from 'Containers/Home';
 import AboutUs from 'Containers/AboutUs';
 import NotFound from 'Containers/NotFound';
 import Register from 'Containers/Register';
+import Profile from 'Containers/Profile';
 import Login from 'Containers/Login';
 
 import './index.scss';
@@ -18,6 +19,7 @@ const App = () => (
         <Route exact path={ROUTES.about} component={AboutUs} />
         <Route exact path={ROUTES.register} component={Register} />
         <Route exact path={ROUTES.login} component={Login} />
+        <Route exact path={ROUTES.profile} component={Profile} />
         <Route component={NotFound} />
       </Switch>
     </Layout>

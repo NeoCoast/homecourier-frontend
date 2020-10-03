@@ -9,7 +9,7 @@ const HTTP = applyConverters(
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
     },
-  })
+  }),
 );
 
 export default HTTP;
