@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 import {
-  Box, Button, Grid, Heading, TextInput,
+  Box, Button, Grid, Heading, TextInput, Text,
 } from 'grommet';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -91,9 +91,20 @@ const Login = (props) => {
         <TextInput placeholder="Correo electrónico" onChange={handleEmail} />
         <TextInput placeholder="Contraseña" type="password" onChange={handlePassword} />
         <Button primary disabled={loading} label="Login" fill="horizontal" onClick={validate} />
-        <Link to="/register" style={{ width: '100%' }}>
-          <Button disabled={loading} secondary label="Registrarse" fill="horizontal" />
-        </Link>
+        <Box fill gap="small">
+          <Box direction="row" fill justify="center" gap="small">
+            <Text size="small">No eres usuario aun?</Text>
+            <Link to="/register" style={{ lineHeight: '20px' }}>
+              Crea tu cuenta
+            </Link>
+          </Box>
+          <Box direction="row" fill justify="center" gap="small">
+            <Text size="small">Quieres ayudar?</Text>
+            <Link to="/register-volunteer" style={{ lineHeight: '20px' }}>
+              Registrate Aqui
+            </Link>
+          </Box>
+        </Box>
 
         {invalid
         && (

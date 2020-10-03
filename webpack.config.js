@@ -43,5 +43,4 @@ module.exports = ({
     },
     modeConfig(mode),
     presetConfig({ mode, presets }),
-  )
-);
+  ));

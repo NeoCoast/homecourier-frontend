@@ -1,37 +1,82 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
-  Box, Grid, TextInput, Button, Heading, Avatar,
+  Box, Grid, Button, Heading, Avatar, Form, Text,
 } from 'grommet';
-import usersService from '../../api/users.service';
-import BirthDatePicker from '../../components/Utils/BirthDatePicker/datepicker';
+import { useHistory } from 'react-router-dom';
+import volunteerService from 'Api/volunteer.service';
+import helpeeService from 'Api/helpee.service';
+import GeneralUserForm from 'Components/Forms/GeneralUserForm';
+import ErrorModal from 'Components/Modals/ErrorModal';
+import UploadProfileModal from 'Components/Modals/UploadProfileModal';
+import Add from 'Assets/add-image.svg';
+import VolunteerForm from 'Components/Forms/VolunteerForm';
+import { dataURItoBlob } from 'Helpers/utils.helper';
+import Spinner from 'Components/Utils/Spinner';
+import ReactTooltip from 'react-tooltip';
+import { ROUTES } from 'Data/constants';
 
-const Register = () => {
-  const [name, setName] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
-  const [address, setAddress] = useState('');
-  const [day, setDay] = useState('');
-  const [month, setMonth] = useState('');
-  const [year, setYear] = useState('');
+const Register = ({ volunteer }) => {
+  const history = useHistory();
 
-  const submit = async () => {
-    const birthDate = `${day}/${month}/${year}`;
+  const [errorModalMessage, setErrorModalMessage] = useState('');
+  const [errorModal, setErrorModal] = useState(false);
+  const [profilePic, setProfilePic] = useState(null);
+  const [profilePicModal, setProfilePicModal] = useState(false);
+  const [docFront, setDocFront] = useState(null);
+  const [docBack, setDocBack] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const submitService = volunteer ? volunteerService : helpeeService;
+  const headingMessage = volunteer ? ', gracias por querer ayudar' : ' a HomeCourier';
+
+  const message = (msg) => <Text size="small">{msg}</Text>;
+
+  const errorMessage = (msg) => (
+    <Text size="small" color="red">
+      {msg}
+    </Text>
+  );
+
+  const submit = async (formValues) => {
+    const values = { ...formValues.value };
+
+    values.birthDate = `${values.birthDay}/${values.birthMonth.month}/${values.birthYear}`;
+    delete values.birthDay;
+    delete values.birthMonth;
+    delete values.birthYear;
+    delete values.repeatPassword;
+    delete values.documentFace;
+    delete values.documentBack;
+
+    if (values.userId) {
+      values.documentNumber = values.userId;
+      values.documentTypeId = 1; // For now we only work with CI
+      delete values.userId;
+    }
+
+    if (docFront) values.documentFacePic = docFront;
+    if (docBack) values.documentBackPic = docBack;
+    if (profilePic) values.avatar = dataURItoBlob(profilePic);
+    else delete values.avatar;
 
     try {
-      await usersService.create({
-        name,
-        lastname,
-        email,
-        username,
-        password,
-        address,
-        birthDate,
-      });
+      setLoading(true);
+      const response = await submitService.create(values);
+      setLoading(false);
+      if (!!response.status && response.status === 400) {
+        setErrorModalMessage('Verifique que los datos introducidos sean correctos');
+        setErrorModal(true);
+      } else if (response.username) {
+        history.push({
+          pathname: ROUTES.registerOk,
+          username: response.username,
+        });
+      }
     } catch (error) {
-      // console.error('error: ', error);
+      setLoading(false);
+      setErrorModalMessage('Ha ocurrido un error inesperado.');
+      setErrorModal(true);
     }
   };
 
@@ -48,41 +93,67 @@ const Register = () => {
         { name: 'right', start: [2, 0], end: [2, 0] },
       ]}
     >
-      <Box background="white" align="center" gridArea="center" elevation="medium" pad="large" gap="small" round="5px" direction="column">
-        <Heading alignSelf="center" size="xsmall">
-          ¡Bienvenido a HomeCourier!
+      {errorModal && (
+        <ErrorModal errorMessage={errorModalMessage} setShow={setErrorModal} show={errorModal} />
+      )}
+      {profilePicModal && <UploadProfileModal setShow={setProfilePicModal} setPreview={setProfilePic} />}
+      {loading && <Spinner />}
+      <Box
+        background="white"
+        align="center"
+        gridArea="center"
+        elevation="medium"
+        pad="large"
+        gap="small"
+        round="5px"
+        direction="column"
+      >
+        <Heading alignSelf="center" level="3">
+          {`¡Bienvenido${headingMessage}!`}
         </Heading>
 
         <Box direction="row" gap="small">
-          <Avatar size="xlarge" src="https://robohash.org/miraak" border="all" />
-        </Box>
-
-        <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
-          <TextInput placeholder="Nombre" value={name} onChange={(event) => setName(event.target.value)} />
-          <TextInput placeholder="Apellido" value={lastname} onChange={(event) => setLastname(event.target.value)} />
-        </Box>
-        <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
-          <TextInput placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
-          <TextInput placeholder="Nombre de Usuario" value={username} onChange={(event) => setUsername(event.target.value)} />
-        </Box>
-        <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
-          <TextInput placeholder="Contraseña" type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
-          <TextInput
-            placeholder="Repetir Contraseña"
-            type="password"
-            value={repeatPassword}
-            onChange={(event) => setRepeatPassword(event.target.value)}
+          <Avatar
+            data-tip
+            data-for="pic-tooltip"
+            size="xlarge"
+            src={profilePic || Add}
+            border="all"
+            onClick={() => setProfilePicModal(true)}
           />
         </Box>
-        <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
-          <TextInput placeholder="Dirección" value={address} onChange={(event) => setAddress(event.target.value)} />
-          <BirthDatePicker day={setDay} month={setMonth} year={setYear} />
-        </Box>
+        <ReactTooltip place="bottom" type="info" effect="float" id="pic-tooltip">
+          Sube tu foto de perfil
+        </ReactTooltip>
 
-        <Button primary label="Registrarse" fill="horizontal" onClick={submit} />
+        <Form
+          onSubmit={submit}
+          messages={{
+            required: 'El campo es obligatorio',
+          }}
+        >
+          <GeneralUserForm message={message} errorMessage={errorMessage} />
+          {volunteer && (
+            <VolunteerForm
+              message={message}
+              errorMessage={errorMessage}
+              setDocFront={setDocFront}
+              setDocBack={setDocBack}
+            />
+          )}
+          <Button primary label="Registrarse" fill="horizontal" type="submit" disabled={loading} />
+        </Form>
       </Box>
     </Grid>
   );
+};
+
+Register.propTypes = {
+  volunteer: PropTypes.bool,
+};
+
+Register.defaultProps = {
+  volunteer: false,
 };
 
 export default Register;
