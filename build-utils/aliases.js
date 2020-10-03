@@ -6,4 +6,5 @@ module.exports = {
   Containers: path.resolve(__dirname, '../src/containers'),
   Data: path.resolve(__dirname, '../src/data'),
   Api: path.resolve(__dirname, '../src/api'),
+  Theme: path.resolve(__dirname, '../src/theme'),
 };

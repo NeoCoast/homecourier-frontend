@@ -10,6 +10,7 @@ import UploadProfileModal from 'Components/Modals/UploadProfileModal';
 import Add from 'Assets/add-image.svg';
 import dataURItoBlob from 'Data/Base64ToBlob';
 import Spinner from 'Components/Utils/Spinner';
+import ReactTooltip from 'react-tooltip';
 
 const Register = () => {
   const history = useHistory();
@@ -76,18 +77,21 @@ const Register = () => {
       {loading && <Spinner />}
 
       <Box background="white" align="center" gridArea="center" elevation="medium" pad="large" gap="small" round="5px" direction="column">
-        <Heading alignSelf="center" size="xsmall">
+        <Heading alignSelf="center" level="3">
           ¡Bienvenido a HomeCourier!
         </Heading>
 
         <Box direction="row" gap="small">
-          <Avatar size="xlarge" src={profilePic || Add} border="all" onClick={() => setProfilePicModal(true)} />
+          <Avatar data-tip="React-tooltip" size="xlarge" src={profilePic || Add} border="all" onClick={() => setProfilePicModal(true)} />
         </Box>
+        <ReactTooltip place="bottom" type="info" effect="float">
+          Sube tu foto de perfil
+        </ReactTooltip>
 
         <Form
           onSubmit={submit}
           messages={{
-            required: errorMessage('Este campo no puede estar vacio'),
+            required: 'El campo es obligatorio',
           }}
         >
           <GeneralUserForm message={message} errorMessage={errorMessage} />

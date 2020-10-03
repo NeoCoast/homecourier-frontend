@@ -29,8 +29,8 @@ const UploadProfileModal = ({ setPreview, setShow }) => {
 };
 
 UploadProfileModal.propTypes = {
-  setPreview: PropTypes.isRequired,
-  setShow: PropTypes.isRequired,
+  setPreview: PropTypes.func.isRequired,
+  setShow: PropTypes.func.isRequired,
 };
 
 export default UploadProfileModal;

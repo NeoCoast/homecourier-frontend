@@ -11,6 +11,7 @@ import Add from 'Assets/add-image.svg';
 import VolunteerForm from 'Components/Forms/VolunteerForm';
 import dataURItoBlob from 'Data/Base64ToBlob';
 import Spinner from 'Components/Utils/Spinner';
+import ReactTooltip from 'react-tooltip';
 
 const RegisterVolunteer = () => {
   const history = useHistory();
@@ -81,18 +82,21 @@ const RegisterVolunteer = () => {
       {profilePicModal && <UploadProfileModal setShow={setProfilePicModal} setPreview={setProfilePic} />}
       {loading && <Spinner />}
       <Box background="white" align="center" gridArea="center" elevation="medium" pad="large" gap="small" round="5px" direction="column">
-        <Heading alignSelf="center" size="xsmall">
-          ¡Bienvenido a HomeCourier!
+        <Heading alignSelf="center" level="3">
+          ¡Bienvenido, Gracias por Querer Ayudar!
         </Heading>
 
         <Box direction="row" gap="small">
-          <Avatar size="xlarge" src={profilePic || Add} border="all" onClick={() => setProfilePicModal(true)} />
+          <Avatar data-tip data-for="pic-tooltip" size="xlarge" src={profilePic || Add} border="all" onClick={() => setProfilePicModal(true)} />
         </Box>
+        <ReactTooltip place="bottom" type="info" effect="float" id="pic-tooltip">
+          Sube tu foto de perfil
+        </ReactTooltip>
 
         <Form
           onSubmit={submit}
           messages={{
-            required: errorMessage('Este campo no puede estar vacio'),
+            required: 'El campo es obligatorio',
           }}
         >
           <GeneralUserForm message={message} errorMessage={errorMessage} />

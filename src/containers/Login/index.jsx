@@ -18,23 +18,19 @@ const Login = () => (
     ]}
   >
     <Box align="center" gridArea="center" elevation="medium" pad="large" gap="medium" round="5px" direction="column" background="white">
-      <Heading level="2">Inicie sesión</Heading>
+      <Heading level="3">Inicie sesión</Heading>
       <TextInput placeholder="Nombre de Usuario" disabled />
       <TextInput placeholder="Contraseña" disabled />
       <Button primary label="Login" fill="horizontal" disabled />
       <Box fill gap="small">
         <Box direction="row" fill justify="center" gap="small">
-          <Text size="small" fill>
-            No eres usuario aun?
-          </Text>
+          <Text size="small">No eres usuario aun?</Text>
           <Link to="/register" style={{ lineHeight: '20px' }}>
             Crea tu cuenta
           </Link>
         </Box>
         <Box direction="row" fill justify="center" gap="small">
-          <Text size="small" fill>
-            Quieres ayudar?
-          </Text>
+          <Text size="small">Quieres ayudar?</Text>
           <Link to="/register-volunteer" style={{ lineHeight: '20px' }}>
             Registrate Aqui
           </Link>

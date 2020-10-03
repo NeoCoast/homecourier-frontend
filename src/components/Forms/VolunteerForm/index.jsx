@@ -40,7 +40,7 @@ const VolunteerForm = ({ message, setDocFront, setDocBack }) => {
   return (
     <Box>
       <Box direction="row-responsive" gap="small" fill="horizontal" justify="stretch" alignContent="around">
-        <FormField name="userId" htmlFor="userId" label={message('Numero de Documento')} fill required>
+        <FormField name="userId" htmlFor="userId" label={message('Numero de Documento')} fill required size="small">
           <MaskedInput data-tip="React-tooltip" name="userId" id="userId" mask={mask} />
         </FormField>
         <ReactTooltip place="bottom" type="info" effect="float">
