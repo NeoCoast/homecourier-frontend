@@ -464,7 +464,7 @@ const theme = {
     margin: {
       bottom: 'small',
     },
-    extend: ({ noBorder }) => noBorder 
+    extend: ({ noBorder }) => noBorder
     && css`
         > label + div {
           border: none;
