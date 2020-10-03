@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 import {
-  Box, Button, Grid, Heading, TextInput, Layer, Text,
+  Box, Button, Grid, Heading, TextInput,
 } from 'grommet';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -9,13 +9,16 @@ import usersService from 'Api/users.service';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { login } from 'Actions/logUser';
+import Spinner from 'Components/Utils/Spinner';
+import ErrorModal from 'Components/Modals/ErrorModal';
 
 const Login = (props) => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [invalidLogin, setInvalid] = useState(false);
+  const [attribute, setAttribute] = useState(false);
   const [errorMessage, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const loggedIn = useSelector((state) => state.logUser.loggedIn);
   const dispatch = useDispatch();
 
@@ -34,26 +37,28 @@ const Login = (props) => {
   const validate = async () => {
     if (!password) { // Validates the input
       setError('Debe proporcionar una contraseña!');
-      setInvalid(true);
+      setAttribute(true);
     } else if (!email) {
       setError('Debe proporcionar un email!');
-      setInvalid(true);
+      setAttribute(true);
     } else {
       try {
+        setLoading(true);
         const response = await usersService.login({
           user: {
             email,
             password,
           },
         });
-        console.log(response.headers.authorization);
         const userInfo = response.data; // Creates an object with user data and login token
         userInfo.token = response.headers.authorization;
         await dispatch(login(userInfo)); // Waits for redux's state to change
+        setLoading(false);
         props.history.push('/profile');
       } catch (error) {
+        setLoading(false);
         console.log(error);
-        setInvalid(true);
+        setAttribute(true);
         setError('Credenciales inválidas.');
       }
     }
@@ -85,18 +90,22 @@ const Login = (props) => {
         <Heading level="2">Inicie sesión</Heading>
         <TextInput placeholder="Correo electrónico" onChange={handleEmail} />
         <TextInput placeholder="Contraseña" type="password" onChange={handlePassword} />
-        <Button primary label="Login" fill="horizontal" onClick={validate} />
-        <Link to="/register" style={{ width: '100%' }}><Button secondary label="Registrarse" fill="horizontal" /></Link>
+        <Button primary disabled={loading} label="Login" fill="horizontal" onClick={validate} />
+        <Link to="/register" style={{ width: '100%' }}>
+          <Button disabled={loading} secondary label="Registrarse" fill="horizontal" />
+        </Link>
 
-        {invalidLogin && (
-          <Layer
-            onEsc={() => setInvalid(false)}
-            onClickOutside={() => setInvalid(false)}
-          >
-            <Text> {errorMessage} </Text>
-            <Button label="Entendido" onClick={() => setInvalid(false)} />
-          </Layer>
+        {attribute
+        && (
+          <ErrorModal
+            errorMessage={errorMessage}
+            setShow={setAttribute}
+            show={attribute}
+          />
         )}
+
+        {loading && <Spinner />}
+
       </Box>
     </Grid>
   );
