@@ -10,12 +10,12 @@ import { useSelector } from 'react-redux';
 import CreateOrder from '../Modals/CreateOrder';
 
 const AppBar = () => {
-  const [isLogged, setLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(false);
   const userInfo = useSelector((state) => state.logUser.data);
 
   useEffect(() => {
-    if (userInfo) setLogged(true);
-    else setLogged(false);
+    if (userInfo) setIsLogged(true);
+    else setIsLogged(false);
   }, [userInfo]);
 
   return (

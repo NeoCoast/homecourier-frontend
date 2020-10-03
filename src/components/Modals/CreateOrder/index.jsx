@@ -17,9 +17,9 @@ const CreateOrder = () => {
   const [categories, setCategories] = useState([]);
   const [description, setDescription] = useState('');
   const [options, setOptions] = useState([]);
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [invalid, setInvalid] = useState(false);
-  const [errorMessage, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const userLoggedIn = useSelector((state) => state.logUser.loggedIn);
   const helpeeId = useSelector((state) => state.logUser.data.id);
@@ -63,7 +63,7 @@ const CreateOrder = () => {
       } catch (error) {
         setLoading(false);
         setInvalid(true);
-        setError('Ocurrío un error intentando comunicarse con el servidor');
+        setErrorMessage('Ocurrío un error intentando comunicarse con el servidor');
         errorFlag = true;
       }
     }
@@ -79,7 +79,7 @@ const CreateOrder = () => {
     setTitle('');
     // Set an empty description
     setDescription('');
-    setIsOpen(true);
+    setModalIsOpen(true);
   };
 
   const closeModal = () => {
@@ -87,7 +87,7 @@ const CreateOrder = () => {
     setTitle('');
     // Set an empty description
     setDescription('');
-    setIsOpen(false);
+    setModalIsOpen(false);
   };
 
   const handleChange = (selectedOptions) => {
@@ -146,13 +146,13 @@ const CreateOrder = () => {
             </Box>
             <Box id="boxDescription" fill="horizontal">
               <Heading level="3">Descripción</Heading>
-              <TextArea 
-                 id="description" 
-                 placeholder="Ingrese la descripción" 
-                 value={description} 
-                 onChange={(event) => setDescription(event.target.value)} 
-                 required 
-                 width="100%"
+              <TextArea
+                id="description"
+                placeholder="Ingrese la descripción"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+                required
+                width="100%"
               />
             </Box>
             <Box direction="row-responsive" gap="medium" justify="end">
