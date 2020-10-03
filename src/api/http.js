@@ -1,5 +1,6 @@
 import axios from 'axios';
 import applyConverters from 'axios-case-converter';
+import store from 'Store/store';
 
 const HTTP = applyConverters(
   axios.create({
@@ -11,5 +12,19 @@ const HTTP = applyConverters(
     },
   }),
 );
+
+HTTP.interceptors.request.use((
+  async (config) => {
+    if (store.getState().logUser.loggedIn) {
+      const configuration = config;
+      configuration.headers = {
+        ...config.headers,
+        'Authorization': store.getState().logUser.data.token,
+      };
+      return configuration;
+    }
+    return config;
+  }
+));
 
 export default HTTP;
