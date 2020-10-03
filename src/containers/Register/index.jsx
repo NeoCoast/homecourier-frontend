@@ -39,7 +39,7 @@ const Register = ({ volunteer }) => {
   );
 
   const submit = async (formValues) => {
-    const values = Object.assign(formValues.value);
+    const values = { ...formValues.value };
 
     values.birthDate = `${values.birthDay}/${values.birthMonth.month}/${values.birthYear}`;
     delete values.birthDay;
