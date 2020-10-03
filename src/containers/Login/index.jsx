@@ -16,7 +16,7 @@ const Login = (props) => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [attribute, setAttribute] = useState(false);
+  const [invalid, setInvalid] = useState(false);
   const [errorMessage, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const loggedIn = useSelector((state) => state.logUser.loggedIn);
@@ -37,10 +37,10 @@ const Login = (props) => {
   const validate = async () => {
     if (!password) { // Validates the input
       setError('Debe proporcionar una contraseña!');
-      setAttribute(true);
+      setInvalid(true);
     } else if (!email) {
       setError('Debe proporcionar un email!');
-      setAttribute(true);
+      setInvalid(true);
     } else {
       try {
         setLoading(true);
@@ -58,7 +58,7 @@ const Login = (props) => {
       } catch (error) {
         setLoading(false);
         console.log(error);
-        setAttribute(true);
+        setInvalid(true);
         setError('Credenciales inválidas.');
       }
     }
@@ -95,12 +95,12 @@ const Login = (props) => {
           <Button disabled={loading} secondary label="Registrarse" fill="horizontal" />
         </Link>
 
-        {attribute
+        {invalid
         && (
           <ErrorModal
             errorMessage={errorMessage}
-            setShow={setAttribute}
-            show={attribute}
+            setShow={setInvalid}
+            show={invalid}
           />
         )}
 
