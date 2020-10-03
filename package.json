@@ -21,7 +21,7 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
-    "eslint": "^7.9.0",
+    "eslint": "^7.10.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
@@ -32,7 +32,7 @@
     "node-sass": "^4.14.1",
     "sass-loader": "^10.0.2",
     "style-loader": "^1.0.0",
-    "stylelint": "^13.7.1",
+    "stylelint": "^13.7.2",
     "stylelint-config-standard": "^20.0.0",
     "stylelint-order": "^4.1.0",
     "url-loader": "^2.1.0",
@@ -47,12 +47,17 @@
     "axios-case-converter": "^0.6.0",
     "dotenv": "^8.2.0",
     "dotenv-webpack": "^3.0.0",
+    "file-loader": "^6.1.0",
     "grommet": "^2.15.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
-    "styled-components": "^5.2.0"
+    "react-spinners": "^0.9.0",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^6.0.0",
+    "styled-components": "^5.2.0",
+    "thunk": "0.0.1"
   },
   "husky": {
     "hooks": {

@@ -6,7 +6,7 @@ import {
 import theme from 'Components/Layout/theme';
 import Background from 'Assets/background.svg';
 
-import AppBar from '../AppBar';
+import AppBar from 'Components/AppBar';
 
 const Layout = ({ children }) => (
   <Grommet theme={theme} full>
