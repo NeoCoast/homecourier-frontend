@@ -28,7 +28,7 @@ const Register = ({ volunteer }) => {
   const [loading, setLoading] = useState(false);
 
   const submitService = volunteer ? volunteerService : helpeeService;
-  const headingMessage = volunteer ? ', Gracias por Querer Ayudar' : ' a HomeCourier';
+  const headingMessage = volunteer ? ', gracias por querer ayudar' : ' a HomeCourier';
 
   const message = (msg) => <Text size="small">{msg}</Text>;
 
@@ -48,6 +48,7 @@ const Register = ({ volunteer }) => {
     delete values.repeatPassword;
     delete values.documentFace;
     delete values.documentBack;
+    if (values.userId) values.documentTypeId = 1; // For now we only work with CI
     if (docFront) values.documentFacePic = docFront;
     if (docBack) values.documentBackPic = docBack;
     if (profilePic) values.avatar = dataURItoBlob(profilePic);

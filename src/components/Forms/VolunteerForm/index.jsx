@@ -43,7 +43,7 @@ const VolunteerForm = ({ message, setDocFront, setDocBack }) => {
         <FormField
           name="userId"
           htmlFor="userId"
-          label={message('Numero de Documento')}
+          label={message('Número de Documento')}
           fill
           required
           size="small"
