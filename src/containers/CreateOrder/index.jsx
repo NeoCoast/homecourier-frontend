@@ -7,8 +7,8 @@ import Select from 'react-select';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import ordersService from '../../api/orders.service';
-import categoriesService from '../../api/categories.service';
+import ordersService from 'Api/orders.service';
+import categoriesService from 'Api/categories.service';
 import 'react-toastify/dist/ReactToastify.css';
 
 const CreateOrder = () => {
@@ -16,13 +16,9 @@ const CreateOrder = () => {
   const [description, setDescription] = useState('');
   const [options, setOptions] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
-  // const userToken = useSelector((state) => state.logUser.data.token);
-  const userLoggedIn = useSelector((state) => state.logUser.isLogged);
+  const userLoggedIn = useSelector((state) => state.logUser.loggedIn);
+  const helpeeId = useSelector((state) => state.logUser.data.id);
   const history = useHistory();
-
-  if (!userLoggedIn) {
-    history.push('/login');
-  }
 
   const getCategories = async () => {
     const opts = [];
@@ -43,7 +39,6 @@ const CreateOrder = () => {
   const newOrder = async () => {
     let errorFlag = false;
     const title = 'Titulo del pedido';
-    const helpeeId = 1;
     if (categories.length === 0) {
       notifyError('Debe seleccionar al menos una categoría');
       errorFlag = true;
@@ -51,9 +46,6 @@ const CreateOrder = () => {
     if (!description) {
       notifyError('Descripción es obligatoria');
       errorFlag = true;
-    }
-    if (!errorFlag) {
-      notifySuccess('Su pedido fue registrado con exito');
     }
     try {
       await ordersService.create({
@@ -64,14 +56,17 @@ const CreateOrder = () => {
       });
     } catch (error) {
       notifyError(error);
+      errorFlag = true;
+    }
+    if (!errorFlag) {
+      notifySuccess('Su pedido fue registrado con exito');
+      closeModal();
     }
   };
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
   const closeModal = () => {
+    // Set an empty description
+    setDescription('');
     setIsOpen(false);
   };
 
@@ -97,31 +92,32 @@ const CreateOrder = () => {
   const notifySuccess = (successMsg) => toast.success(successMsg);
 
   useEffect(() => {
-    getCategories();
+    if (!userLoggedIn) {
+      history.push('/login');
+    } else {
+      getCategories();
+    }
   }, []);
 
   return (
     <div>
-      <div>
-        <Button justify="end" onClick={openModal}>+</Button>
-      </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Modal
         isOpen={modalIsOpen}
         style={customStyle}
         onRequestClose={closeModal}
         ariaHideApp={false} // missing app appElement
       >
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
         <Box align="center" pad="large" gap="small" direction="column" fill="horizontal">
           <h3>Crear un pedido</h3>
           <Box id="boxCategories" fill="horizontal">
