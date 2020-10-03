@@ -1,7 +1,8 @@
+import { css } from 'styled-components';
 const theme = {
   global: {
     colors: {
-      'icon': {
+      icon: {
         0: '#',
         1: '6',
         2: '6',
@@ -12,27 +13,27 @@ const theme = {
         dark: '#f8f8f8',
         light: '#666666',
       },
-      'active': 'rgba(221,221,221,0.5)',
-      'black': '#000000',
-      'border': {
+      active: 'rgba(221,221,221,0.5)',
+      black: '#000000',
+      border: {
         dark: 'rgba(255,255,255,0.33)',
         light: 'rgba(0,0,0,0.33)',
       },
-      'brand': '#7D4CDB',
-      'control': {
+      brand: '#54A3FF',
+      control: {
         dark: 'accent-1',
         light: 'brand',
       },
-      'focus': '#6FFFB0',
-      'placeholder': '#AAAAAA',
-      'selected': 'brand',
-      'text': {
+      focus: '#90D5FC',
+      placeholder: '#AAAAAA',
+      selected: 'brand',
+      text: {
         dark: '#f8f8f8',
         light: '#444444',
       },
-      'white': '#FFFFFF',
-      'accent-1': '#6FFFB0',
-      'accent-2': '#FD6FFF',
+      white: '#FFFFFF',
+      'accent-1': '#90D5FC',
+      'accent-2': '#EF626C',
       'accent-3': '#81FCED',
       'accent-4': '#FFCA58',
       'dark-1': '#333333',
@@ -51,7 +52,7 @@ const theme = {
       'neutral-2': '#3D138D',
       'neutral-3': '#00739D',
       'neutral-4': '#A2423D',
-      'status-critical': '#FF4040',
+      'status-critical': '#EF626C',
       'status-error': '#FF4040',
       'status-warning': '#FFAA15',
       'status-ok': '#00C781',
@@ -163,8 +164,8 @@ const theme = {
       },
     },
     font: {
-      family: '"Roboto", "Helvetica", "Arial", sans-serif',
-      size: '18px',
+      family: '"Open Sans", serif',
+      size: '14px',
       height: '24px',
       maxWidth: '432px',
     },
@@ -239,7 +240,9 @@ const theme = {
       width: '2px',
       radius: '18px',
     },
-    primary: {},
+    primary: {
+      extend: 'color: white;',
+    },
     disabled: {
       opacity: 0.3,
     },
@@ -414,10 +417,11 @@ const theme = {
     },
   },
   formField: {
+    round: 'xsmall',
     border: {
       color: 'border',
       position: 'inner',
-      side: 'bottom',
+      side: 'all',
       error: {
         color: {
           dark: 'white',
@@ -432,6 +436,7 @@ const theme = {
       },
     },
     error: {
+      size: 'small',
       margin: {
         vertical: 'xsmall',
         horizontal: 'small',
@@ -452,17 +457,28 @@ const theme = {
     },
     label: {
       margin: {
-        vertical: 'xsmall',
-        horizontal: 'small',
+        vertical: 'xxsmall',
+        horizontal: 'none',
       },
     },
     margin: {
       bottom: 'small',
     },
+    extend: ({ noBorder }) => noBorder
+    && css`
+        > label + div {
+          border: none;
+          > div {
+            padding: 0;
+          }
+        }
+      `,
   },
   grommet: {},
   heading: {
-    font: {},
+    font: {
+      family: '"MontSerrat",sans-serif',
+    },
     level: {
       1: {
         font: {},
@@ -513,12 +529,12 @@ const theme = {
       3: {
         font: {},
         small: {
-          size: '22px',
+          size: '26px',
           height: '28px',
           maxWidth: '528px',
         },
         medium: {
-          size: '26px',
+          size: '28px',
           height: '32px',
           maxWidth: '624px',
         },
