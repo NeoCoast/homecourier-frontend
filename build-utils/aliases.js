@@ -7,4 +7,5 @@ module.exports = {
   Data: path.resolve(__dirname, '../src/data'),
   Api: path.resolve(__dirname, '../src/api'),
   Theme: path.resolve(__dirname, '../src/theme'),
+  Helpers: path.resolve(__dirname, '../src/helpers'),
 };

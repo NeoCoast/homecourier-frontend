@@ -8,7 +8,7 @@ import GeneralUserForm from 'Components/Forms/GeneralUserForm';
 import ErrorModal from 'Components/Modals/ErrorModal';
 import UploadProfileModal from 'Components/Modals/UploadProfileModal';
 import Add from 'Assets/add-image.svg';
-import dataURItoBlob from 'Data/Base64ToBlob';
+import { dataURItoBlob } from 'Helpers/utils.helper';
 import Spinner from 'Components/Utils/Spinner';
 import ReactTooltip from 'react-tooltip';
 
@@ -30,12 +30,14 @@ const Register = () => {
   );
 
   const submit = async (formValues) => {
-    const values = JSON.parse(JSON.stringify(formValues.value));
+    const values = { ...formValues.value };
+
     values.birthDate = `${values.birthDay}/${values.birthMonth.month}/${values.birthYear}`;
     delete values.birthDay;
     delete values.birthMonth;
     delete values.birthYear;
     delete values.repeatPassword;
+
     if (profilePic) values.avatar = dataURItoBlob(profilePic);
     else delete values.avatar;
 

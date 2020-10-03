@@ -9,7 +9,7 @@ import ErrorModal from 'Components/Modals/ErrorModal';
 import UploadProfileModal from 'Components/Modals/UploadProfileModal';
 import Add from 'Assets/add-image.svg';
 import VolunteerForm from 'Components/Forms/VolunteerForm';
-import dataURItoBlob from 'Data/Base64ToBlob';
+import { dataURItoBlob } from 'Helpers/utils.helper';
 import Spinner from 'Components/Utils/Spinner';
 import ReactTooltip from 'react-tooltip';
 
@@ -33,15 +33,15 @@ const RegisterVolunteer = () => {
   );
 
   const submit = async (formValues) => {
-    const values = JSON.parse(JSON.stringify(formValues.value));
+    const values = Object.assign(formValues.value);
 
     values.birthDate = `${values.birthDay}/${values.birthMonth.month}/${values.birthYear}`;
     delete values.birthDay;
     delete values.birthMonth;
     delete values.birthYear;
     delete values.repeatPassword;
-    values.documentFace = docFront;
-    values.documentBack = docBack;
+    values.documentFacePic = docFront;
+    values.documentBackPic = docBack;
     if (profilePic) values.avatar = dataURItoBlob(profilePic);
     else delete values.avatar;
 

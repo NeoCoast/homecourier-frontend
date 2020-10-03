@@ -1,4 +1,14 @@
-const dataURItoBlob = (dataURI) => {
+/* eslint-disable import/prefer-default-export */
+
+export const jsonToFormData = (json, formName) => {
+  const formData = new FormData();
+  Object.keys(json).forEach((key) => {
+    formData.set(`${formName}[${key}]`, json[key]);
+  });
+  return formData;
+};
+
+export const dataURItoBlob = (dataURI) => {
   // convert base64/URLEncoded data component to raw binary data held in a string
   let byteString;
   if (dataURI.split(',')[0].indexOf('base64') >= 0) byteString = atob(dataURI.split(',')[1]);
@@ -15,4 +25,3 @@ const dataURItoBlob = (dataURI) => {
 
   return new Blob([ia], { type: mimeString });
 };
-export default dataURItoBlob;
