@@ -112,7 +112,7 @@ const CreateOrder = () => {
 
   return (
     <div>
-      <Button disabled={loading} secondary onClick={openModal} label="Nuevo Pedido" />
+      <Button disabled={loading} primary onClick={openModal} label="Nuevo Pedido" />
       <ToastContainer
         position="top-right"
         autoClose={5000}
