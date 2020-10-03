@@ -7,6 +7,7 @@ import {
 import Hamburger from 'Assets/hamburger.svg';
 import Logout from 'Containers/Logout';
 import { useSelector } from 'react-redux';
+import CreateOrder from '../Modals/CreateOrder';
 
 const AppBar = () => {
   const [isLogged, setLogged] = useState(false);
@@ -37,7 +38,7 @@ const AppBar = () => {
 const barButton = (loggedin) => {
   const location = useLocation();
   if (loggedin) {
-    return <Logout />;
+    return <Box direction="row-responsive" gap="medium" justify="end"> <CreateOrder /> <Logout /> </Box>;
   }
   if (!loggedin && location.pathname === '/login') {
     return <Box />;

@@ -5,6 +5,5 @@ export const ROUTES = {
   home: '/',
   register: '/register',
   login: '/login',
-  createOrder: '/createorder',
   profile: '/profile',
 };

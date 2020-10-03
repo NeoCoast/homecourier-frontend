@@ -8,7 +8,6 @@ import NotFound from 'Containers/NotFound';
 import Register from 'Containers/Register';
 import Profile from 'Containers/Profile';
 import Login from 'Containers/Login';
-import CreateOrder from 'Containers/CreateOrder';
 
 import './index.scss';
 
@@ -20,7 +19,6 @@ const App = () => (
         <Route exact path={ROUTES.about} component={AboutUs} />
         <Route exact path={ROUTES.register} component={Register} />
         <Route exact path={ROUTES.login} component={Login} />
-        <Route exact path={ROUTES.createOrder} component={CreateOrder} />
         <Route exact path={ROUTES.profile} component={Profile} />
         <Route component={NotFound} />
       </Switch>
