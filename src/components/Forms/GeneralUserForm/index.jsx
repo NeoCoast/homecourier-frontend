@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { Box, FormField, TextInput } from 'grommet';
 import BirthDatePicker from 'Components/Utils/BirthDatePicker';
 import {
-  validateDay, validateEmail, validatePassword, validateRepeatPassword, validateYear,
+  validateDay,
+  validateEmail,
+  validatePassword,
+  validateRepeatPassword,
+  validateYear,
 } from 'Helpers/validator.helper';
 
 const GeneralUserForm = ({ message, errorMessage }) => (
@@ -13,7 +17,13 @@ const GeneralUserForm = ({ message, errorMessage }) => (
         <TextInput name="username" id="username" />
       </FormField>
 
-      <FormField name="email" htmlfor="email" label={message('Email')} fill validate={(value) => validateEmail(value, errorMessage)}>
+      <FormField
+        name="email"
+        htmlfor="email"
+        label={message('Email')}
+        fill
+        validate={(value) => validateEmail(value, errorMessage)}
+      >
         <TextInput name="email" id="email" />
       </FormField>
     </Box>
@@ -29,7 +39,14 @@ const GeneralUserForm = ({ message, errorMessage }) => (
     </Box>
 
     <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
-      <FormField name="password" htmlfor="password" label={message('Contraseña')} required fill validate={(value) => validatePassword(value, errorMessage)}>
+      <FormField
+        name="password"
+        htmlfor="password"
+        label={message('Contraseña')}
+        required
+        fill
+        validate={(value) => validatePassword(value, errorMessage)}
+      >
         <TextInput name="password" id="password" type="password" />
       </FormField>
 
@@ -50,7 +67,10 @@ const GeneralUserForm = ({ message, errorMessage }) => (
         <TextInput name="address" id="address" />
       </FormField>
 
-      <BirthDatePicker validateDay={(value) => validateDay(value, errorMessage)} validateYear={(value) => validateYear(value, errorMessage)} />
+      <BirthDatePicker
+        validateDay={(value) => validateDay(value, errorMessage)}
+        validateYear={(value) => validateYear(value, errorMessage)}
+      />
     </Box>
   </Box>
 );

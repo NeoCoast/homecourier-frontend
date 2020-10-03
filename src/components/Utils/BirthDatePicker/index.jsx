@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormField, Grid, Select, TextInput, Text, Box } from 'grommet';
+import {
+  FormField, Grid, Select, TextInput, Text, Box,
+} from 'grommet';
 import { MONTHS } from 'Data/utils';
 
 const BirthDatePicker = ({ validateDay, validateYear }) => (
@@ -13,7 +15,15 @@ const BirthDatePicker = ({ validateDay, validateYear }) => (
         <TextInput placeholder="Dia" name="birthDay" id="birthDay" required />
       </FormField>
       <FormField name="birthMonth">
-        <Select placeholder="Mes" options={MONTHS} labelKey="displayValue" valueKey="displayValue" name="birthMonth" id="birthMonth" required />
+        <Select
+          placeholder="Mes"
+          options={MONTHS}
+          labelKey="displayValue"
+          valueKey="displayValue"
+          name="birthMonth"
+          id="birthMonth"
+          required
+        />
       </FormField>
       <FormField name="birthYear" validate={validateYear}>
         <TextInput placeholder="Año" name="birthYear" id="birthYear" required />

@@ -40,17 +40,50 @@ const VolunteerForm = ({ message, setDocFront, setDocBack }) => {
   return (
     <Box>
       <Box direction="row-responsive" gap="small" fill="horizontal" justify="stretch" alignContent="around">
-        <FormField name="userId" htmlFor="userId" label={message('Numero de Documento')} fill required size="small">
+        <FormField
+          name="userId"
+          htmlFor="userId"
+          label={message('Numero de Documento')}
+          fill
+          required
+          size="small"
+        >
           <MaskedInput data-tip="React-tooltip" name="userId" id="userId" mask={mask} />
         </FormField>
         <ReactTooltip place="bottom" type="info" effect="float">
           Si su CI es menor a un millon ingrese 0 al comienzo.
         </ReactTooltip>
-        <FormField name="documentFace" htmlFor="documentFace" label={message('Frente del Documento')} fill required>
-          <TextInput name="documentFace" id="documentFace" type="file" size="xsmall" style={{ padding: '9px' }} onChange={(event) => setDocFront(event.target.files[0])} />
+        <FormField
+          name="documentFace"
+          htmlFor="documentFace"
+          label={message('Frente del Documento')}
+          fill
+          required
+        >
+          <TextInput
+            name="documentFace"
+            id="documentFace"
+            type="file"
+            size="xsmall"
+            style={{ padding: '9px' }}
+            onChange={(event) => setDocFront(event.target.files[0])}
+          />
         </FormField>
-        <FormField name="documentBack" htmlFor="documentBack" label={message('Dorso  del Documento ')} fill required>
-          <TextInput name="documentBack" id="documentBack" type="file" size="xsmall" style={{ padding: '9px' }} onChange={(event) => setDocBack(event.target.files[0])} />
+        <FormField
+          name="documentBack"
+          htmlFor="documentBack"
+          label={message('Dorso  del Documento ')}
+          fill
+          required
+        >
+          <TextInput
+            name="documentBack"
+            id="documentBack"
+            type="file"
+            size="xsmall"
+            style={{ padding: '9px' }}
+            onChange={(event) => setDocBack(event.target.files[0])}
+          />
         </FormField>
       </Box>
     </Box>
