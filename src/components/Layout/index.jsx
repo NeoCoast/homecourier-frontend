@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {
   Header, Grommet, Main, Grid,
 } from 'grommet';
-import theme from 'Components/Layout/theme';
+import theme from 'Theme/theme';
+
 import Background from 'Assets/background.svg';
 
 import AppBar from 'Components/AppBar';

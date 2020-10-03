@@ -48,9 +48,6 @@ const barButton = (loggedin) => {
       <Link to="/login">
         <Button primary label="Login" />
       </Link>
-      <Link to="/register">
-        <Button secondary label="Registrarse" />
-      </Link>
     </Box>
   );
 };
