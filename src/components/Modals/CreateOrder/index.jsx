@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box, Button, TextArea, Heading, Layer,
+  Box, Button, TextArea, Heading, Layer, TextInput,
 } from 'grommet';
 import Select from 'react-select';
 import { ToastContainer, toast } from 'react-toastify';
@@ -13,6 +13,7 @@ import ErrorModal from 'Components/Modals/ErrorModal';
 import 'react-toastify/dist/ReactToastify.css';
 
 const CreateOrder = () => {
+  const [title, setTitle] = useState('');
   const [categories, setCategories] = useState([]);
   const [description, setDescription] = useState('');
   const [options, setOptions] = useState([]);
@@ -42,7 +43,6 @@ const CreateOrder = () => {
 
   const newOrder = async () => {
     let errorFlag = false;
-    const title = 'Titulo del pedido';
     if (categories.length === 0) {
       notifyError('Debe seleccionar al menos una categoría');
       errorFlag = true;
@@ -75,12 +75,16 @@ const CreateOrder = () => {
   };
 
   const openModal = () => {
+    // Set an empty title
+    setTitle('');
     // Set an empty description
     setDescription('');
     setIsOpen(true);
   };
 
   const closeModal = () => {
+    // Set an empty title
+    setTitle('');
     // Set an empty description
     setDescription('');
     setIsOpen(false);
@@ -132,6 +136,10 @@ const CreateOrder = () => {
             background="white"
           >
             <Heading level="2">Crear un pedido</Heading>
+            <Box id="boxTitle" fill="horizontal">
+              <Heading level="3">Título</Heading>
+              <TextInput id="title" placeholder="Ingrese el título" value={title} onChange={(event) => setTitle(event.target.value)} />
+            </Box>
             <Box id="boxCategories" fill="horizontal">
               <Heading level="3">Categorías</Heading>
               <Select isMulti id="categories" options={options} onChange={handleChange} width="fill" />
