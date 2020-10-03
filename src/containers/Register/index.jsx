@@ -139,6 +139,8 @@ const Register = ({ volunteer }) => {
               errorMessage={errorMessage}
               setDocFront={setDocFront}
               setDocBack={setDocBack}
+              docFront={docFront}
+              docBack={docBack}
             />
           )}
           <Button primary label="Registrarse" fill="horizontal" type="submit" disabled={loading} />

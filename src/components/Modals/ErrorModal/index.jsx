@@ -6,8 +6,8 @@ import {
 import error from 'Assets/error.gif';
 
 const ErrorModal = ({ errorMessage, show, setShow }) => (
-  <Layer onEsc={() => setShow(false)} onClickOutside={() => setShow(false)}>
-    <Heading level="2" alignSelf="center" margin="medium">
+  <Layer onEsc={() => setShow(false)} onClickOutside={() => setShow(false)} responsive={false} margin="xsmall">
+    <Heading level="2" alignSelf="center" margin="medium" fill>
       Lo Sentimos! Ha ocurrido error.
     </Heading>
     <Box
@@ -21,7 +21,7 @@ const ErrorModal = ({ errorMessage, show, setShow }) => (
       <Box width="150px" height="150px" justify="center" alignSelf="center">
         <Image fit="contain" src={show ? error : null} />
       </Box>
-      <Paragraph alignSelf="center" fill>
+      <Paragraph textAlign="center" alignSelf="center" fill style={{ minWidth: '300px' }}>
         {errorMessage}
       </Paragraph>
     </Box>
