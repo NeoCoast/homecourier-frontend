@@ -21,11 +21,6 @@ const create = ({
 );
 
 export default {
-  create,
-};
-
-
-export default {
   getOrders,
   take,
   create,
