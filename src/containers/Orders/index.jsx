@@ -14,7 +14,6 @@ const Orders = () => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (!loggedIn) history.push('/');
-
     else {
       const fetchOrders = async () => {
         try {
@@ -34,9 +33,8 @@ const Orders = () => {
   return (
     <Box id="box" fill="vertical">
       {loading && <Spinner />}
-      {orders.length > 0 && <OrdersList orders={orders} />}
+      {orders.length > 0 && <OrdersList orders={orders} setLoading={setLoading} />}
     </Box>
-
   );
 };
 

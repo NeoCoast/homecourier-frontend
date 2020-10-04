@@ -1,14 +1,7 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 import {
-  Box,
-  Button,
-  Grid,
-  Heading,
-  TextInput,
-  Text,
-  FormField,
-  Form,
+  Box, Button, Grid, Heading, TextInput, Text, FormField, Form,
 } from 'grommet';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -26,6 +19,7 @@ const Login = (props) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const loggedIn = useSelector((state) => state.logUser.loggedIn);
+  const docNumber = useSelector((state) => state.logUser.data.documentNumber);
   const dispatch = useDispatch();
 
   const errorMessage = (msg) => (
@@ -35,6 +29,7 @@ const Login = (props) => {
   );
 
   useEffect(() => {
+    if (loggedIn && docNumber) history.push('/orders');
     if (loggedIn) history.push('/profile'); // Redirects to Profile
   }, [loggedIn]);
 
@@ -51,7 +46,8 @@ const Login = (props) => {
       userInfo.token = response.headers.authorization;
       await dispatch(login(userInfo)); // Waits for redux's state to change
       setLoading(false);
-      props.history.push('/profile');
+      if (userInfo.documentNumber) props.history.push('/orders');
+      else props.history.push('/profile');
     } catch (failure) {
       setLoading(false);
       console.log(failure);
@@ -86,29 +82,12 @@ const Login = (props) => {
         <Heading level="2">Inicie sesión</Heading>
         <Form onSubmit={submitLogin}>
           <FormField name="email" validate={(value) => validateEmail(value, errorMessage)}>
-            <TextInput
-              id="email"
-              name="email"
-              placeholder="Correo electrónico"
-              required
-            />
+            <TextInput id="email" name="email" placeholder="Correo electrónico" required />
           </FormField>
           <FormField name="password">
-            <TextInput
-              id="password"
-              name="password"
-              placeholder="Contraseña"
-              type="password"
-              required
-            />
+            <TextInput id="password" name="password" placeholder="Contraseña" type="password" required />
           </FormField>
-          <Button
-            primary
-            disabled={loading}
-            label="Login"
-            fill="horizontal"
-            type="submit"
-          />
+          <Button primary disabled={loading} label="Login" fill="horizontal" type="submit" />
         </Form>
         <Box fill gap="small">
           <Box direction="row" fill justify="center" gap="small">
@@ -125,17 +104,9 @@ const Login = (props) => {
           </Box>
         </Box>
 
-        {invalid
-        && (
-          <ErrorModal
-            errorMessage={error}
-            setShow={setInvalid}
-            show={invalid}
-          />
-        )}
+        {invalid && <ErrorModal errorMessage={error} setShow={setInvalid} show={invalid} />}
 
         {loading && <Spinner />}
-
       </Box>
     </Grid>
   );

@@ -1,152 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './index.scss';
-import Modal from 'react-modal';
 import {
-  Box, Heading, Button, Text, Grid, Table, TableBody, TableHeader, TableCell, TableRow,
+  Box,
+  ResponsiveContext,
 } from 'grommet';
+import PropTypes from 'prop-types';
 import ordersService from 'Api/orders.service';
 import { useSelector } from 'react-redux';
+import OrderCard from 'Components/OrderCard';
+import ViewOrderModal from 'Components/Modals/ViewOrderModal';
+import ErrorModal from 'Components/Modals/ErrorModal';
+import SuccessModal from 'Components/Modals/SuccessModal';
 
-const OrdersList = ({ orders }) => {
-  const takeOrder = async (id) => {
+const OrdersList = ({ orders, setLoading }) => {
+  const takeOrder = async (orderId) => {
     try {
+      setLoading(true);
       await ordersService.take({
         volunteerId,
-        id,
+        orderId,
       });
+      setLoading(false);
+      setMessage('Ha tomado la orden! Gracias por ayudar!');
+      setSuccessModal(true);
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      setMessage('Hubo un error.');
+      setErrorModal(true);
     }
   };
   const volunteerId = useSelector((state) => state.logUser.data.id);
-  const [modalIsOpen, setIsOpen] = useState(false);
 
-  const openModal = (id, username, title, description, categories, address) => {
-    setIsOpen(true);
-    setOrder({
-      ...order, orderId: id, username, title, description, categories, address,
-    });
+  const [viewOrder, setViewOrder] = useState(false);
+  const [errorModal, setErrorModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const [message, setMessage] = useState('');
+  const viewportSize = useContext(ResponsiveContext);
+  const [orderSelected, setOrderSelected] = useState(null);
+
+  const openModal = (order) => {
+    setOrderSelected(order);
+    setViewOrder(true);
   };
-
-  const [order, setOrder] = useState({
-    orderId: '',
-    title: '',
-    description: '',
-    categories: [],
-    username: '',
-    address: '',
-  });
 
   const closeModal = () => {
-    setIsOpen(false);
-  };
-
-  const customStyle = {
-    content: {
-      top: '8%',
-      left: '25%',
-      right: '25%',
-      bottom: 'auto',
-    },
+    setViewOrder(false);
   };
 
   return (
-    <Box background="white">
-
-      <Grid
-        rows={['fill']}
-        columns={['fill']}
-        areas={[
-          { name: 'main', start: [0, 0], end: [0, 0] },
-        ]}
-        background="white"
-      >
-
-        <Box gridArea="main" background="white">
-
-          <Table id="tableOrders">
-            <TableHeader>
-              <TableRow>
-                <TableCell scope="col" border="bottom">
-                  Usuario
-                </TableCell>
-                <TableCell scope="col" border="bottom">
-                  Título
-                </TableCell>
-                <TableCell scope="col" id="desc" border="bottom">
-                  Descripción
-                </TableCell>
-                <TableCell scope="col" border="bottom">
-                  Categorías
-                </TableCell>
-                <TableCell scope="col" border="bottom">
-
-                </TableCell>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {orders.map((item, index) => (
-                <TableRow key={index}>
-                  {item.status === 'created' ? <TableCell size="xsmall" scope="row"><strong>{item.helpee.name} {item.helpee.lastname}</strong></TableCell> : null}
-                  {item.status === 'created' ? <TableCell size="xsmall" scope="row"><strong>{item.title}</strong></TableCell> : null}
-                  {item.status === 'created' ? <TableCell size="xsmall" scope="row">{item.description}</TableCell> : null}
-                  {item.status === 'created' ? (
-                    <TableCell size="xsmall" scope="row">
-                      {item.categories.map((cat) => (
-
-                        <Box round="large" background="accent-1" pad="xxsmall" margin={{ top: 'xsmall' }} style={{ textAlign: 'center' }}> {cat.description} </Box>
-
-                      ))}
-                    </TableCell>
-                  ) : null}
-                  {item.status === 'created' ? (
-                    <TableCell size="xsmall" scope="row">
-                      <Button primary label="ver más" onClick={() => openModal(item.id, item.helpee.username, item.title, item.description, item.categories, item.helpee.address)} />
-                    </TableCell>
-                  ) : null}
-                </TableRow>
-              ))}
-
-            </TableBody>
-          </Table>
-        </Box>
-      </Grid>
-
-      <Modal
-        isOpen={modalIsOpen}
-        style={customStyle}
-        onRequestClose={closeModal}
-        ariaHideApp={false}
-      >
-        <Heading level="2">{order.title}</Heading>
-
-        <Box> <Heading level="3"> Usuario </Heading>
-          {order.username}
-        </Box>
-
-        <Box> <Heading level="3"> Categorías </Heading>
-          {order.categories.map((cat) => (
-            <Box> <Text> {cat.description} </Text> </Box>
-          ))}
-        </Box>
-
-        <Box> <Heading level="3"> Descripción </Heading>
-          {order.description}
-        </Box>
-
-        <Box> <Heading level="3"> Dirección </Heading>
-          {order.address}
-        </Box>
-
-        <Box direction="row" id="buttonsmodal">
-          <Button onClick={closeModal} label="Cancelar" />
-          <Button id="buttontomar" onClick={() => takeOrder(order.orderId)} primary label="Tomar pedido" />
-        </Box>
-
-      </Modal>
-
+    <Box
+      background="white"
+      direction="column"
+      pad={{ horizontal: viewportSize === 'small' ? 'small' : '20vw', vertical: 'medium' }}
+      overflow="scroll"
+    >
+      {orders.map((order) => (
+        <OrderCard order={order} viewportSize={viewportSize} key={order.id} openModal={openModal} />
+      ))}
+      {errorModal && <ErrorModal setShow={setErrorModal} show={errorModal} errorMessage={message} />}
+      {successModal && <SuccessModal setShow={setSuccessModal} show={successModal} message={message} />}
+      {viewOrder && <ViewOrderModal order={orderSelected} onClose={closeModal} onConfirm={takeOrder} />}
     </Box>
   );
+};
+
+OrdersList.propTypes = {
+  orders: PropTypes.array.isRequired,
+  setLoading: PropTypes.func.isRequired,
 };
 
 export default OrdersList;
