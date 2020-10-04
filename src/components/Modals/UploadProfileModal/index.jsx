@@ -20,8 +20,12 @@ const UploadProfileModal = ({ setPreview, setShow }) => {
 
   const validate = (elem) => {
     const element = elem;
-    validateImages(element.target.files[0], setError);
-    if (error) element.target.value = '';
+    const message = validateImages(element.target.files[0]);
+
+    if (message) {
+      element.target.value = '';
+      setError(message);
+    }
   };
 
   return (

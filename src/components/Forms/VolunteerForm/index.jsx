@@ -71,7 +71,7 @@ const VolunteerForm = ({
             type="file"
             size="xsmall"
             style={{ padding: '9px' }}
-            onChange={(event) => setDocFront(event.target)}
+            onChange={(event) => setDocFront(event.target.files[0])}
             accept="image/*"
           />
         </FormField>
@@ -102,9 +102,13 @@ VolunteerForm.propTypes = {
   message: PropTypes.func.isRequired,
   setDocFront: PropTypes.func.isRequired,
   setDocBack: PropTypes.func.isRequired,
-  docFront: PropTypes.object.isRequired,
-  docBack: PropTypes.object.isRequired,
+  docFront: PropTypes.object,
+  docBack: PropTypes.object,
+};
 
+VolunteerForm.defaultProps = {
+  docFront: null,
+  docBack: null,
 };
 
 export default VolunteerForm;
