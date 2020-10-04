@@ -4,7 +4,7 @@ import {
   Header, Grommet, Main, Grid,
 } from 'grommet';
 import theme from 'Theme/theme';
-import CustomToast from 'Components/customToast';
+import CustomToast from 'Components/CustomToast';
 
 import Background from 'Assets/background.svg';
 
