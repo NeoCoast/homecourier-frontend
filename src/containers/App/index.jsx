@@ -9,6 +9,7 @@ import Register from 'Containers/Register';
 import RegisterConfirm from 'Containers/Register/ConfirmPage';
 import Profile from 'Containers/Profile';
 import Login from 'Containers/Login';
+import Orders from 'Containers/Orders';
 
 import './index.scss';
 
@@ -23,6 +24,7 @@ const App = () => (
         <Route exact path={ROUTES.registerOk} component={RegisterConfirm} />
         <Route exact path={ROUTES.registerVolunteer} component={() => <Register volunteer />} />
         <Route exact path={ROUTES.profile} component={Profile} />
+        <Route exact path={ROUTES.orders} component={Orders} />
         <Route component={NotFound} />
       </Switch>
     </Layout>

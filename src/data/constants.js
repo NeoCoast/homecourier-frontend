@@ -5,6 +5,7 @@ export const ROUTES = {
   home: '/',
   register: '/register',
   login: '/login',
+  orders: '/orders',
   registerOk: '/register-ok',
   registerVolunteer: '/register-volunteer',
   profile: '/profile',
