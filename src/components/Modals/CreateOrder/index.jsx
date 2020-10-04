@@ -43,6 +43,10 @@ const CreateOrder = () => {
 
   const newOrder = async () => {
     let errorFlag = false;
+    if (!title) {
+      notifyError('Título es obligatorio');
+      errorFlag = true;
+    }
     if (categories.length === 0) {
       notifyError('Debe seleccionar al menos una categoría');
       errorFlag = true;
