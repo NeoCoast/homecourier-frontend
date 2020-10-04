@@ -45,13 +45,14 @@
     "stylelint-config-standard": "^20.0.0",
     "stylelint-order": "^4.1.0",
     "url-loader": "^2.1.0",
-    "webpack": "^4.39.1",
+    "webpack": "^4.44.2",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.8.0",
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
+    "@types/react-select": "^3.0.21",
     "axios": "^0.20.0",
     "axios-case-converter": "^0.6.0",
     "dotenv": "^8.2.0",
