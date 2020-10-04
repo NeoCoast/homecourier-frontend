@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { Box } from 'grommet';
+import { Box, Heading } from 'grommet';
 import ordersService from 'Api/orders.service';
 import OrdersList from 'Components/OrdersList';
 import Spinner from 'Components/Utils/Spinner';
@@ -31,8 +31,13 @@ const Orders = () => {
   }, []);
 
   return (
-    <Box id="box" fill="vertical">
+    <Box id="box" fill align="center">
       {loading && <Spinner />}
+      {orders.length === 0 && !loading && (
+        <Heading level="2" textAlign="center" fill>
+          Lo sentimos! No hay pedidos en el sistema.
+        </Heading>
+      )}
       {orders.length > 0 && <OrdersList orders={orders} setLoading={setLoading} />}
     </Box>
   );

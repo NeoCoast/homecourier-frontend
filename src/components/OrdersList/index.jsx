@@ -1,9 +1,6 @@
 import React, { useState, useContext } from 'react';
 import './index.scss';
-import {
-  Box,
-  ResponsiveContext,
-} from 'grommet';
+import { Box, ResponsiveContext } from 'grommet';
 import PropTypes from 'prop-types';
 import ordersService from 'Api/orders.service';
 import { useSelector } from 'react-redux';
@@ -54,6 +51,7 @@ const OrdersList = ({ orders, setLoading }) => {
       pad={{ horizontal: viewportSize === 'small' ? 'small' : '20vw', vertical: 'medium' }}
       overflow="scroll"
     >
+
       {orders.map((order) => (
         <OrderCard order={order} viewportSize={viewportSize} key={order.id} openModal={openModal} />
       ))}
