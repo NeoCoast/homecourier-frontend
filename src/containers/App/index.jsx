@@ -9,7 +9,7 @@ import Register from 'Containers/Register';
 import RegisterConfirm from 'Containers/Register/ConfirmPage';
 import Profile from 'Containers/Profile';
 import Login from 'Containers/Login';
-
+import Orders from 'Containers/Orders';
 import './index.scss';
 
 const App = () => (
@@ -20,6 +20,7 @@ const App = () => (
         <Route exact path={ROUTES.about} component={AboutUs} />
         <Route exact path={ROUTES.register} component={Register} />
         <Route exact path={ROUTES.login} component={Login} />
+        <Route exact path={ROUTES.orders} component={Orders} />
         <Route exact path={ROUTES.registerOk} component={RegisterConfirm} />
         <Route exact path={ROUTES.registerVolunteer} component={() => <Register volunteer />} />
         <Route exact path={ROUTES.profile} component={Profile} />

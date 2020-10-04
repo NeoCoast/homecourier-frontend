@@ -1,5 +1,16 @@
 import HTTP from './http';
 
+const getOrders = () => HTTP.get('/orders');
+
+const take = ({
+  volunteerId, orderId,
+}) => (
+  HTTP.post('/orders/take', {
+    volunteerId, orderId,
+  })
+    .then(({ data }) => data)
+);
+
 const create = ({
   title, helpeeId, categories, description,
 }) => (
@@ -10,5 +21,12 @@ const create = ({
 );
 
 export default {
+  create,
+};
+
+
+export default {
+  getOrders,
+  take,
   create,
 };
