@@ -30,7 +30,7 @@ const Login = (props) => {
 
   useEffect(() => {
     if (loggedIn && docNumber) history.push('/orders');
-    if (loggedIn) history.push('/profile'); // Redirects to Profile
+    else if (loggedIn) history.push('/profile'); // Redirects to Profile
   }, [loggedIn]);
 
   const submitLogin = async (Forms) => {

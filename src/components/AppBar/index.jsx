@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   Button, Box, Heading, Grid,
 } from 'grommet';
-import Hamburger from 'Assets/hamburger.svg';
 import Logout from 'Containers/Logout';
 import { useSelector } from 'react-redux';
 import CreateOrder from 'Components/Modals/CreateOrder';
@@ -20,7 +19,7 @@ const AppBar = () => {
   return (
     <Grid rows={['full']} columns={['1/3', '1/3', '1/3']} fill>
       <Box align="start">
-        <Button icon={<img src={Hamburger} alt="hamburger" />} hoverIndicator />
+
       </Box>
       <Box justify="center" align="center">
         <Heading level="3" margin="none">

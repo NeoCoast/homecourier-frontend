@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   Box, Grid, Button, Heading, Avatar, Form, Text,
@@ -17,6 +18,8 @@ import ReactTooltip from 'react-tooltip';
 import { ROUTES } from 'Data/constants';
 
 const Register = ({ volunteer }) => {
+  const loggedIn = useSelector((state) => state.logUser.loggedIn);
+  const docNumber = useSelector((state) => state.logUser.data.documentNumber);
   const history = useHistory();
 
   const [errorModalMessage, setErrorModalMessage] = useState('');
@@ -29,6 +32,11 @@ const Register = ({ volunteer }) => {
 
   const submitService = volunteer ? volunteerService : helpeeService;
   const headingMessage = volunteer ? ', gracias por querer ayudar' : ' a HomeCourier';
+
+  useEffect(() => {
+    if (loggedIn && docNumber) history.push('/orders');
+    else if (loggedIn) history.push('/profile'); // Redirects to Profile
+  }, [loggedIn]);
 
   const message = (msg) => <Text size="small">{msg}</Text>;
 
