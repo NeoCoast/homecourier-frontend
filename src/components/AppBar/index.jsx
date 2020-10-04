@@ -29,16 +29,19 @@ const AppBar = () => {
         </Heading>
       </Box>
       <Box align="end" pad="xsmall">
-        {barButton(isLogged)}
+        {barButton(isLogged, userInfo)}
       </Box>
     </Grid>
   );
 };
 
-const barButton = (loggedin) => {
+const barButton = (loggedin, userInfo) => {
   const location = useLocation();
   if (loggedin) {
-    return <Box direction="row-responsive" gap="medium" justify="end"> <CreateOrder /> <Logout /> </Box>;
+    if (!userInfo.documentNumber) {
+      return <Box direction="row-responsive" gap="medium" justify="end"> <CreateOrder /> <Logout /> </Box>;
+    }
+    return <Box direction="row-responsive" gap="medium" justify="end"> <Logout /> </Box>;
   }
   if (!loggedin && location.pathname === '/login') {
     return <Box />;
