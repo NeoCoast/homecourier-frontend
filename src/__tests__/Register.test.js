@@ -1,16 +1,38 @@
 import React from 'react';
 import faker from 'faker';
 import { render, fireEvent, waitFor } from '@testing-library/react';
+import { useSelector } from 'react-redux';
 import Register from 'Containers/Register';
+
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(),
+  useSelector: jest.fn(),
+  useHistory: () => ({
+    push: jest.fn(),
+  }),
+}));
 
 describe('Register', () => {
   test('Has email field', () => {
+    useSelector.mockImplementation((selector) => selector({
+      logUser: {
+        data: { documentNumber: '232323' },
+        loggedIn: false,
+      },
+    }));
+
     const { getByText } = render(<Register />);
 
     expect(getByText('Email')).toBeInTheDocument();
   });
 
   test('Shows Required Error', () => {
+    useSelector.mockImplementation((selector) => selector({
+      logUser: {
+        data: { documentNumber: '232323' },
+        loggedIn: false,
+      },
+    }));
     const { getByPlaceholderText, getByText, getAllByText } = render(<Register />);
     fireEvent.change(getByPlaceholderText(/Dia/i), { target: { value: 1 } });
     fireEvent.change(getByPlaceholderText(/Año/i), { target: { value: 1 } });
