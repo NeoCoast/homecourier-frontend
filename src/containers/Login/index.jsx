@@ -1,8 +1,6 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
-import {
-  Box, Button, Grid, Heading, TextInput, Text, FormField, Form,
-} from 'grommet';
+import { Box, Button, Grid, Heading, TextInput, Text, FormField, Form } from 'grommet';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import usersService from 'Api/users.service';
@@ -19,7 +17,7 @@ const Login = (props) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const loggedIn = useSelector((state) => state.logUser.loggedIn);
-  const docNumber = useSelector((state) => state.logUser.data.documentNumber);
+  const userData = useSelector((state) => state.logUser);
   const dispatch = useDispatch();
 
   const errorMessage = (msg) => (
@@ -29,7 +27,7 @@ const Login = (props) => {
   );
 
   useEffect(() => {
-    if (loggedIn && docNumber) history.push('/orders');
+    if (loggedIn && userData && userData.documentNumber) history.push('/orders');
     else if (loggedIn) history.push('/profile'); // Redirects to Profile
   }, [loggedIn]);
 

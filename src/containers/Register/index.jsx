@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  Box, Grid, Button, Heading, Avatar, Form, Text,
-} from 'grommet';
+import { Box, Grid, Button, Heading, Avatar, Form, Text } from 'grommet';
 import { useHistory } from 'react-router-dom';
 import volunteerService from 'Api/volunteer.service';
 import helpeeService from 'Api/helpee.service';
@@ -19,7 +17,7 @@ import { ROUTES } from 'Data/constants';
 
 const Register = ({ volunteer }) => {
   const loggedIn = useSelector((state) => state.logUser.loggedIn);
-  const docNumber = useSelector((state) => state.logUser.data.documentNumber);
+  const userData = useSelector((state) => state.logUser.data);
   const history = useHistory();
 
   const [errorModalMessage, setErrorModalMessage] = useState('');
@@ -34,7 +32,7 @@ const Register = ({ volunteer }) => {
   const headingMessage = volunteer ? ', gracias por querer ayudar' : ' a HomeCourier';
 
   useEffect(() => {
-    if (loggedIn && docNumber) history.push('/orders');
+    if (loggedIn && userData && userData.documentNumber) history.push('/orders');
     else if (loggedIn) history.push('/profile'); // Redirects to Profile
   }, [loggedIn]);
 
