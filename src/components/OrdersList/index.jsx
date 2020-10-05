@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import './index.scss';
 import { Box, ResponsiveContext } from 'grommet';
 import PropTypes from 'prop-types';
 import ordersService from 'Api/orders.service';

@@ -1,13 +1,36 @@
 import React from 'react';
 import faker from 'faker';
 import { render, fireEvent, waitFor } from '@testing-library/react';
+import { useSelector } from 'react-redux';
 import Register from 'Containers/Register';
 
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(),
+  useSelector: jest.fn(),
+  useHistory: () => ({
+    push: jest.fn(),
+  }),
+}));
+
 describe('Register', () => {
+  beforeEach(() => {
+    useSelector.mockImplementation((selector) => selector({
+      logUser: {
+        data: { documentNumber: '232323' },
+        loggedIn: false,
+      },
+    }));
+  });
   test('Has email field', () => {
     const { getByText } = render(<Register />);
 
     expect(getByText('Email')).toBeInTheDocument();
+  });
+
+  test('Has profile pic', () => {
+    const { getByText } = render(<Register />);
+
+    expect(getByText('Sube tu foto de perfil')).toBeInTheDocument();
   });
 
   test('Shows Required Error', () => {
@@ -59,5 +82,11 @@ describe('Register', () => {
     expect(getByText(/Número de documento/i)).toBeInTheDocument();
     expect(getByText(/Frente del Documento/i)).toBeInTheDocument();
     expect(getByText(/Dorso del Documento/i)).toBeInTheDocument();
+  });
+
+  test('Volunteer Document', () => {
+    const { getByText } = render(<Register volunteer />);
+
+    expect(getByText(/Frente del Documento/i)).toBeInTheDocument();
   });
 });
