@@ -1,14 +1,13 @@
 import React from 'react';
 import {
-  Button, Box, Heading, Grid,
+  Box, Heading, Grid,
 } from 'grommet';
-import Hamburger from 'Assets/hamburger.svg';
 import BarButton from '../BarButton';
 
 const AppBar = () => (
   <Grid rows={['full']} columns={['1/3', '1/3', '1/3']} fill>
     <Box align="start">
-      
+
     </Box>
     <Box justify="center" align="center">
       <Heading level="3" margin="none">

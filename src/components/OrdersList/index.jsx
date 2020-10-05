@@ -50,8 +50,8 @@ const OrdersList = ({ orders, setLoading }) => {
       direction="column"
       pad={{ horizontal: viewportSize === 'small' ? 'small' : '20vw', vertical: 'medium' }}
       overflow="scroll"
+      fill
     >
-
       {orders.map((order) => (
         <OrderCard order={order} viewportSize={viewportSize} key={order.id} openModal={openModal} />
       ))}
