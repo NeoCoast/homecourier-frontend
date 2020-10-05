@@ -18,7 +18,7 @@ const Orders = () => {
       const fetchOrders = async () => {
         try {
           setLoading(true);
-          const res = await ordersService.getOrders();
+          const res = await ordersService.getOrders('created');
           setLoading(false);
           setOrders(res.data);
         } catch (error) {

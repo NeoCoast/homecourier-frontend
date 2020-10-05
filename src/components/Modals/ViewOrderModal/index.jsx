@@ -1,5 +1,7 @@
 import React from 'react';
-import { Layer, Heading, Paragraph, Box, Button } from 'grommet';
+import {
+  Layer, Heading, Paragraph, Box, Button,
+} from 'grommet';
 import PropTypes from 'prop-types';
 import ChipContainer from 'Components/Utils/ChipContainer';
 import UserProfileInfo from '../../Utils/UserProfileInfo';

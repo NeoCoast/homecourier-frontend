@@ -1,6 +1,6 @@
 import HTTP from './http';
 
-const getOrders = () => HTTP.get('/orders');
+const getOrders = (status) => HTTP.get(`/orders/show/all?status=${status}`);
 
 const take = ({ volunteerId, orderId }) => HTTP.post('/orders/take', {
   volunteerId,
