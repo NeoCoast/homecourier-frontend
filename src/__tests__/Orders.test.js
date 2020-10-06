@@ -34,7 +34,10 @@ describe('Orders', () => {
         }],
       },
     };
-    const { getByText } = render(<Order {...props} />);
+    const openModal = (order) => {
+      order.eq(props);
+    };
+    const { getByText } = render(<Order order={props.order} viewportSize={null} openModal={openModal} />);
 
     expect(getByText(props.order.title)).toBeInTheDocument();
   });
@@ -53,7 +56,10 @@ describe('Orders', () => {
         }],
       },
     };
-    const { getByText } = render(<Order {...props} />);
+    const openModal = (order) => {
+      order.eq(props);
+    };
+    const { getByText } = render(<Order order={props.order} viewportSize={null} openModal={openModal} />);
 
     expect(getByText(`${props.order.helpee.name} ${props.order.helpee.lastname}`)).toBeInTheDocument();
   });
@@ -69,7 +75,10 @@ describe('Orders', () => {
         }],
       },
     };
-    const { getByText } = render(<Order {...props} />);
+    const openModal = (order) => {
+      order.eq(props);
+    };
+    const { getByText } = render(<Order order={props.order} viewportSize={null} openModal={openModal} />);
 
     expect(getByText(props.order.description)).toBeInTheDocument();
   });
@@ -85,8 +94,12 @@ describe('Orders', () => {
           label: 'Supermercado',
         }],
       }],
+      loading: false,
     };
-    const { getByText } = render(<Orders {...props} />);
+    const setLoading = (newLoading) => {
+      props.loading = newLoading;
+    };
+    const { getByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
 
     expect(getByText(props.orders[0].description)).toBeInTheDocument();
   });
