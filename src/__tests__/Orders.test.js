@@ -1,11 +1,12 @@
 // eslint-disable jsx-props-no-spreading
 import React from 'react';
 import faker from 'faker';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { useSelector } from 'react-redux';
 import Orders from 'Components/OrdersList';
 import Order from 'Components/OrderCard';
 import ViewOrderModal from 'Components/Modals/ViewOrderModal';
+import SuccessModal from 'Components/Modals/SuccessModal';
 
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
@@ -112,9 +113,47 @@ describe('Orders', () => {
     expect(getByText(props.orders[0].description)).toBeInTheDocument();
   });
 
-  test('Apply for order', () => {
+  test('Shows more', () => {
+    const props = {
+      orders: [{
+        id: faker.random.number(),
+        description: faker.lorem.paragraph(),
+        title: faker.random.words(),
+        helpee: faker.internet.userName(),
+        categories: [{
+          label: 'Supermercado',
+        }],
+      }],
+    };
+    const setLoading = jest.fn();
+    const { getByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
+    fireEvent.click(getByText(/Ver más/i));
+    expect(getByText(/Descripción/i)).toBeInTheDocument();
+  });
+
+  test('Cancel view more', () => {
+    const props = {
+      orders: [{
+        id: faker.random.number(),
+        description: faker.lorem.paragraph(),
+        title: faker.random.words(),
+        helpee: faker.internet.userName(),
+        categories: [{
+          label: 'Supermercado',
+        }],
+      }],
+    };
+    const setLoading = jest.fn();
+    const { getByText, getAllByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
+    fireEvent.click(getByText(/Ver más/i));
+    fireEvent.click(getAllByText(/Cancelar/i)[1]);
+    expect(getAllByText(props.orders[0].description)[0]).toBeInTheDocument();
+  });
+
+  test('Take order modal', () => {
     const props = {
       order: {
+        id: faker.random.number(),
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
         helpee: faker.internet.userName(),
@@ -125,11 +164,22 @@ describe('Orders', () => {
     };
     const onClose = jest.fn();
     const onConfirm = jest.fn();
-    const { getByText } = render(
+    const { getAllByText } = render(
       <ViewOrderModal order={props.order} onClose={onClose} onConfirm={onConfirm} />
     );
-    fireEvent.click(getByText(/Postularse/i));
+    fireEvent.click(getAllByText(/Postularse/i)[2]);
     expect(onConfirm).toHaveBeenCalledTimes(1);
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  describe('Success modal for application', () => {
+    test('ok button', () => {
+      const setShow = jest.fn();
+      const { getByText } = render(
+        <SuccessModal message="Ha tomado la orden! Gracias por ayudar!" show setShow={setShow} />
+      );
+      fireEvent.click(getByText(/Ok/i));
+      expect(setShow).toHaveBeenCalledTimes(1);
+    });
   });
 });
