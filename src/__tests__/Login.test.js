@@ -14,26 +14,22 @@ jest.mock('react-redux', () => ({
 }));
 
 describe('Register', () => {
-  test('Has login button', () => {
+  beforeEach(() => {
     useSelector.mockImplementation((selector) => selector({
       logUser: {
         data: { documentNumber: '232323' },
         loggedIn: false,
       },
     }));
+  });
+
+  test('Has login button', () => {
     const { getByText } = render(<Router><Login /></Router>);
 
     expect(getByText(/Login/i)).toBeInTheDocument();
   });
 
   test('Shows Required Error', () => {
-    useSelector.mockImplementation((selector) => selector({
-      logUser: {
-        data: { documentNumber: '232323' },
-        loggedIn: false,
-      },
-    }));
-
     const { getByText } = render(<Router><Login /></Router>);
 
     fireEvent.change(document.getElementById('email'), { target: { value: 'esto no es email' } });
@@ -45,15 +41,6 @@ describe('Register', () => {
   });
 
   test('Submits form', async () => {
-    useSelector.mockImplementation((selector) => selector({
-      logUser: {
-        data: {
-          documentNumber: '232323',
-        },
-        loggedIn: false,
-      },
-    }));
-
     const dom = render(<Router><Login /></Router>);
 
     const user = {
