@@ -45,7 +45,7 @@ const OrdersList = ({ orders, setLoading }) => {
 
   return (
     <Box
-      background="white"
+      background-color="white"
       direction="column"
       pad={{ horizontal: viewportSize === 'small' ? 'small' : '20vw', vertical: 'medium' }}
       overflow="scroll"

@@ -15,7 +15,7 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => (
       <UserProfileInfo user={order.helpee} />
       <Box>
         <Heading level="4" margin="none">
-          Categorias
+          Categorías
         </Heading>
         <ChipContainer items={order.categories} label="description" />
       </Box>
@@ -31,7 +31,7 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => (
         <Button secondary label="Cancelar" onClick={onClose} />
         <Button
           primary
-          label="Tomar Pedido"
+          label="Postularse"
           onClick={() => {
             onConfirm(order.id);
             onClose();

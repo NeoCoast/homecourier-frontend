@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './index.scss';
 import { Box, Heading } from 'grommet';
 import ordersService from 'Api/orders.service';
 import OrdersList from 'Components/OrdersList';

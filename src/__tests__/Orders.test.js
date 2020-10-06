@@ -1,10 +1,11 @@
 // eslint-disable jsx-props-no-spreading
 import React from 'react';
 import faker from 'faker';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { useSelector } from 'react-redux';
 import Orders from 'Components/OrdersList';
 import Order from 'Components/OrderCard';
+import ViewOrderModal from 'Components/Modals/ViewOrderModal';
 
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
@@ -23,6 +24,9 @@ describe('Orders', () => {
       },
     }));
   });
+  const openModal = jest.fn();
+  const viewportSize = jest.fn();
+
   test('Shows the title', () => {
     const props = {
       order: {
@@ -34,10 +38,7 @@ describe('Orders', () => {
         }],
       },
     };
-    const openModal = (order) => {
-      order.eq(props);
-    };
-    const { getByText } = render(<Order order={props.order} viewportSize={null} openModal={openModal} />);
+    const { getByText } = render(<Order order={props.order} viewportSize={viewportSize} openModal={openModal} />);
 
     expect(getByText(props.order.title)).toBeInTheDocument();
   });
@@ -56,10 +57,7 @@ describe('Orders', () => {
         }],
       },
     };
-    const openModal = (order) => {
-      order.eq(props);
-    };
-    const { getByText } = render(<Order order={props.order} viewportSize={null} openModal={openModal} />);
+    const { getByText } = render(<Order order={props.order} viewportSize={viewportSize} openModal={openModal} />);
 
     expect(getByText(`${props.order.helpee.name} ${props.order.helpee.lastname}`)).toBeInTheDocument();
   });
@@ -75,12 +73,25 @@ describe('Orders', () => {
         }],
       },
     };
-    const openModal = (order) => {
-      order.eq(props);
-    };
-    const { getByText } = render(<Order order={props.order} viewportSize={null} openModal={openModal} />);
+    const { getByText } = render(<Order order={props.order} viewportSize={viewportSize} openModal={openModal} />);
 
     expect(getByText(props.order.description)).toBeInTheDocument();
+  });
+
+  test('Open modal', () => {
+    const props = {
+      order: {
+        description: faker.lorem.paragraph(),
+        title: faker.random.words(),
+        helpee: faker.internet.userName(),
+        categories: [{
+          label: 'Supermercado',
+        }],
+      },
+    };
+    const { getByText } = render(<Order order={props.order} viewportSize="small" openModal={openModal} />);
+    fireEvent.click(getByText(/Ver más/i));
+    expect(openModal).toHaveBeenCalledTimes(1);
   });
 
   test('Shows orders', () => {
@@ -94,13 +105,31 @@ describe('Orders', () => {
           label: 'Supermercado',
         }],
       }],
-      loading: false,
     };
-    const setLoading = (newLoading) => {
-      props.loading = newLoading;
-    };
+    const setLoading = jest.fn();
     const { getByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
 
     expect(getByText(props.orders[0].description)).toBeInTheDocument();
+  });
+
+  test('Apply for order', () => {
+    const props = {
+      order: {
+        description: faker.lorem.paragraph(),
+        title: faker.random.words(),
+        helpee: faker.internet.userName(),
+        categories: [{
+          label: 'Supermercado',
+        }],
+      },
+    };
+    const onClose = jest.fn();
+    const onConfirm = jest.fn();
+    const { getByText } = render(
+      <ViewOrderModal order={props.order} onClose={onClose} onConfirm={onConfirm} />
+    );
+    fireEvent.click(getByText(/Postularse/i));
+    expect(onConfirm).toHaveBeenCalledTimes(1);
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 });
