@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Grid, Heading, TextInput, Text, FormField, Form } from 'grommet';
+import {
+  Box, Button, Grid, Heading, TextInput, Text, FormField, Form,
+} from 'grommet';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import usersService from 'Api/users.service';

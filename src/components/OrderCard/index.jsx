@@ -26,7 +26,7 @@ const OrderCard = ({ order, viewportSize, openModal }) => (
       <Button
         primary
         size={viewportSize === 'small' ? 'small' : 'medium'}
-        label="Ver Mas"
+        label="Ver más"
         onClick={() => openModal(order)}
       />
     </CardFooter>
