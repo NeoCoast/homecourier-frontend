@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box, Button, TextArea, Heading, Layer, TextInput,
+  Box, Button, TextArea, Heading, Layer, TextInput, FormField, Form,
 } from 'grommet';
 import Select from 'react-select';
 import { notifySuccess, notifyError } from 'Helpers/toast.helper';
@@ -43,16 +43,25 @@ const CreateOrder = () => {
 
   const newOrder = async () => {
     let errorFlag = false;
+    let msgError = '';
     if (!title) {
-      notifyError('Título es obligatorio');
+      msgError += 'Título es obligatorio';
       errorFlag = true;
     }
     if (categories.length === 0) {
-      notifyError('Debe seleccionar al menos una categoría');
+      if (msgError) {
+        msgError += '\nDebe seleccionar al menos una categoría';
+      } else {
+        msgError = 'Debe seleccionar al menos una categoría';
+      }
       errorFlag = true;
     }
     if (!description) {
-      notifyError('Descripción es obligatoria');
+      if (msgError) {
+        msgError += '\nDescripción es obligatoria';
+      } else {
+        msgError = 'Descripción es obligatoria';
+      }
       errorFlag = true;
     }
     if (!errorFlag) {
@@ -70,6 +79,9 @@ const CreateOrder = () => {
         setErrorMessage('Ocurrío un error intentando comunicarse con el servidor');
         errorFlag = true;
       }
+    } else {
+      setInvalid(true);
+      setErrorMessage(msgError);
     }
     if (!errorFlag) {
       setLoading(false);
@@ -81,6 +93,7 @@ const CreateOrder = () => {
   const openModal = () => {
     // Set an empty title
     setTitle('');
+    setCategories('');
     // Set an empty description
     setDescription('');
     setModalIsOpen(true);
@@ -89,6 +102,7 @@ const CreateOrder = () => {
   const closeModal = () => {
     // Set an empty title
     setTitle('');
+    setCategories('');
     // Set an empty description
     setDescription('');
     setModalIsOpen(false);
@@ -112,7 +126,7 @@ const CreateOrder = () => {
 
   return (
     <div>
-      <Button disabled={loading} primary onClick={openModal} label="Nuevo Pedido" />
+      <Button disabled={loading} primary onClick={openModal} label="Nuevo pedido" />
       {modalIsOpen && (
         <Layer>
           <Box
@@ -124,30 +138,40 @@ const CreateOrder = () => {
             direction="column"
             background="white"
           >
-            <Heading level="2">Crear un pedido</Heading>
-            <Box id="boxTitle" fill="horizontal">
-              <Heading level="3">Título</Heading>
-              <TextInput id="title" placeholder="Ingrese el título" value={title} onChange={(event) => setTitle(event.target.value)} />
-            </Box>
-            <Box id="boxCategories" fill="horizontal">
-              <Heading level="3">Categorías</Heading>
-              <Select isMulti id="categories" options={options} onChange={handleChange} width="fill" />
-            </Box>
-            <Box id="boxDescription" fill="horizontal">
-              <Heading level="3">Descripción</Heading>
-              <TextArea
-                id="description"
-                placeholder="Ingrese la descripción"
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
-                required
-                width="100%"
-              />
-            </Box>
-            <Box direction="row-responsive" gap="medium" justify="end">
-              <Button label="Cancelar" onClick={closeModal} />
-              <Button primary label="Crear" onClick={newOrder} />
-            </Box>
+            <Form
+              onSubmit={newOrder}
+              messages={{
+                required: 'El campo es obligatorio',
+              }}
+            >
+              <Heading level="2">Crear un pedido</Heading>
+              <Box id="boxTitle" fill="horizontal">
+                <Heading level="3">Título</Heading>
+                <FormField required>
+                  <TextInput id="title" placeholder="Ingrese el título" value={title} onChange={(event) => setTitle(event.target.value)} />
+                </FormField>
+              </Box>
+              <Box id="boxCategories" fill="horizontal">
+                <Heading level="3">Categorías</Heading>
+                <Select isMulti id="categories" options={options} onChange={handleChange} width="fill" />
+              </Box>
+              <Box id="boxDescription" fill="horizontal">
+                <Heading level="3">Descripción</Heading>
+                <FormField required>
+                  <TextArea
+                    id="description"
+                    placeholder="Ingrese la descripción"
+                    value={description}
+                    onChange={(event) => setDescription(event.target.value)}
+                    width="100%"
+                  />
+                </FormField>
+              </Box>
+              <Box direction="row-responsive" gap="medium" justify="end">
+                <Button label="Cancelar" onClick={closeModal} />
+                <Button primary label="Crear" type="submit" onClick={newOrder} />
+              </Box>
+            </Form>
           </Box>
           {invalid
           && (
