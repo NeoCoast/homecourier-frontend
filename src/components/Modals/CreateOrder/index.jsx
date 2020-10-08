@@ -3,13 +3,13 @@ import {
   Box, Button, TextArea, Heading, Layer, TextInput, FormField, Form,
 } from 'grommet';
 import Select from 'react-select';
-import { notifySuccess, notifyError } from 'Helpers/toast.helper';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ordersService from 'Api/orders.service';
 import categoriesService from 'Api/categories.service';
 import Spinner from 'Components/Utils/Spinner';
 import ErrorModal from 'Components/Modals/ErrorModal';
+import SuccessModal from 'Components/Modals/SuccessModal';
 import 'react-toastify/dist/ReactToastify.css';
 
 const CreateOrder = () => {
@@ -20,6 +20,8 @@ const CreateOrder = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [invalid, setInvalid] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const userLoggedIn = useSelector((state) => state.logUser.loggedIn);
   const helpeeId = useSelector((state) => state.logUser.data.id);
@@ -36,7 +38,8 @@ const CreateOrder = () => {
         });
       });
     } catch (error) {
-      notifyError(error);
+      setInvalid(true);
+      setErrorMessage('Ocurrío un error intentando comunicarse con el servidor');
     }
     setOptions(opts);
   };
@@ -85,26 +88,28 @@ const CreateOrder = () => {
     }
     if (!errorFlag) {
       setLoading(false);
-      notifySuccess('Su pedido fue registrado con exito');
+      setSuccess(true);
+      setSuccessMessage('Su pedido fue registrado con exito');
       closeModal();
     }
   };
 
-  const openModal = () => {
-    // Set an empty title
+  const clearForm = () => {
+    // Clear title
     setTitle('');
+    // Clear categories
     setCategories('');
-    // Set an empty description
+    // Clear description
     setDescription('');
+  };
+
+  const openModal = () => {
+    clearForm();
     setModalIsOpen(true);
   };
 
   const closeModal = () => {
-    // Set an empty title
-    setTitle('');
-    setCategories('');
-    // Set an empty description
-    setDescription('');
+    clearForm();
     setModalIsOpen(false);
   };
 
@@ -125,7 +130,7 @@ const CreateOrder = () => {
   }, []);
 
   return (
-    <div>
+    <Box>
       <Button disabled={loading} primary onClick={openModal} label="Nuevo pedido" />
       {modalIsOpen && (
         <Layer>
@@ -147,8 +152,8 @@ const CreateOrder = () => {
               <Heading level="2">Crear un pedido</Heading>
               <Box id="boxTitle" fill="horizontal">
                 <Heading level="3">Título</Heading>
-                <FormField required>
-                  <TextInput id="title" placeholder="Ingrese el título" value={title} onChange={(event) => setTitle(event.target.value)} />
+                <FormField name="title" htmlFor="title" required>
+                  <TextInput name="title" id="title" placeholder="Ingrese el título" value={title} onChange={(event) => setTitle(event.target.value)} />
                 </FormField>
               </Box>
               <Box id="boxCategories" fill="horizontal">
@@ -157,8 +162,9 @@ const CreateOrder = () => {
               </Box>
               <Box id="boxDescription" fill="horizontal">
                 <Heading level="3">Descripción</Heading>
-                <FormField required>
+                <FormField name="description" htmlFor="description" required>
                   <TextArea
+                    name="description"
                     id="description"
                     placeholder="Ingrese la descripción"
                     value={description}
@@ -173,7 +179,9 @@ const CreateOrder = () => {
               </Box>
             </Form>
           </Box>
-          {invalid
+        </Layer>
+      )}
+      {invalid
           && (
             <ErrorModal
               errorMessage={errorMessage}
@@ -181,10 +189,16 @@ const CreateOrder = () => {
               show={invalid}
             />
           )}
-          {loading && <Spinner />}
-        </Layer>
-      )}
-    </div>
+      {loading && <Spinner />}
+      {success
+        && (
+          <SuccessModal
+            message={successMessage}
+            show={success}
+            setShow={setSuccess}
+          />
+        )}
+    </Box>
   );
 };
 
