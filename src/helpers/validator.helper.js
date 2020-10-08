@@ -39,3 +39,26 @@ export const validateYear = (value, errorMessage) => {
   }
   return { status: 'info' };
 };
+
+export const validateImages = (elem) => {
+  const element = elem;
+
+  if (element.size > 15728640) {
+    return 'El archivo es demasiado grande!';
+  }
+  if (!/image\/.*/.test(element.type)) {
+    return 'El archivo debe ser una imagen!';
+  }
+  return null;
+};
+
+export const validateImagesGrommetForm = (elem) => {
+  let error = null;
+  if (elem) error = validateImages(elem);
+
+  if (error) {
+    return { status: 'error', message: error };
+  }
+
+  return { status: 'info' };
+};

@@ -4,8 +4,11 @@ import {
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
+import { validateImagesGrommetForm } from '../../../helpers/validator.helper';
 
-const VolunteerForm = ({ message, setDocFront, setDocBack }) => {
+const VolunteerForm = ({
+  message, setDocFront, setDocBack, docFront, docBack,
+}) => {
   const mask = [
     {
       lenght: [1],
@@ -37,6 +40,7 @@ const VolunteerForm = ({ message, setDocFront, setDocBack }) => {
       placeholder: '0',
     },
   ];
+
   return (
     <Box>
       <Box direction="row-responsive" gap="small" fill="horizontal" justify="stretch" alignContent="around">
@@ -58,6 +62,7 @@ const VolunteerForm = ({ message, setDocFront, setDocBack }) => {
           htmlFor="documentFace"
           label={message('Frente del Documento')}
           fill
+          validate={() => validateImagesGrommetForm(docFront)}
           required
         >
           <TextInput
@@ -67,6 +72,7 @@ const VolunteerForm = ({ message, setDocFront, setDocBack }) => {
             size="xsmall"
             style={{ padding: '9px' }}
             onChange={(event) => setDocFront(event.target.files[0])}
+            accept="image/*"
           />
         </FormField>
         <FormField
@@ -74,6 +80,7 @@ const VolunteerForm = ({ message, setDocFront, setDocBack }) => {
           htmlFor="documentBack"
           label={message('Dorso  del Documento ')}
           fill
+          validate={() => validateImagesGrommetForm(docBack)}
           required
         >
           <TextInput
@@ -83,6 +90,7 @@ const VolunteerForm = ({ message, setDocFront, setDocBack }) => {
             size="xsmall"
             style={{ padding: '9px' }}
             onChange={(event) => setDocBack(event.target.files[0])}
+            accept="image/*"
           />
         </FormField>
       </Box>
@@ -94,6 +102,13 @@ VolunteerForm.propTypes = {
   message: PropTypes.func.isRequired,
   setDocFront: PropTypes.func.isRequired,
   setDocBack: PropTypes.func.isRequired,
+  docFront: PropTypes.object,
+  docBack: PropTypes.object,
+};
+
+VolunteerForm.defaultProps = {
+  docFront: null,
+  docBack: null,
 };
 
 export default VolunteerForm;

@@ -1,11 +1,14 @@
 import {
-  Layer, Box, Heading, Button,
+  Layer, Box, Heading, Button, Text,
 } from 'grommet';
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Avatar from 'react-avatar-edit';
+import { validateImages } from 'Helpers/validator.helper';
 
 const UploadProfileModal = ({ setPreview, setShow }) => {
+  const [error, setError] = useState(null);
+
   const onCrop = (imgPreview) => {
     setPreview(imgPreview);
   };
@@ -14,14 +17,32 @@ const UploadProfileModal = ({ setPreview, setShow }) => {
     setPreview(null);
     setShow(false);
   };
+
+  const validate = (elem) => {
+    const element = elem;
+    const message = validateImages(element.target.files[0]);
+
+    if (message) {
+      element.target.value = '';
+      setError(message);
+    }
+  };
+
   return (
     <Layer>
       <Box margin="medium" gap="small" justify="center" align="center">
         <Heading level="3">Agregue una foto de perfil</Heading>
-        <Avatar width={390} height={298} onCrop={onCrop} onClose={() => setPreview(null)} />
+        <Avatar
+          width={390}
+          height={298}
+          onCrop={onCrop}
+          onClose={() => setPreview(null)}
+          onBeforeFileLoad={(elem) => validate(elem)}
+        />
+        {error && <Text color="status-critical"> {error} </Text>}
         <Box direction="row-responsive" gap="medium">
           <Button secondary label="Cancelar" onClick={onCloseCancel} />
-          <Button primary label="Guardar" onClick={() => setShow(false)} />
+          <Button primary label="Guardar" onClick={() => (error ? null : setShow(false))} />
         </Box>
       </Box>
     </Layer>

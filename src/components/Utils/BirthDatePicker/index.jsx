@@ -10,7 +10,7 @@ const BirthDatePicker = ({ validateDay, validateYear }) => (
     <Text size="small" margin={{ top: '5px', bottom: '5px' }}>
       Fecha de Nacimiento:
     </Text>
-    <Grid rows={['full']} columns={['4rem', '10rem', 'auto']} fill gap="small">
+    <Grid rows={['full']} columns={['auto', '8rem', 'auto']} fill gap="small">
       <FormField name="birthDay" validate={validateDay}>
         <TextInput placeholder="Dia" name="birthDay" id="birthDay" required />
       </FormField>
