@@ -10,6 +10,9 @@ import RegisterConfirm from 'Containers/Register/ConfirmPage';
 import Profile from 'Containers/Profile';
 import Login from 'Containers/Login';
 import Orders from 'Containers/Orders';
+import PublicOnlyRoute from 'Components/Router/PublicOnlyRoute';
+import PrivateRoute from 'Components/Router/PrivateRoute';
+import VolunteerOnlyRoute from 'Components/Router/VolunteerOnlyRoute';
 
 import './index.scss';
 
@@ -19,12 +22,12 @@ const App = () => (
       <Switch>
         <Route exact path={ROUTES.home} component={Home} />
         <Route exact path={ROUTES.about} component={AboutUs} />
-        <Route exact path={ROUTES.register} component={Register} />
-        <Route exact path={ROUTES.login} component={Login} />
-        <Route exact path={ROUTES.registerOk} component={RegisterConfirm} />
-        <Route exact path={ROUTES.registerVolunteer} component={() => <Register volunteer />} />
-        <Route exact path={ROUTES.profile} component={Profile} />
-        <Route exact path={ROUTES.orders} component={Orders} />
+        <PublicOnlyRoute exact path={ROUTES.register} component={Register} />
+        <PublicOnlyRoute exact path={ROUTES.login} component={Login} />
+        <Route exact path={ROUTES.registerOk} component={RegisterConfirm} /> {/* TODO: Make this inaccessible */}
+        <PublicOnlyRoute exact path={ROUTES.registerVolunteer} component={() => <Register volunteer />} />
+        <PrivateRoute exact path={ROUTES.profile} component={Profile} />
+        <VolunteerOnlyRoute exact path={ROUTES.orders} component={Orders} />
         <Route component={NotFound} />
       </Switch>
     </Layout>

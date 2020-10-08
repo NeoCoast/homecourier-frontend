@@ -1,25 +1,22 @@
 /* eslint-disable no-console */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Box, Button, Grid, Heading, TextInput, Text, FormField, Form,
 } from 'grommet';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import usersService from 'Api/users.service';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { login } from 'Actions/logUser';
 import Spinner from 'Components/Utils/Spinner';
 import ErrorModal from 'Components/Modals/ErrorModal';
 import { validateEmail } from 'Helpers/validator.helper';
 
-const Login = (props) => {
+const Login = () => {
   const history = useHistory();
   const [invalid, setInvalid] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const loggedIn = useSelector((state) => state.logUser.loggedIn);
-  const userData = useSelector((state) => state.logUser);
   const dispatch = useDispatch();
 
   const errorMessage = (msg) => (
@@ -27,11 +24,6 @@ const Login = (props) => {
       {msg}
     </Text>
   );
-
-  useEffect(() => {
-    if (loggedIn && userData && userData.documentNumber) history.push('/orders');
-    else if (loggedIn) history.push('/profile'); // Redirects to Profile
-  }, [loggedIn]);
 
   const submitLogin = async (Forms) => {
     try {
@@ -46,8 +38,8 @@ const Login = (props) => {
       userInfo.token = response.headers.authorization;
       await dispatch(login(userInfo)); // Waits for redux's state to change
       setLoading(false);
-      if (userInfo.documentNumber) props.history.push('/orders');
-      else props.history.push('/profile');
+      if (userInfo.documentNumber) history.push('/orders');
+      else history.push('/profile');
     } catch (failure) {
       setLoading(false);
       console.log(failure);
@@ -110,10 +102,6 @@ const Login = (props) => {
       </Box>
     </Grid>
   );
-};
-
-Login.propTypes = {
-  history: PropTypes.object.isRequired,
 };
 
 export default Login;

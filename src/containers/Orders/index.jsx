@@ -33,7 +33,7 @@ const Orders = () => {
     <Box id="box" fill align="center">
       {loading && <Spinner />}
       {orders.length === 0 && !loading && (
-        <Heading level="2" textAlign="center" fill>
+        <Heading level="2" textAlign="center">
           Lo sentimos! No hay pedidos en el sistema.
         </Heading>
       )}

@@ -4,7 +4,7 @@ import Chip from 'Components/Utils/Chip';
 import PropTypes from 'prop-types';
 
 const ChipContainer = ({ items, label }) => (
-  <Box direction="row" gap="small" wrap fill="horizontal">
+  <Box direction="row" gap="small" wrap fill="horizontal" margin="small">
     {items.map((item) => (
       <Chip text={item[label]} key={item[label]} />
     ))}

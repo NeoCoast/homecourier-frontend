@@ -625,7 +625,7 @@ const theme = {
   layer: {
     background: 'white',
     border: {
-      radius: '4px',
+      radius: '12px',
     },
     container: {
       zIndex: '15',
