@@ -439,7 +439,7 @@ const theme = {
       size: 'small',
       margin: {
         vertical: 'xsmall',
-        horizontal: 'small',
+        horizontal: 'none',
       },
       color: {
         dark: 'status-critical',

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   Box, Grid, Button, Heading, Avatar, Form, Text,
 } from 'grommet';
-import { useHistory } from 'react-router-dom';
 import volunteerService from 'Api/volunteer.service';
 import helpeeService from 'Api/helpee.service';
 import GeneralUserForm from 'Components/Forms/GeneralUserForm';
@@ -14,11 +13,9 @@ import VolunteerForm from 'Components/Forms/VolunteerForm';
 import { dataURItoBlob } from 'Helpers/utils.helper';
 import Spinner from 'Components/Utils/Spinner';
 import ReactTooltip from 'react-tooltip';
-import { ROUTES } from 'Data/constants';
+import RegisterConfirm from './ConfirmPage';
 
 const Register = ({ volunteer }) => {
-  const history = useHistory();
-
   const [errorModalMessage, setErrorModalMessage] = useState('');
   const [errorModal, setErrorModal] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
@@ -26,6 +23,7 @@ const Register = ({ volunteer }) => {
   const [docFront, setDocFront] = useState(null);
   const [docBack, setDocBack] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState(null);
 
   const submitService = volunteer ? volunteerService : helpeeService;
   const headingMessage = volunteer ? ', gracias por querer ayudar' : ' a HomeCourier';
@@ -68,10 +66,7 @@ const Register = ({ volunteer }) => {
         setErrorModalMessage('Verifique que los datos introducidos sean correctos');
         setErrorModal(true);
       } else if (response.username) {
-        history.push({
-          pathname: ROUTES.registerOk,
-          username: response.username,
-        });
+        setUsername(response.username);
       }
     } catch (error) {
       setLoading(false);
@@ -79,6 +74,8 @@ const Register = ({ volunteer }) => {
       setErrorModal(true);
     }
   };
+
+  if (username) return <RegisterConfirm username={username} />;
 
   return (
     <Grid
@@ -129,7 +126,7 @@ const Register = ({ volunteer }) => {
         <Form
           onSubmit={submit}
           messages={{
-            required: 'El campo es obligatorio',
+            required: 'Requerido',
           }}
         >
           <GeneralUserForm message={message} errorMessage={errorMessage} />

@@ -26,7 +26,6 @@ const ProfileDropdown = () => {
       setLoading(true);
       await usersService.logout(); // Sends an HTTP.delete to the API
       await dispatch(logout()); // Dispatches Redux's action
-      setLoading(false);
       history.push(ROUTES.login); // Redirects to Login page
     } catch (error) {
       console.log(error);

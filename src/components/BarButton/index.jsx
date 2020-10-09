@@ -34,7 +34,7 @@ const BarButton = () => {
         onMouseLeave={() => location.pathname !== ROUTES.home ? contractItem(setOnHover2) : null}
         onClick={() => contractItem(setOnHover)}
       >
-        <Anchor icon={<Home />} label={onHover2 ? (<Box animation="slideRight">Inicio</Box>) : ''} />
+        <Anchor icon={<Home />} label={onHover2 ? (<Box animation="slideRight">Inicio</Box>) : ''} as="span" />
       </Link>
       <Link
         to="/login"
@@ -43,7 +43,7 @@ const BarButton = () => {
           : contractItem(setOnHover)}
         onClick={() => contractItem(setOnHover2)}
       >
-        <Anchor icon={<Login />} label={onHover ? (<Box animation="slideRight">Iniciar sesión</Box>) : ''} />
+        <Anchor icon={<Login />} label={onHover ? (<Box animation="slideRight">Iniciar sesión</Box>) : ''} as="span" />
       </Link>
     </Box>
   );

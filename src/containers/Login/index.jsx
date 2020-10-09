@@ -11,6 +11,7 @@ import { login } from 'Actions/logUser';
 import Spinner from 'Components/Utils/Spinner';
 import ErrorModal from 'Components/Modals/ErrorModal';
 import { validateEmail } from 'Helpers/validator.helper';
+import { ROUTES } from 'Data/constants';
 
 const Login = () => {
   const history = useHistory();
@@ -37,9 +38,8 @@ const Login = () => {
       const userInfo = response.data; // Creates an object with user data and login token
       userInfo.token = response.headers.authorization;
       await dispatch(login(userInfo)); // Waits for redux's state to change
-      setLoading(false);
-      if (userInfo.documentNumber) history.push('/orders');
-      else history.push('/profile');
+      if (userInfo.documentNumber) history.push(ROUTES.orders);
+      else history.push(ROUTES.profile);
     } catch (failure) {
       setLoading(false);
       console.log(failure);
