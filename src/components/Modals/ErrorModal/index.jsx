@@ -12,7 +12,7 @@ const ErrorModal = ({ errorMessage, show, setShow }) => (
       <Heading level="2" margin="medium">
         Lo Sentimos! Ha ocurrido error.
       </Heading>
-      <Button onClick={() => setShow(false)} margin="medium" icon={(<Close />)} hoverIndicator="accent-2" />
+      <Button onClick={() => setShow(false)} margin="medium" icon={(<Close />)} hoverIndicator="accent-2" id="close-err-modal" />
     </Box>
 
     <Box

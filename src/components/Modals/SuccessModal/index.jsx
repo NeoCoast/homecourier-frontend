@@ -17,7 +17,7 @@ const SuccesModal = ({ message, show, setShow }) => (
       <Heading level="2" margin="medium">
         Éxito!
       </Heading>
-      <Button onClick={() => setShow(false)} margin="medium" icon={(<Close />)} hoverIndicator="accent-2" />
+      <Button onClick={() => setShow(false)} margin="medium" icon={(<Close />)} hoverIndicator="accent-2" id="close-ok-modal" />
     </Box>
 
     <Box direction="column" gap="small" justify="center" alignContent="center" align="start" margin="medium">
