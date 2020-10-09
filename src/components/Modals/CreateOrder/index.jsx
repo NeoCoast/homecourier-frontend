@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Box, Button, TextArea, Heading, Layer, TextInput,
 } from 'grommet';
+import { Add } from 'grommet-icons';
 import Select from 'react-select';
 import { notifySuccess, notifyError } from 'Helpers/toast.helper';
 import { useSelector } from 'react-redux';
@@ -111,8 +112,15 @@ const CreateOrder = () => {
   }, []);
 
   return (
-    <div>
-      <Button disabled={loading} primary onClick={openModal} label="Nuevo Pedido" />
+    <Box alignSelf="end">
+      <Button
+        disabled={loading}
+        primary
+        icon={<Add color="white" />}
+        onClick={openModal}
+        label="Nuevo Pedido"
+        margin={{ right: 'xlarge', vertical: 'small' }}
+      />
       {modalIsOpen && (
         <Layer>
           <Box
@@ -160,7 +168,7 @@ const CreateOrder = () => {
           {loading && <Spinner />}
         </Layer>
       )}
-    </div>
+    </Box>
   );
 };
 

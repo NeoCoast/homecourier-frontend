@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Heading } from 'grommet';
+import React, { useEffect, useState } from 'react';
 import ordersService from 'Api/orders.service';
+import { Box, Heading } from 'grommet';
 import OrdersList from 'Components/OrdersList';
 import Spinner from 'Components/Utils/Spinner';
+import CreateOrder from '../../components/Modals/CreateOrder';
 
-const Orders = () => {
-  const [orders, setOrders] = useState([]);
+const MyOrders = () => {
   const [loading, setLoading] = useState(false);
+  const [orders, setOrders] = useState(false);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -24,8 +25,9 @@ const Orders = () => {
   }, []);
 
   return (
-    <Box id="box" fill align="center">
+    <Box fill align="center">
       {loading && <Spinner />}
+      <CreateOrder />
       {orders.length === 0 && !loading && (
         <Heading level="2" textAlign="center">
           Lo sentimos! No hay pedidos en el sistema.
@@ -36,4 +38,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default MyOrders;

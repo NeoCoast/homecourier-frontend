@@ -103,9 +103,9 @@ const Register = ({ volunteer }) => {
         align="center"
         gridArea="center"
         elevation="medium"
-        pad="large"
+        pad={{ horizontal: '5vw', vertical: 'large' }}
         gap="small"
-        round="5px"
+        round="12px"
         direction="column"
       >
         <Heading alignSelf="center" level="3">
@@ -143,7 +143,9 @@ const Register = ({ volunteer }) => {
               docBack={docBack}
             />
           )}
-          <Button primary label="Registrarse" fill="horizontal" type="submit" disabled={loading} />
+          <Box fill pad={{ horizontal: '10vw', top: 'medium' }}>
+            <Button primary label="Registrarse" fill="horizontal" type="submit" disabled={loading} />
+          </Box>
         </Form>
       </Box>
     </Grid>

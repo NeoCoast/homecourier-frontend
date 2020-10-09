@@ -1,34 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import {
-  Button, Box,
-} from 'grommet';
-import { useSelector } from 'react-redux';
-import Logout from 'Containers/Logout';
-import CreateOrder from '../Modals/CreateOrder';
+import { Box, Anchor } from 'grommet';
+import { Login, Home } from 'grommet-icons';
+import { ROUTES } from 'Data/constants';
 
 const BarButton = () => {
   const location = useLocation();
-  const [isLogged, setIsLogged] = useState(false);
-  const userInfo = useSelector((state) => state.logUser.data);
+
+  const [onHover, setOnHover] = useState(false);
+  const [onHover2, setOnHover2] = useState(false);
 
   useEffect(() => {
-    if (userInfo) setIsLogged(true);
-    else setIsLogged(false);
-  }, [userInfo]);
+    if (location.pathname === ROUTES.home) {
+      setOnHover2(true);
+    }
+    if (location.pathname === ROUTES.login) {
+      setOnHover(true);
+    }
+  }, [onHover, onHover2]);
+
+  const expandItem = (setTrue) => {
+    setTimeout(() => setTrue(true), 300);
+  };
+  const contractItem = (setFalse) => {
+    setTimeout(() => setFalse(false), 300);
+  };
 
   return (
-    <Box direction="row-responsive" gap="medium" justify="end">
-      { isLogged && !userInfo.documentNumber
-      && <CreateOrder />}
-      { isLogged
-      && <Logout />}
-      { !isLogged && location.pathname !== '/login'
-      && (
-        <Link to="/login">
-          <Button primary label="Login" />
-        </Link>
-      )}
+    <Box direction="row-responsive" gap="medium" justify="end" align="center" fill pad={{ right: 'small' }}>
+      <Link
+        to="/"
+        onMouseEnter={() => expandItem(setOnHover2)}
+        onMouseLeave={() => location.pathname !== ROUTES.home ? contractItem(setOnHover2) : null}
+        onClick={() => contractItem(setOnHover)}
+      >
+        <Anchor icon={<Home />} label={onHover2 ? (<Box animation="slideRight">Inicio</Box>) : ''} />
+      </Link>
+      <Link
+        to="/login"
+        onMouseEnter={() => expandItem(setOnHover)}
+        onMouseLeave={() => location.pathname === ROUTES.login ? null
+          : contractItem(setOnHover)}
+        onClick={() => contractItem(setOnHover2)}
+      >
+        <Anchor icon={<Login />} label={onHover ? (<Box animation="slideRight">Iniciar sesión</Box>) : ''} />
+      </Link>
     </Box>
   );
 };

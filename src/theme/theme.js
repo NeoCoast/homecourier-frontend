@@ -124,7 +124,7 @@ const theme = {
       background: '#ffffff',
       border: {
         width: '0px',
-        radius: '0px',
+        radius: '12px',
       },
       shadowSize: 'small',
       zIndex: '20',

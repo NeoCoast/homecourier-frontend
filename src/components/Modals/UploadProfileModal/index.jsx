@@ -38,6 +38,7 @@ const UploadProfileModal = ({ setPreview, setShow }) => {
           onCrop={onCrop}
           onClose={() => setPreview(null)}
           onBeforeFileLoad={(elem) => validate(elem)}
+          label="Agregue una foto"
         />
         {error && <Text color="status-critical"> {error} </Text>}
         <Box direction="row-responsive" gap="medium">

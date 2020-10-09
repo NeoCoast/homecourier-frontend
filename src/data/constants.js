@@ -9,4 +9,5 @@ export const ROUTES = {
   registerOk: '/register-ok',
   registerVolunteer: '/register-volunteer',
   profile: '/profile',
+  myOrders: '/my-orders',
 };
