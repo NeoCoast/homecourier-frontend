@@ -34,6 +34,7 @@ const Stepper = (props) => {
   const { stepsContent } = props;
   const { cancelled } = props;
   const { cancelledText } = props;
+  const cancelledSteps = ['1', '2', '3'];
   return (
     <Box>
       {cancelled && (
@@ -51,24 +52,14 @@ const Stepper = (props) => {
             />
             <Box>
               <Box direction="row" gap="xlarge">
-                <Box margin="small">
-                  <Stack id="1">
-                    <StatusCriticalSmall size="large" color="accent-2" />
-                    <StatusCritical size="large" color="black" />
-                  </Stack>
-                </Box>
-                <Box margin="small">
-                  <Stack id="2">
-                    <StatusCriticalSmall size="large" color="accent-2" />
-                    <StatusCritical size="large" color="black" />
-                  </Stack>
-                </Box>
-                <Box margin="small">
-                  <Stack id="3">
-                    <StatusCriticalSmall size="large" color="accent-2" />
-                    <StatusCritical size="large" color="black" />
-                  </Stack>
-                </Box>
+                {cancelledSteps.map((value) => (
+                  <Box margin="small">
+                    <Stack id={value}>
+                      <StatusCriticalSmall size="large" color="accent-2" />
+                      <StatusCritical size="large" color="black" />
+                    </Stack>
+                  </Box>
+                ))}
               </Box>
               <Text textAlign="center" margin="medium" size="large">
                 {cancelledText}
