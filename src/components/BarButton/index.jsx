@@ -26,7 +26,7 @@ const BarButton = () => {
       { !isLogged && location.pathname !== '/login'
       && (
         <Link to="/login">
-          <Button primary label="Login" />
+          <Button primary label="Ingresar" />
         </Link>
       )}
     </Box>

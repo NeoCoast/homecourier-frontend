@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './index.scss';
-import { Box, Heading } from 'grommet';
+import { Box, Heading, Card } from 'grommet';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -16,6 +16,8 @@ const Perfil = () => {
   return (
     <Box fill align="center">
       <Heading>Bienvenido {userInfo.username}</Heading>
+      <Card width="large" background="white">
+      </Card>
     </Box>
   );
 };
