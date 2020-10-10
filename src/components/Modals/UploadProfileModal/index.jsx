@@ -6,7 +6,9 @@ import PropTypes from 'prop-types';
 import Avatar from 'react-avatar-edit';
 import { validateImages } from 'Helpers/validator.helper';
 
-const UploadProfileModal = ({ setPreview, setShow }) => {
+const UploadProfileModal = ({
+  image, setImage, setPreview, setShow,
+}) => {
   const [error, setError] = useState(null);
 
   const onCrop = (imgPreview) => {
@@ -28,6 +30,11 @@ const UploadProfileModal = ({ setPreview, setShow }) => {
     }
   };
 
+  const onImageUpload = (profileImage) => {
+    const url = URL.createObjectURL(profileImage);
+    setImage(url);
+  };
+
   return (
     <Layer>
       <Box margin="medium" gap="small" justify="center" align="center">
@@ -38,6 +45,9 @@ const UploadProfileModal = ({ setPreview, setShow }) => {
           onCrop={onCrop}
           onClose={() => setPreview(null)}
           onBeforeFileLoad={(elem) => validate(elem)}
+          label="Agregue una foto"
+          src={image}
+          onFileLoad={onImageUpload}
         />
         {error && <Text color="status-critical"> {error} </Text>}
         <Box direction="row-responsive" gap="medium">
@@ -50,8 +60,14 @@ const UploadProfileModal = ({ setPreview, setShow }) => {
 };
 
 UploadProfileModal.propTypes = {
+  image: PropTypes.string,
+  setImage: PropTypes.func.isRequired,
   setPreview: PropTypes.func.isRequired,
   setShow: PropTypes.func.isRequired,
+};
+
+UploadProfileModal.defaultProps = {
+  image: null,
 };
 
 export default UploadProfileModal;

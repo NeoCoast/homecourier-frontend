@@ -6,10 +6,14 @@ import Home from 'Containers/Home';
 import AboutUs from 'Containers/AboutUs';
 import NotFound from 'Containers/NotFound';
 import Register from 'Containers/Register';
-import RegisterConfirm from 'Containers/Register/ConfirmPage';
 import Profile from 'Containers/Profile';
 import Login from 'Containers/Login';
 import Orders from 'Containers/Orders';
+import MyOrders from 'Containers/MyOrders';
+import PublicOnlyRoute from 'Components/Router/PublicOnlyRoute';
+import PrivateRoute from 'Components/Router/PrivateRoute';
+import VolunteerOnlyRoute from 'Components/Router/VolunteerOnlyRoute';
+import HelpeeOnlyRoute from 'Components/Router/HelpeeOnlyRoute';
 
 import './index.scss';
 
@@ -19,12 +23,12 @@ const App = () => (
       <Switch>
         <Route exact path={ROUTES.home} component={Home} />
         <Route exact path={ROUTES.about} component={AboutUs} />
-        <Route exact path={ROUTES.register} component={Register} />
-        <Route exact path={ROUTES.login} component={Login} />
-        <Route exact path={ROUTES.registerOk} component={RegisterConfirm} />
-        <Route exact path={ROUTES.registerVolunteer} component={() => <Register volunteer />} />
-        <Route exact path={ROUTES.profile} component={Profile} />
-        <Route exact path={ROUTES.orders} component={Orders} />
+        <PublicOnlyRoute exact path={ROUTES.register} component={Register} />
+        <PublicOnlyRoute exact path={ROUTES.login} component={Login} />
+        <PublicOnlyRoute exact path={ROUTES.registerVolunteer} component={() => <Register volunteer />} />
+        <PrivateRoute exact path={ROUTES.profile} component={Profile} />
+        <VolunteerOnlyRoute exact path={ROUTES.orders} component={Orders} />
+        <HelpeeOnlyRoute exact path={ROUTES.myOrders} component={MyOrders} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
