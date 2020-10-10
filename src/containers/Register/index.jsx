@@ -24,6 +24,7 @@ const Register = ({ volunteer }) => {
   const [docBack, setDocBack] = useState(null);
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState(null);
+  const [image, setImage] = useState(null);
 
   const submitService = volunteer ? volunteerService : helpeeService;
   const headingMessage = volunteer ? ', gracias por querer ayudar' : ' a HomeCourier';
@@ -93,7 +94,7 @@ const Register = ({ volunteer }) => {
       {errorModal && (
         <ErrorModal errorMessage={errorModalMessage} setShow={setErrorModal} show={errorModal} />
       )}
-      {profilePicModal && <UploadProfileModal setShow={setProfilePicModal} setPreview={setProfilePic} />}
+      {profilePicModal && <UploadProfileModal setShow={setProfilePicModal} setPreview={setProfilePic} image={image} setImage={setImage} />}
       {loading && <Spinner />}
       <Box
         background="white"
