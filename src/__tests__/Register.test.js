@@ -12,6 +12,8 @@ jest.mock('react-redux', () => ({
   }),
 }));
 
+jest.mock('../api/http');
+
 describe('Register', () => {
   beforeEach(() => {
     useSelector.mockImplementation((selector) => selector({
