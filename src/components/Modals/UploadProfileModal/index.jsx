@@ -60,10 +60,14 @@ const UploadProfileModal = ({
 };
 
 UploadProfileModal.propTypes = {
-  image: PropTypes.isRequired,
+  image: PropTypes.string,
   setImage: PropTypes.func.isRequired,
   setPreview: PropTypes.func.isRequired,
   setShow: PropTypes.func.isRequired,
+};
+
+UploadProfileModal.defaultProps = {
+  image: null,
 };
 
 export default UploadProfileModal;

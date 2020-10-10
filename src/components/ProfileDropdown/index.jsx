@@ -7,8 +7,9 @@ import { Logout, User } from 'grommet-icons';
 import { ROUTES } from 'Data/constants';
 import usersService from 'Api/users.service';
 import { logout } from 'Actions/logUser';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Spinner from 'Components/Utils/Spinner';
+import AddImage from 'Assets/add-image.svg';
 
 const ProfileDropdown = () => {
   const avatarRef = useRef();
@@ -16,6 +17,7 @@ const ProfileDropdown = () => {
   const dispatch = useDispatch();
   const [openDrop, setOpenDrop] = useState(false);
   const [loading, setLoading] = useState(false);
+  const userData = useSelector((state) => state.logUser.data);
 
   const switchDrop = () => {
     setOpenDrop(!openDrop);
@@ -35,7 +37,7 @@ const ProfileDropdown = () => {
   return (
     <Box fill justify="center" align="end" pad="small">
       <Box ref={avatarRef}>
-        <Avatar src="https://robohash.org/miraak98" onClick={switchDrop} border="all" />
+        <Avatar src={userData.avatar ? userData.avatar : AddImage} onClick={switchDrop} border="all" />
       </Box>
 
       {openDrop && (

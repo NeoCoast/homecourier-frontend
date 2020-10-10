@@ -31,8 +31,10 @@ const OrderCard = ({ order, viewportSize, openModal }) => (
     <CardFooter justify="end" pad={{ horizontal: 'large', top: 'small', bottom: 'medium' }}>
       <Button
         primary
+        icon={<Add color="white" size={viewportSize === 'small' ? 'small' : 'medium'} />}
         size={viewportSize === 'small' ? 'small' : 'medium'}
-        label={(<Box direction="row" gap="small" align="center">Ver más <Add color="white" size={viewportSize === 'small' ? 'small' : 'medium'} /></Box>)}
+        label="Ver más"
+        reverse
         onClick={() => openModal(order)}
       />
     </CardFooter>
