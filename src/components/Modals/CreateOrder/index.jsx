@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   Box, Button, TextArea, Heading, Layer, TextInput,
 } from 'grommet';
-import { Add } from 'grommet-icons';
 import Select from 'react-select';
 import { notifySuccess, notifyError } from 'Helpers/toast.helper';
 import { useSelector } from 'react-redux';
@@ -13,12 +13,11 @@ import Spinner from 'Components/Utils/Spinner';
 import ErrorModal from 'Components/Modals/ErrorModal';
 import 'react-toastify/dist/ReactToastify.css';
 
-const CreateOrder = () => {
+const CreateOrder = ({ closeModal }) => {
   const [title, setTitle] = useState('');
   const [categories, setCategories] = useState([]);
   const [description, setDescription] = useState('');
   const [options, setOptions] = useState([]);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [invalid, setInvalid] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -79,22 +78,6 @@ const CreateOrder = () => {
     }
   };
 
-  const openModal = () => {
-    // Set an empty title
-    setTitle('');
-    // Set an empty description
-    setDescription('');
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    // Set an empty title
-    setTitle('');
-    // Set an empty description
-    setDescription('');
-    setModalIsOpen(false);
-  };
-
   const handleChange = (selectedOptions) => {
     if (selectedOptions) {
       setCategories(Array.from(selectedOptions, (option) => ({ id: option.value })));
@@ -112,64 +95,56 @@ const CreateOrder = () => {
   }, []);
 
   return (
-    <Box alignSelf="end">
-      <Button
-        disabled={loading}
-        primary
-        icon={<Add color="white" />}
-        onClick={openModal}
-        label="Nuevo Pedido"
-        margin={{ right: 'xlarge', vertical: 'small' }}
-      />
-      {modalIsOpen && (
-        <Layer>
-          <Box
-            align="center"
-            elevation="medium"
-            pad="large"
-            gap="medium"
-            round="5px"
-            direction="column"
-            background="white"
-          >
-            <Heading level="2">Crear un pedido</Heading>
-            <Box id="boxTitle" fill="horizontal">
-              <Heading level="3">Título</Heading>
-              <TextInput id="title" placeholder="Ingrese el título" value={title} onChange={(event) => setTitle(event.target.value)} />
-            </Box>
-            <Box id="boxCategories" fill="horizontal">
-              <Heading level="3">Categorías</Heading>
-              <Select isMulti id="categories" options={options} onChange={handleChange} width="fill" />
-            </Box>
-            <Box id="boxDescription" fill="horizontal">
-              <Heading level="3">Descripción</Heading>
-              <TextArea
-                id="description"
-                placeholder="Ingrese la descripción"
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
-                required
-                width="100%"
-              />
-            </Box>
-            <Box direction="row-responsive" gap="medium" justify="end">
-              <Button label="Cancelar" onClick={closeModal} />
-              <Button primary label="Crear" onClick={newOrder} />
-            </Box>
-          </Box>
-          {invalid
-          && (
-            <ErrorModal
-              errorMessage={errorMessage}
-              setShow={setInvalid}
-              show={invalid}
-            />
-          )}
-          {loading && <Spinner />}
-        </Layer>
+    <Layer>
+      <Box
+        align="center"
+        elevation="medium"
+        pad="large"
+        gap="medium"
+        round="5px"
+        direction="column"
+        background="white"
+      >
+        <Heading level="2">Crear un pedido</Heading>
+        <Box id="boxTitle" fill="horizontal">
+          <Heading level="3">Título</Heading>
+          <TextInput id="title" placeholder="Ingrese el título" value={title} onChange={(event) => setTitle(event.target.value)} />
+        </Box>
+        <Box id="boxCategories" fill="horizontal">
+          <Heading level="3">Categorías</Heading>
+          <Select isMulti id="categories" options={options} onChange={handleChange} width="fill" />
+        </Box>
+        <Box id="boxDescription" fill="horizontal">
+          <Heading level="3">Descripción</Heading>
+          <TextArea
+            id="description"
+            placeholder="Ingrese la descripción"
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+            required
+            width="100%"
+          />
+        </Box>
+        <Box direction="row-responsive" gap="medium" justify="end">
+          <Button label="Cancelar" onClick={closeModal} />
+          <Button primary label="Crear" onClick={newOrder} />
+        </Box>
+      </Box>
+      {invalid
+      && (
+        <ErrorModal
+          errorMessage={errorMessage}
+          setShow={setInvalid}
+          show={invalid}
+        />
       )}
-    </Box>
+      {loading && <Spinner />}
+    </Layer>
   );
+};
+
+CreateOrder.propTypes = {
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default CreateOrder;

@@ -2,6 +2,8 @@ import HTTP from './http';
 
 const getOrders = (status) => HTTP.get(`/orders/show/all?status=${status}`);
 
+const getMyOrders = (helpeeId) => HTTP.get(`/orders/show/helpee?helpee_id=${helpeeId}`);
+
 const take = ({ volunteerId, orderId }) => HTTP.post('/orders/take', {
   volunteerId,
   orderId,
@@ -20,4 +22,5 @@ export default {
   getOrders,
   take,
   create,
+  getMyOrders,
 };
