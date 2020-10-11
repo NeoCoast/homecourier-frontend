@@ -51,6 +51,9 @@ const CreateOrder = () => {
     if (!title) {
       msgError += 'Título es obligatorio';
       errorFlag = true;
+    } else if (title.length < 5) {
+      msgError += 'Título debe tener al menos 5 carácteres';
+      errorFlag = true;
     }
     if (categories.length === 0) {
       if (msgError) {
@@ -65,6 +68,13 @@ const CreateOrder = () => {
         msgError += '\nDescripción es obligatoria';
       } else {
         msgError = 'Descripción es obligatoria';
+      }
+      errorFlag = true;
+    } else if (description.length < 5) {
+      if (msgError) {
+        msgError += '\nDescripción debe tener al menos 5 carácteres';
+      } else {
+        msgError = 'Descripción debe tener al menos 5 carácteres';
       }
       errorFlag = true;
     }
