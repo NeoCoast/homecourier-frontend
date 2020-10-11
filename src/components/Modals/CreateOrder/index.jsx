@@ -183,7 +183,7 @@ const CreateOrder = () => {
               </Box>
               <Box direction="row-responsive" gap="medium" justify="end">
                 <Button label="Cancelar" onClick={closeModal} />
-                <Button primary label="Crear" type="submit" onClick={newOrder} />
+                <Button primary label="Crear" type="submit" />
               </Box>
             </Form>
           </Box>
