@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Box, Button, TextArea, Heading, Layer, TextInput, FormField, Form,
 } from 'grommet';
+import { Add } from 'grommet-icons';
 import Select from 'react-select';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -130,8 +131,15 @@ const CreateOrder = () => {
   }, []);
 
   return (
-    <Box>
-      <Button disabled={loading} primary onClick={openModal} label="Nuevo pedido" />
+    <Box alignSelf="end">
+      <Button
+        disabled={loading}
+        primary
+        icon={<Add color="white" />}
+        onClick={openModal}
+        label="Nuevo Pedido"
+        margin={{ right: 'xlarge', vertical: 'small' }}
+      />
       {modalIsOpen && (
         <Layer>
           <Box

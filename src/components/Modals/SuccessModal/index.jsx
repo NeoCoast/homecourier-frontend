@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Layer, Box, Paragraph, Button, Heading, Image,
 } from 'grommet';
+import { Close } from 'grommet-icons';
 import success from 'Assets/success.gif';
 
 const SuccesModal = ({ message, show, setShow }) => (
@@ -12,9 +13,13 @@ const SuccesModal = ({ message, show, setShow }) => (
     responsive={false}
     margin="xsmall"
   >
-    <Heading level="2" alignSelf="center" margin="medium" fill>
-      Exito!
-    </Heading>
+    <Box direction="row" align="center" justify="between" fill="horizontal">
+      <Heading level="2" margin="medium">
+        Éxito!
+      </Heading>
+      <Button onClick={() => setShow(false)} margin="medium" icon={(<Close />)} hoverIndicator="accent-2" id="close-ok-modal" />
+    </Box>
+
     <Box direction="column" gap="small" justify="center" alignContent="center" align="start" margin="medium">
       <Box width="150px" height="150px" justify="center" alignSelf="center">
         <Image fit="contain" src={show ? success : null} />
@@ -23,7 +28,6 @@ const SuccesModal = ({ message, show, setShow }) => (
         {message}
       </Paragraph>
     </Box>
-    <Button primary alignSelf="end" onClick={() => setShow(false)} label="Ok" margin="medium" />
   </Layer>
 );
 
