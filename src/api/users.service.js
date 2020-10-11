@@ -14,6 +14,8 @@ const login = (info) => HTTP.post('/users/login', info);
 
 const logout = () => HTTP.delete('/users/logout');
 
+const rateVolunteer = (rate) => HTTP.post('/users/rate', rate);
+
 HTTP.interceptors.request.use((
   async (config) => {
     if (store.getState().logUser.loggedIn) {
@@ -32,4 +34,5 @@ export default {
   create,
   login,
   logout,
+  rateVolunteer,
 };

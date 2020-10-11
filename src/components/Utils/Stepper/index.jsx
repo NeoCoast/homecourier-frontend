@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import React from 'react';
 import {
   Stack, Box, Diagram, Text,
@@ -24,8 +25,7 @@ const connection = (fromTarget, toTarget, { color, ...rest } = {}) => ({
 //     -stepsContent: Text under the bar that describes the actual step.
 //     -cancelled: In case the Stepper is now invalid, (Order cancelled),
 //                 the colour and icons will change to represent failure.
-// The stepper has no actual container nor background, it is meant to be used
-// inside a card, modal, etc.
+//       -cancelledText: Text to show when cancelled
 
 const Stepper = (props) => {
   const { steps } = props;
@@ -34,7 +34,11 @@ const Stepper = (props) => {
   const { stepsContent } = props;
   const { cancelled } = props;
   const { cancelledText } = props;
-  const cancelledSteps = ['1', '2', '3'];
+  const cancelledSteps = [1, 2, 3];
+  const { icons } = props;
+
+  const stepsArray = Array.from({ length: steps }, (_, i) => i + 1);
+
   return (
     <Box>
       {cancelled && (
@@ -51,12 +55,12 @@ const Stepper = (props) => {
               ]}
             />
             <Box>
-              <Box direction="row" gap="xlarge">
+              <Box direction="column" gap="xlarge">
                 {cancelledSteps.map((value) => (
-                  <Box margin="small">
-                    <Stack id={value}>
+                  <Box margin="small" key={value}>
+                    <Stack alignSelf="center">
                       <StatusCriticalSmall size="large" color="accent-2" />
-                      <StatusCritical size="large" color="black" />
+                      <StatusCritical id={String(value)} size="large" color="black" />
                     </Stack>
                   </Box>
                 ))}
@@ -73,56 +77,32 @@ const Stepper = (props) => {
           <Diagram
             connections={[
               connection('1', String(activeStep), { color: '#b3ddb4' }),
-              connection(String(activeStep), '4', { color: 'light-5' }),
+              connection(String(activeStep), String(steps), { color: 'light-5' }),
             ]}
           />
           <Box align="center">
-            <Box direction="row" gap="xlarge">
-              {steps.map((value, index) => (
-                <Box align="center" key={value}>
-                  {steps.indexOf(String(activeStep)) >= index
+            <Box direction="column" gap="xlarge">
+              {stepsArray.map((value, index) => (
+                <Box direction="row" align="center" key={value}>
+                  {stepsArray.indexOf(activeStep) >= index
                    && (
-                     <Stack id={String(value)}>
+                     <Stack>
                        <StatusGoodSmall size="large" color="#b3ddb4" />
-                       <StatusGood size="large" color="black" />
+                       <StatusGood id={String(value)} size="large" color="black" />
                      </Stack>
                    )}
-                  {steps.indexOf(String(activeStep)) < index
+                  {stepsArray.indexOf(activeStep) < index
                    && (
-                     <Stack id={String(value)}>
+                     <Stack>
                        <StatusGoodSmall size="large" color="light-3" />
-                       <StatusGood size="large" color="light-3" />
+                       <StatusGood id={String(value)} size="large" color="light-3" />
                      </Stack>
                    )}
                   <Box>
-                    {value === '1'
-                    && (
-                      <Box align="center">
-                        <Package size="large" color="black" />
-                        <Text textAlign="center" margin="small">{stepsLabel[index]}</Text>
-                      </Box>
-                    )}
-                    {value === '2'
-                    && (
-                      <Box align="center">
-                        <Task size="large" color="black" />
-                        <Text textAlign="center" margin="small">{stepsLabel[index]}</Text>
-                      </Box>
-                    )}
-                    {value === '3'
-                    && (
-                      <Box align="center">
-                        <Deliver size="large" color="black" />
-                        <Text textAlign="center" margin="small">{stepsLabel[index]}</Text>
-                      </Box>
-                    )}
-                    {value === '4'
-                    && (
-                      <Box align="center">
-                        <Home size="large" color="black" />
-                        <Text textAlign="center" margin="small">{stepsLabel[index]}</Text>
-                      </Box>
-                    )}
+                    <Box margin="small" direction="row" align="center">
+                      { icons[index] }
+                      <Text textAlign="center" margin="small">{stepsLabel[index]}</Text>
+                    </Box>
                   </Box>
                 </Box>
               ))}
@@ -138,16 +118,18 @@ const Stepper = (props) => {
 };
 
 Stepper.propTypes = {
-  steps: PropTypes.array,
-  activeStep: PropTypes.number.isRequired,
+  steps: PropTypes.number,
+  activeStep: PropTypes.number,
   stepsLabel: PropTypes.array,
   stepsContent: PropTypes.array,
   cancelled: PropTypes.bool,
   cancelledText: PropTypes.string,
+  icons: PropTypes.array,
 };
 
 Stepper.defaultProps = {
-  steps: ['1', '2', '3', '4'],
+  steps: 4,
+  activeStep: 1,
   stepsLabel: [
     'Orden tomada',
     'Realizando orden',
@@ -162,6 +144,12 @@ Stepper.defaultProps = {
   ],
   cancelled: false,
   cancelledText: 'La orden ha sido cancelada',
+  icons: [
+    <Package size="large" color="black" />,
+    <Task size="large" color="black" />,
+    <Deliver size="large" color="black" />,
+    <Home size="large" color="black" />,
+  ],
 };
 
 export default Stepper;

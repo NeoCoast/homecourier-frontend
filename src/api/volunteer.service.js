@@ -9,6 +9,9 @@ const create = (volunteer) => {
     .catch((error) => error.response);
 };
 
+const rateUser = (rate) => HTTP.post('/users/rate', rate);
+
 export default {
   create,
+  rateUser,
 };

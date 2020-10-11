@@ -3,6 +3,7 @@ import './index.scss';
 import { Box, Heading } from 'grommet';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
 const Perfil = () => {
   const history = useHistory();
   const userInfo = useSelector((state) => state.logUser.data);
