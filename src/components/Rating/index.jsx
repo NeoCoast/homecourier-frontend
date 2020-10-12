@@ -8,6 +8,7 @@ import { StatusGoodSmall, Fireball } from 'grommet-icons';
 import Spinner from 'Components/Utils/Spinner';
 import PropTypes from 'prop-types';
 import ErrorModal from 'Components/Modals/ErrorModal';
+import SuccessModal from 'Components/Modals/SuccessModal';
 
 const Rating = (props) => {
   const {
@@ -18,15 +19,19 @@ const Rating = (props) => {
     onSubmit,
     errorMessageComment,
     errorMessageRating,
+    successMessage,
+    setShow,
+    show,
   } = props;
 
-  const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
   const starsElement = [];
   const [active, setActive] = useState(-1);
   const [feedBack, setFeedBack] = useState('');
   const [loading, setLoading] = useState(false);
   const [invalid, setInvalid] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async () => {
     if (active < 0 || (active < stars / 2 && !feedBack)) {
@@ -38,10 +43,18 @@ const Rating = (props) => {
         score: active,
         comment: feedBack,
       };
-      await onSubmit(info);
-      setLoading(false);
-      setActive(-1);
-      setShow(false);
+      try {
+        await onSubmit(info);
+        setLoading(false);
+        setActive(-1);
+        setShow(false);
+        setSuccess(true);
+      } catch (failure) {
+        setLoading(false);
+        setError(failure);
+        setInvalid(true);
+        console.log(failure);
+      }
     }
   };
 
@@ -67,12 +80,12 @@ const Rating = (props) => {
   }
   return (
     <Box>
+      {loading && <Spinner />}
       {invalid && <ErrorModal errorMessage={error} setShow={setInvalid} show={invalid} />}
-      {!show
-        && (<Button label={buttonLabel} onClick={() => setShow(true)} />)}
+      {success && <SuccessModal message={successMessage} setShow={setSuccess} show={success} />}
       { show && !invalid
           && (
-            <Layer margin="large" position="center" modal={false} responsive={false}>
+            <Layer margin="large" position="center" modal responsive={false}>
               <Heading margin="small" level={2} alignSelf="center">{ title }</Heading>
               <Box
                 justify="center"
@@ -97,7 +110,6 @@ const Rating = (props) => {
               />
             </Layer>
           )}
-      {loading && <Spinner />}
     </Box>
   );
 };
@@ -110,6 +122,9 @@ Rating.propTypes = {
   errorMessageComment: PropTypes.string,
   errorMessageRating: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
+  successMessage: PropTypes.string,
+  show: PropTypes.bool.isRequired,
+  setShow: PropTypes.func.isRequired,
 };
 
 Rating.defaultProps = {
@@ -118,7 +133,8 @@ Rating.defaultProps = {
   description: 'Por favor, haga un comentario sobre su experiencia',
   buttonLabel: 'Calificar',
   errorMessageRating: 'Debe calificar al voluntario antes de continuar.',
-  errorMessageComment: 'Por favor, de un comentario sobre que le incomodo de su experiencia',
+  errorMessageComment: 'Por favor, de un comentario sobre que no fue de su agrado en su experiencia',
+  successMessage: 'Ha calificado con éxito. Gracias!',
 };
 
 export default Rating;

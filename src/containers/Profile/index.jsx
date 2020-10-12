@@ -3,6 +3,7 @@ import './index.scss';
 import { Box, Heading } from 'grommet';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import RateOrder from 'Containers/RateOrder';
 
 const Perfil = () => {
   const history = useHistory();
@@ -15,7 +16,12 @@ const Perfil = () => {
 
   return (
     <Box fill align="center">
-      <Heading>Bienvenido {userInfo.username}</Heading>
+      {loggedIn && (
+        <Box>
+          <Heading>Bienvenido {userInfo.username}</Heading>
+          <RateOrder />
+        </Box>
+      )}
     </Box>
   );
 };
