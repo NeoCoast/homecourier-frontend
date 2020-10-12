@@ -81,7 +81,7 @@ const Stepper = (props) => {
             ]}
           />
           <Box align="center">
-            <Box direction="column" gap="xlarge">
+            <Box direction="column" gap="medium">
               {stepsArray.map((value, index) => (
                 <Box direction="row" align="center" key={value}>
                   {stepsArray.indexOf(activeStep) >= index

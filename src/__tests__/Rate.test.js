@@ -66,25 +66,6 @@ describe('Rating', () => {
     expect(getByText(/Descripción/i)).toBeInTheDocument();
   });
 
-  test('Cancel view more', () => {
-    const props = {
-      orders: [{
-        id: faker.random.number(),
-        description: faker.lorem.paragraph(),
-        title: faker.random.words(),
-        helpee: faker.internet.userName(),
-        categories: [{
-          label: 'Supermercado',
-        }],
-      }],
-    };
-    const setLoading = jest.fn();
-    const { getByText, getAllByText } = render(<Rating orders={props.orders} setLoading={setLoading} />);
-    fireEvent.click(getByText(/Ver más/i));
-    fireEvent.click(getAllByText(/Cancelar/i)[1]);
-    expect(getAllByText(props.orders[0].description)[0]).toBeInTheDocument();
-  });
-
   test('Take order modal', () => {
     const props = {
       order: {
@@ -113,7 +94,8 @@ describe('Rating', () => {
       const { getByText } = render(
         <SuccessModal message="Ha tomado la orden! Gracias por ayudar!" show setShow={setShow} />
       );
-      fireEvent.click(getByText(/Ok/i));
+      // fireEvent.click(getBy(/Calificar/i));
+      fireEvent.click(getByText(/Calificar/i));
       expect(setShow).toHaveBeenCalledTimes(1);
     });
   });
