@@ -34,13 +34,11 @@ describe('Register', () => {
   });
 
   test('Shows Required Error', () => {
-    const { getByPlaceholderText, getByText, getAllByText } = render(<Register />);
-    fireEvent.change(getByPlaceholderText(/Dia/i), { target: { value: 1 } });
-    fireEvent.change(getByPlaceholderText(/Año/i), { target: { value: 1 } });
+    const { getByText, getAllByText } = render(<Register />);
 
     fireEvent.click(getByText(/Registrarse/i));
 
-    expect(getAllByText(/El Campo es Obligatorio/i)).toHaveLength(6);
+    expect(getAllByText(/Requerido/i)).toHaveLength(9);
     expect(getByText(/Inserte un email válido/i)).toBeInTheDocument();
   });
 
@@ -65,7 +63,7 @@ describe('Register', () => {
     fireEvent.change(document.getElementById('password'), { target: { value: user.password } });
     fireEvent.change(document.getElementById('repeatPassword'), { target: { value: user.password } });
     fireEvent.change(document.getElementById('address'), { target: { value: user.address } });
-    fireEvent.change(dom.getByPlaceholderText(/Dia/i), { target: { value: user.birthDay } });
+    fireEvent.change(dom.getByPlaceholderText(/Día/i), { target: { value: user.birthDay } });
     fireEvent.change(dom.getByPlaceholderText(/Año/i), { target: { value: user.birthYear } });
     fireEvent.click(dom.getByPlaceholderText(/Mes/i));
     fireEvent.click(dom.getByText(/Enero/i));

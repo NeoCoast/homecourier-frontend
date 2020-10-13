@@ -128,7 +128,7 @@ describe('Orders', () => {
     const setLoading = jest.fn();
     const { getByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
     fireEvent.click(getByText(/Ver más/i));
-    expect(getByText(/Descripción/i)).toBeInTheDocument();
+    expect(getByText(/Categorías/i)).toBeInTheDocument();
   });
 
   test('Cancel view more', () => {
@@ -175,10 +175,10 @@ describe('Orders', () => {
   describe('Success modal for application', () => {
     test('ok button', () => {
       const setShow = jest.fn();
-      const { getByText } = render(
+      render(
         <SuccessModal message="Ha tomado la orden! Gracias por ayudar!" show setShow={setShow} />
       );
-      fireEvent.click(getByText(/Ok/i));
+      fireEvent.click(document.getElementById('close-ok-modal'));
       expect(setShow).toHaveBeenCalledTimes(1);
     });
   });

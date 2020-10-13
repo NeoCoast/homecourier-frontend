@@ -13,7 +13,7 @@ import AppBar from 'Components/AppBar';
 const Layout = ({ children }) => (
   <Grommet theme={theme} full>
     <Grid
-      rows={['xxsmall', 'flex']}
+      rows={['72px', 'flex']}
       columns={['flex']}
       fill="vertical"
       areas={[
@@ -22,7 +22,7 @@ const Layout = ({ children }) => (
         { name: 'main', start: [0, 1], end: [0, 1] },
       ]}
     >
-      <Header background="white" gridArea="header" elevation="small">
+      <Header background="white" gridArea="header" elevation="small" gap="none">
         <AppBar />
         <CustomToast />
       </Header>

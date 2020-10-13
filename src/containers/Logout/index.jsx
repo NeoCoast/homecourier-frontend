@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import usersService from 'Api/users.service';
 import { useDispatch } from 'react-redux';
 import { logout } from 'Actions/logUser';
+import { ROUTES } from 'Data/constants';
 
 const Logout = () => {
   const history = useHistory();
@@ -15,7 +16,7 @@ const Logout = () => {
       await usersService.logout(); // Sends an HTTP.delete to the API
       await dispatch(logout()); // Dispatches Redux's action
       setLoading(false);
-      history.push('/login'); // Redirects to Login page
+      history.push(ROUTES.login); // Redirects to Login page
     } catch (error) {
       console.log(error);
     }

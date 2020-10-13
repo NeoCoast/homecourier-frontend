@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const UserProfileInfo = ({ user }) => (
-  <Box direction="row" gap="small" margin={{ vertical: 'small' }}>
+  <Box direction="row" gap="small" margin={{ vertical: 'small' }} fill="horizontal">
     <Avatar src={`https://robohash.org/${user.username}`} border="all" />
 
     <Box>
