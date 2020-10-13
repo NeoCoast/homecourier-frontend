@@ -5,7 +5,7 @@ import {
 import PropTypes from 'prop-types';
 import ChipContainer from 'Components/Utils/ChipContainer';
 import UserProfileInfo from 'Components/Utils/UserProfileInfo';
-import { ORDER_STATUS_ACTIONS } from 'Data/constants'
+import { ORDER_STATUS_ACTIONS } from 'Data/constants';
 
 const ViewOrderModal = ({ order, onClose, onConfirm }) => (
   <Layer responsive={false} onEsc={onClose} onClickOutside={onClose} full="horizontal" margin="xlarge" round="large">

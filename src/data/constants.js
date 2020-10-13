@@ -13,11 +13,11 @@ export const ROUTES = {
 
 export const ORDER_STATUS_ACTIONS = {
   created: 'Postularse',
-  in_process: 'Finalizar'
+  in_process: 'Finalizar',
 };
 
 export const NEXT_STATUS = {
   created: 'accepted',
   accepted: 'in_process',
-  in_process: 'finished'
+  in_process: 'finished',
 };

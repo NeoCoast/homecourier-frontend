@@ -7,7 +7,8 @@ import OrderCard from 'Components/OrderCard';
 import ViewOrderModal from 'Components/Modals/ViewOrderModal';
 import ErrorModal from 'Components/Modals/ErrorModal';
 import SuccessModal from 'Components/Modals/SuccessModal';
-import { NEXT_STATUS } from 'Data/constants'
+import RateOrder from 'Containers/RateOrder';
+import { NEXT_STATUS } from 'Data/constants';
 
 const OrdersList = ({ orders, setLoading }) => {
   const takeOrder = async (orderId) => {
@@ -35,11 +36,10 @@ const OrdersList = ({ orders, setLoading }) => {
         status,
       });
       setLoading(false);
-      if( status === 'finished' ) {
-        setOrderList( orderList => orderList.filter( order => order.id != orderId))
+      if (status === 'finished') {
+        setOrderList((orderList) => orderList.filter((order) => order.id !== orderId));
+        setShowRating(true);
       }
-      setMessage('Su pedido ha sido finalizado');
-      setSuccessModal(true);
     } catch (error) {
       setLoading(false);
       setMessage('Hubo un error.');
@@ -47,27 +47,28 @@ const OrdersList = ({ orders, setLoading }) => {
     }
   };
 
-  const orderAction = (orderId, cancel = false ) => {
-    var orderStatus = orders.find(order => order.id === orderId).status
-    const status = (cancel) ? 'cancelled' : NEXT_STATUS[orderStatus]
+  const orderAction = (orderId, cancel = false) => {
+    const orderStatus = orders.find((order) => order.id === orderId).status;
+    const status = (cancel) ? 'cancelled' : NEXT_STATUS[orderStatus];
 
     switch (orderStatus) {
       case 'created':
-        takeOrder(orderId)
-      break;
+        takeOrder(orderId);
+        break;
 
       case 'in_process':
-          setOrderStatus( { orderId, status} )
+        setOrderStatus({ orderId, status });
         break;
       default:
         break;
     }
-  }
+  };
   const volunteerId = useSelector((state) => state.logUser.data.id);
   const [orderList, setOrderList] = useState(orders);
   const [viewOrder, setViewOrder] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [showRating, setShowRating] = useState(false);
   const [message, setMessage] = useState('');
   const viewportSize = useContext(ResponsiveContext);
   const [orderSelected, setOrderSelected] = useState(null);
@@ -100,6 +101,7 @@ const OrdersList = ({ orders, setLoading }) => {
       {errorModal && <ErrorModal setShow={setErrorModal} show={errorModal} errorMessage={message} />}
       {successModal && <SuccessModal setShow={setSuccessModal} show={successModal} message={message} />}
       {viewOrder && <ViewOrderModal order={orderSelected} onClose={closeModal} onConfirm={orderAction} />}
+      {showRating && <RateOrder orderId={orderSelected.id} show={showRating} setShow={setShowRating} title="Califique al voluntario" />}
     </Box>
 
   );
