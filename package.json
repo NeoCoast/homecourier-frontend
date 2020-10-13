@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --open --env.mode development",
     "build": "webpack --mode production",
     "lint": "eslint ./ --ignore-pattern .gitignore --ignore-pattern dist --ext js,jsx .",
-    "stylelint": "stylelint '**/*.scss'",
+    "stylelint": "stylelint **/*.scss",
     "test": "jest --collect-coverage",
     "test:watch": "jest --watch"
   },
