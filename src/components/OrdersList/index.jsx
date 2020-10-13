@@ -7,6 +7,7 @@ import OrderCard from 'Components/OrderCard';
 import ViewOrderModal from 'Components/Modals/ViewOrderModal';
 import ErrorModal from 'Components/Modals/ErrorModal';
 import SuccessModal from 'Components/Modals/SuccessModal';
+import { NEXT_STATUS } from 'Data/constants'
 
 const OrdersList = ({ orders, setLoading }) => {
   const takeOrder = async (orderId) => {
@@ -25,8 +26,45 @@ const OrdersList = ({ orders, setLoading }) => {
       setErrorModal(true);
     }
   };
-  const volunteerId = useSelector((state) => state.logUser.data.id);
 
+  const setOrderStatus = async ({ orderId, status }) => {
+    try {
+      setLoading(true);
+      await ordersService.setOrderStatus({
+        orderId,
+        status,
+      });
+      setLoading(false);
+      if( status === 'finished' ) {
+        setOrderList( orderList => orderList.filter( order => order.id != orderId))
+      }
+      setMessage('Su pedido ha sido finalizado');
+      setSuccessModal(true);
+    } catch (error) {
+      setLoading(false);
+      setMessage('Hubo un error.');
+      setErrorModal(true);
+    }
+  };
+
+  const orderAction = (orderId, cancel = false ) => {
+    var orderStatus = orders.find(order => order.id === orderId).status
+    const status = (cancel) ? 'cancelled' : NEXT_STATUS[orderStatus]
+
+    switch (orderStatus) {
+      case 'created':
+        takeOrder(orderId)
+      break;
+
+      case 'in_process':
+          setOrderStatus( { orderId, status} )
+        break;
+      default:
+        break;
+    }
+  }
+  const volunteerId = useSelector((state) => state.logUser.data.id);
+  const [orderList, setOrderList] = useState(orders);
   const [viewOrder, setViewOrder] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -52,7 +90,7 @@ const OrdersList = ({ orders, setLoading }) => {
         pad={{ horizontal: viewportSize === 'small' ? 'small' : '20vw', vertical: 'medium' }}
         overflow="auto"
         fill
-        items={orders}
+        items={orderList}
       >
         {(order) => (
           <OrderCard order={order} viewportSize={viewportSize} key={order.id} openModal={openModal} />
@@ -61,7 +99,7 @@ const OrdersList = ({ orders, setLoading }) => {
 
       {errorModal && <ErrorModal setShow={setErrorModal} show={errorModal} errorMessage={message} />}
       {successModal && <SuccessModal setShow={setSuccessModal} show={successModal} message={message} />}
-      {viewOrder && <ViewOrderModal order={orderSelected} onClose={closeModal} onConfirm={takeOrder} />}
+      {viewOrder && <ViewOrderModal order={orderSelected} onClose={closeModal} onConfirm={orderAction} />}
     </Box>
 
   );
