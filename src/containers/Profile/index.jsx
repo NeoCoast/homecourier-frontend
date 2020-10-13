@@ -3,7 +3,6 @@ import './index.scss';
 import { Box, Heading } from 'grommet';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import RateOrder from 'Containers/RateOrder';
 
 const Perfil = () => {
   const history = useHistory();
@@ -19,7 +18,6 @@ const Perfil = () => {
       {loggedIn && (
         <Box>
           <Heading>Bienvenido {userInfo.username}</Heading>
-          <RateOrder />
         </Box>
       )}
     </Box>
