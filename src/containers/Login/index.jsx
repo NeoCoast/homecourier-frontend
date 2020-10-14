@@ -5,6 +5,8 @@ import {
 } from 'grommet';
 import { Link } from 'react-router-dom';
 import usersService from 'Api/users.service';
+import volunteersService from 'Api/volunteer.service';
+import helpeesService from 'Api/helpee.service';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { login } from 'Actions/logUser';
@@ -29,15 +31,25 @@ const Login = () => {
   const submitLogin = async (Forms) => {
     try {
       setLoading(true);
-      const response = await usersService.login({
+
+      const loginResponse = await usersService.login({
         user: {
           email: Forms.value.email,
           password: Forms.value.password,
         },
       });
-      const userInfo = response.data; // Creates an object with user data and login token
-      userInfo.token = response.headers.authorization;
-      await dispatch(login(userInfo)); // Waits for redux's state to change
+      const info = loginResponse.data;
+      info.token = loginResponse.headers.authorization;
+      await dispatch(login(info));
+
+      let infoResponse;
+      if (loginResponse.data.documentNumber) infoResponse = await volunteersService.info(loginResponse.data.id);
+      else infoResponse = await helpeesService.info(loginResponse.data.id);
+
+      const userInfo = infoResponse.data;
+      userInfo.token = loginResponse.headers.authorization;
+
+      await dispatch(login(userInfo));
       if (userInfo.documentNumber) history.push(ROUTES.orders);
       else history.push(ROUTES.profile);
     } catch (failure) {

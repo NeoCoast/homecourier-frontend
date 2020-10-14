@@ -9,6 +9,9 @@ const create = (volunteer) => {
     .catch((error) => error.response);
 };
 
+const info = (id) => HTTP.get(`/volunteers/${id}`);
+
 export default {
   create,
+  info,
 };
