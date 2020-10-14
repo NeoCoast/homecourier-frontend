@@ -28,29 +28,33 @@ const Login = () => {
     </Text>
   );
 
+  const signIn = async (Forms) => {
+    const loginResponse = await usersService.login({
+      user: {
+        email: Forms.value.email,
+        password: Forms.value.password,
+      },
+    });
+    const info = loginResponse.data;
+    info.token = loginResponse.headers.authorization;
+    await dispatch(login(info));
+    return info;
+  };
+
+  const getUserInfo = async (user) => {
+    const response = user.documentNumber ? await volunteersService.info(user.id) : await helpeesService.info(user.id);
+    const userInfo = response.data;
+    userInfo.token = user.token;
+    await dispatch(login(userInfo));
+    return userInfo;
+  };
+
   const submitLogin = async (Forms) => {
     try {
       setLoading(true);
-
-      const loginResponse = await usersService.login({
-        user: {
-          email: Forms.value.email,
-          password: Forms.value.password,
-        },
-      });
-      const info = loginResponse.data;
-      info.token = loginResponse.headers.authorization;
-      await dispatch(login(info));
-
-      let infoResponse;
-      if (loginResponse.data.documentNumber) infoResponse = await volunteersService.info(loginResponse.data.id);
-      else infoResponse = await helpeesService.info(loginResponse.data.id);
-
-      const userInfo = infoResponse.data;
-      userInfo.token = loginResponse.headers.authorization;
-
-      await dispatch(login(userInfo));
-      if (userInfo.documentNumber) history.push(ROUTES.orders);
+      const loginData = await signIn(Forms);
+      const user = await getUserInfo(loginData);
+      if (user.documentNumber) history.push(ROUTES.orders);
       else history.push(ROUTES.profile);
     } catch (failure) {
       setLoading(false);
