@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Box, Button, TextArea, Heading, Layer, TextInput, FormField, Form,
+  Box, Button, TextArea, Heading, Layer, TextInput,
 } from 'grommet';
 import Select from 'react-select';
 import { useSelector } from 'react-redux';
@@ -10,7 +10,6 @@ import ordersService from 'Api/orders.service';
 import categoriesService from 'Api/categories.service';
 import Spinner from 'Components/Utils/Spinner';
 import ErrorModal from 'Components/Modals/ErrorModal';
-import SuccessModal from 'Components/Modals/SuccessModal';
 import 'react-toastify/dist/ReactToastify.css';
 
 const CreateOrder = ({ closeModal }) => {
@@ -20,8 +19,6 @@ const CreateOrder = ({ closeModal }) => {
   const [options, setOptions] = useState([]);
   const [invalid, setInvalid] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [success, setSuccess] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const userLoggedIn = useSelector((state) => state.logUser.loggedIn);
   const helpeeId = useSelector((state) => state.logUser.data.id);
@@ -98,8 +95,6 @@ const CreateOrder = ({ closeModal }) => {
     }
     if (!errorFlag) {
       setLoading(false);
-      setSuccess(true);
-      setSuccessMessage('Su pedido fue registrado con exito');
       closeModal();
     }
   };
