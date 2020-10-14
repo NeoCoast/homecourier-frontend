@@ -9,7 +9,7 @@ const take = ({ volunteerId, orderId }) => HTTP.post('/orders/take', {
   orderId,
 }).then(({ data }) => data);
 
-const setOrderStatus = ({ orderId, status }) => HTTP.post('/status', {
+const setOrderStatus = ({ orderId, status }) => HTTP.post('orders/status', {
   orderId,
   status,
 }).then(({ data }) => data);
