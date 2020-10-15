@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Box, ResponsiveContext } from 'grommet';
+import { Box, InfiniteScroll, ResponsiveContext } from 'grommet';
 import PropTypes from 'prop-types';
 import ordersService from 'Api/orders.service';
 import { useSelector } from 'react-redux';
@@ -44,20 +44,26 @@ const OrdersList = ({ orders, setLoading }) => {
   };
 
   return (
-    <Box
-      background="white"
-      direction="column"
-      pad={{ horizontal: viewportSize === 'small' ? 'small' : '20vw', vertical: 'medium' }}
-      overflow="scroll"
-      fill
-    >
-      {orders.map((order) => (
-        <OrderCard order={order} viewportSize={viewportSize} key={order.id} openModal={openModal} />
-      ))}
+    <Box overflow="auto" flex={false}>
+
+      <InfiniteScroll
+
+        direction="column"
+        pad={{ horizontal: viewportSize === 'small' ? 'small' : '20vw', vertical: 'medium' }}
+        overflow="auto"
+        fill
+        items={orders}
+      >
+        {(order) => (
+          <OrderCard order={order} viewportSize={viewportSize} key={order.id} openModal={openModal} />
+        )}
+      </InfiniteScroll>
+
       {errorModal && <ErrorModal setShow={setErrorModal} show={errorModal} errorMessage={message} />}
       {successModal && <SuccessModal setShow={setSuccessModal} show={successModal} message={message} />}
       {viewOrder && <ViewOrderModal order={orderSelected} onClose={closeModal} onConfirm={takeOrder} />}
     </Box>
+
   );
 };
 

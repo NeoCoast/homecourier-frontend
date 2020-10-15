@@ -77,7 +77,7 @@ const VolunteerForm = ({
             id="documentFace"
             type="file"
             size="xsmall"
-            style={{ padding: '9px' }}
+            style={{ padding: '11px' }}
             onChange={(event) => setDocFront(event.target.files[0])}
             accept="image/*"
           />
@@ -96,7 +96,7 @@ const VolunteerForm = ({
             id="documentBack"
             type="file"
             size="xsmall"
-            style={{ padding: '9px' }}
+            style={{ padding: '11px' }}
             onChange={(event) => setDocBack(event.target.files[0])}
             accept="image/*"
           />

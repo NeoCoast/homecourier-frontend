@@ -1,7 +1,7 @@
 // eslint-disable jsx-props-no-spreading
 import React from 'react';
 import faker from 'faker';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { useSelector } from 'react-redux';
 import Orders from 'Components/OrdersList';
 import Order from 'Components/OrderCard';
@@ -14,6 +14,10 @@ jest.mock('react-redux', () => ({
   useHistory: () => ({
     push: jest.fn(),
   }),
+}));
+
+jest.mock('Api/orders.service', () => ({
+  takeOrder: jest.fn(),
 }));
 
 describe('Orders', () => {
@@ -128,7 +132,7 @@ describe('Orders', () => {
     const setLoading = jest.fn();
     const { getByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
     fireEvent.click(getByText(/Ver más/i));
-    expect(getByText(/Descripción/i)).toBeInTheDocument();
+    expect(getByText(/Categorías/i)).toBeInTheDocument();
   });
 
   test('Cancel view more', () => {
@@ -150,7 +154,7 @@ describe('Orders', () => {
     expect(getAllByText(props.orders[0].description)[0]).toBeInTheDocument();
   });
 
-  test('Take order modal', () => {
+  test('Take order modal', async () => {
     const props = {
       order: {
         id: faker.random.number(),
@@ -168,17 +172,19 @@ describe('Orders', () => {
       <ViewOrderModal order={props.order} onClose={onClose} onConfirm={onConfirm} />
     );
     fireEvent.click(getAllByText(/Postularse/i)[2]);
-    expect(onConfirm).toHaveBeenCalledTimes(1);
-    expect(onClose).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(onConfirm).toHaveBeenCalledTimes(1);
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('Success modal for application', () => {
     test('ok button', () => {
       const setShow = jest.fn();
-      const { getByText } = render(
+      render(
         <SuccessModal message="Ha tomado la orden! Gracias por ayudar!" show setShow={setShow} />
       );
-      fireEvent.click(getByText(/Ok/i));
+      fireEvent.click(document.getElementById('close-ok-modal'));
       expect(setShow).toHaveBeenCalledTimes(1);
     });
   });

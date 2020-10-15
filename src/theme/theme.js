@@ -124,7 +124,7 @@ const theme = {
       background: '#ffffff',
       border: {
         width: '0px',
-        radius: '0px',
+        radius: '12px',
       },
       shadowSize: 'small',
       zIndex: '20',
@@ -439,7 +439,7 @@ const theme = {
       size: 'small',
       margin: {
         vertical: 'xsmall',
-        horizontal: 'small',
+        horizontal: 'none',
       },
       color: {
         dark: 'status-critical',
@@ -625,7 +625,7 @@ const theme = {
   layer: {
     background: 'white',
     border: {
-      radius: '4px',
+      radius: '12px',
     },
     container: {
       zIndex: '15',
