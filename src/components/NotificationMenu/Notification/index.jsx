@@ -22,6 +22,7 @@ const Notification = (item) => {
       </Box>
       <Text size="small">{dateToPrint()}</Text>
     </Box>
-)};
+  );
+};
 
 export default Notification;

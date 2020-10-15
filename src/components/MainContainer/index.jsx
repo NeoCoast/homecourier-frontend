@@ -14,7 +14,6 @@ const MainContainer = ({ children }) => {
   const loadNotifications = async () => {
     try {
       const noti = await notificationsService.getNotifications();
-      console.log('hola', noti);
       await dispatch(loadAll(noti.data.notifications.filter((x) => x.status === 'not_seen')));
     } catch (error) {
       console.error(error);
@@ -31,7 +30,7 @@ const MainContainer = ({ children }) => {
 
   if (loggedIn) {
     return (
-      <ActionCableProvider url={`ws://localhost:3000/cable?token=${userData.token.replace(/Bearer /, '')}`}>
+      <ActionCableProvider url={`${process.env.WS_URL}?token=${userData.token.replace(/Bearer /, '')}`}>
         <ActionCableConsumer channel="WebNotificationsChannel" onReceived={(data) => updateNotifications(data)} onConnected={() => console.log('connected')}>
           <Layout>{children}</Layout>
         </ActionCableConsumer>
