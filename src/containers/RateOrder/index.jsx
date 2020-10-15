@@ -21,8 +21,8 @@ const RateOrder = (props) => {
 
   const rate = (info) => {
     const ratingData = info;
-    ratingData.orderId = orderId;
-    ratingData.isHelpee = isHelpee;
+    ratingData.order_id = orderId;
+    console.log(ratingData);
     if (isHelpee) {
       ratingService.rateVolunteer(ratingData);
     } else {
