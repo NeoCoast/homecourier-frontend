@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 module.exports = {
+  cacheDirectory: 'jest-cache',
   coverageReporters: ['html'],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',

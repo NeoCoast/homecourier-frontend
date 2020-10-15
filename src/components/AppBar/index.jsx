@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Box, Button, Heading, Image, Nav,
+  Box, Button, Heading, Image, Nav, Text,
 } from 'grommet';
 import { useSelector } from 'react-redux';
 import { Menu } from 'grommet-icons';
@@ -8,10 +8,14 @@ import Logo from 'Assets/homecourier_logo.png';
 import BarButton from 'Components/BarButton';
 import ProfileDropdown from 'Components/ProfileDropdown';
 import SideMenu from 'Components/SideMenu';
+import NotificationMenu from 'Components/NotificationMenu';
 
 const AppBar = () => {
   const loggedIn = useSelector((state) => state.logUser.loggedIn);
+  const notis = useSelector((state) => state.userNotifications.notifications);
   const [sideMenu, setSideMenu] = useState(false);
+
+  const hola = () =>{ console.log('i am notis', notis); return [...notis];}
 
   const onClose = () => setSideMenu(false);
   return (
@@ -24,11 +28,14 @@ const AppBar = () => {
           <Image src={Logo} fit="contain" />
         </Box>
         <Heading level="3" margin={{ horizontal: 'small', vertical: 'none' }}>
-          HomeCourier
+          HomeCourier {console.log('rerendering', notis)}
         </Heading>
       </Box>
       {!loggedIn && <BarButton />}
-      {loggedIn && <ProfileDropdown />}
+      <Box fill direction="row" alignSelf="end" justify="end" align="center">
+        {loggedIn && <NotificationMenu />}
+        {loggedIn && <ProfileDropdown />}
+      </Box>
       {sideMenu && <SideMenu onClose={onClose} />}
     </Nav>
   );
