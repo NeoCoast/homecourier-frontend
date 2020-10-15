@@ -1,0 +1,168 @@
+fb167c3ec6f5b6da85155230b669f232
+/* istanbul ignore next */
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.logout = exports.login = void 0;
+
+function cov_corj546b6() {
+  var path = "/home/agus/Documents/homecourier/homecourier-frontend/src/store/actions/logUser.js";
+  var hash = "48b7f7e7b09cc76ceff846109879ad8039a75b32";
+  var global = new Function("return this")();
+  var gcv = "__coverage__";
+  var coverageData = {
+    path: "/home/agus/Documents/homecourier/homecourier-frontend/src/store/actions/logUser.js",
+    statementMap: {
+      "0": {
+        start: {
+          line: 1,
+          column: 21
+        },
+        end: {
+          line: 4,
+          column: 2
+        }
+      },
+      "1": {
+        start: {
+          line: 1,
+          column: 32
+        },
+        end: {
+          line: 4,
+          column: 1
+        }
+      },
+      "2": {
+        start: {
+          line: 6,
+          column: 22
+        },
+        end: {
+          line: 8,
+          column: 2
+        }
+      },
+      "3": {
+        start: {
+          line: 6,
+          column: 29
+        },
+        end: {
+          line: 8,
+          column: 1
+        }
+      }
+    },
+    fnMap: {
+      "0": {
+        name: "(anonymous_0)",
+        decl: {
+          start: {
+            line: 1,
+            column: 21
+          },
+          end: {
+            line: 1,
+            column: 22
+          }
+        },
+        loc: {
+          start: {
+            line: 1,
+            column: 32
+          },
+          end: {
+            line: 4,
+            column: 1
+          }
+        },
+        line: 1
+      },
+      "1": {
+        name: "(anonymous_1)",
+        decl: {
+          start: {
+            line: 6,
+            column: 22
+          },
+          end: {
+            line: 6,
+            column: 23
+          }
+        },
+        loc: {
+          start: {
+            line: 6,
+            column: 29
+          },
+          end: {
+            line: 8,
+            column: 1
+          }
+        },
+        line: 6
+      }
+    },
+    branchMap: {},
+    s: {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0
+    },
+    f: {
+      "0": 0,
+      "1": 0
+    },
+    b: {},
+    _coverageSchema: "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    hash: "48b7f7e7b09cc76ceff846109879ad8039a75b32"
+  };
+  var coverage = global[gcv] || (global[gcv] = {});
+
+  if (!coverage[path] || coverage[path].hash !== hash) {
+    coverage[path] = coverageData;
+  }
+
+  var actualCoverage = coverage[path];
+  {
+    // @ts-ignore
+    cov_corj546b6 = function () {
+      return actualCoverage;
+    };
+  }
+  return actualCoverage;
+}
+
+cov_corj546b6();
+cov_corj546b6().s[0]++;
+
+var login = function login(data) {
+  /* istanbul ignore next */
+  cov_corj546b6().f[0]++;
+  cov_corj546b6().s[1]++;
+  return {
+    type: 'LOGIN',
+    data: data
+  };
+};
+
+/* istanbul ignore next */
+exports.login = login;
+cov_corj546b6().s[2]++;
+
+var logout = function logout() {
+  /* istanbul ignore next */
+  cov_corj546b6().f[1]++;
+  cov_corj546b6().s[3]++;
+  return {
+    type: 'LOGOUT'
+  };
+};
+
+/* istanbul ignore next */
+exports.logout = logout;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxvZ1VzZXIuanMiXSwibmFtZXMiOlsibG9naW4iLCJkYXRhIiwidHlwZSIsImxvZ291dCJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQWVZOzs7Ozs7Ozs7OztBQWZMLElBQU1BLEtBQUssR0FBRyxTQUFSQSxLQUFRLENBQUNDLElBQUQsRUFBVztBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQzlCQyxJQUFBQSxJQUFJLEVBQUUsT0FEd0I7QUFFOUJELElBQUFBLElBQUksRUFBSkE7QUFGOEI7QUFHL0IsQ0FITTs7Ozs7O0FBS0EsSUFBTUUsTUFBTSxHQUFHLFNBQVRBLE1BQVMsR0FBTztBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQzNCRCxJQUFBQSxJQUFJLEVBQUU7QUFEcUI7QUFFNUIsQ0FGTSIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBjb25zdCBsb2dpbiA9IChkYXRhKSA9PiAoe1xuICB0eXBlOiAnTE9HSU4nLFxuICBkYXRhLFxufSk7XG5cbmV4cG9ydCBjb25zdCBsb2dvdXQgPSAoKSA9PiAoe1xuICB0eXBlOiAnTE9HT1VUJyxcbn0pO1xuIl19

@@ -1,0 +1,260 @@
+3f96f43fc3c9b89adf72778a51b94652
+/* istanbul ignore next */
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+function cov_1dt9flzlbf() {
+  var path = "/home/agus/Documents/homecourier/homecourier-frontend/src/store/reducers/logUser.js";
+  var hash = "ee2d7f2443fc6d5f09acd13734174ac883e9807f";
+  var global = new Function("return this")();
+  var gcv = "__coverage__";
+  var coverageData = {
+    path: "/home/agus/Documents/homecourier/homecourier-frontend/src/store/reducers/logUser.js",
+    statementMap: {
+      "0": {
+        start: {
+          line: 1,
+          column: 22
+        },
+        end: {
+          line: 3,
+          column: 1
+        }
+      },
+      "1": {
+        start: {
+          line: 5,
+          column: 16
+        },
+        end: {
+          line: 20,
+          column: 1
+        }
+      },
+      "2": {
+        start: {
+          line: 6,
+          column: 2
+        },
+        end: {
+          line: 19,
+          column: 3
+        }
+      },
+      "3": {
+        start: {
+          line: 8,
+          column: 6
+        },
+        end: {
+          line: 11,
+          column: 8
+        }
+      },
+      "4": {
+        start: {
+          line: 13,
+          column: 6
+        },
+        end: {
+          line: 16,
+          column: 8
+        }
+      },
+      "5": {
+        start: {
+          line: 18,
+          column: 6
+        },
+        end: {
+          line: 18,
+          column: 19
+        }
+      }
+    },
+    fnMap: {
+      "0": {
+        name: "(anonymous_0)",
+        decl: {
+          start: {
+            line: 5,
+            column: 16
+          },
+          end: {
+            line: 5,
+            column: 17
+          }
+        },
+        loc: {
+          start: {
+            line: 5,
+            column: 51
+          },
+          end: {
+            line: 20,
+            column: 1
+          }
+        },
+        line: 5
+      }
+    },
+    branchMap: {
+      "0": {
+        loc: {
+          start: {
+            line: 5,
+            column: 17
+          },
+          end: {
+            line: 5,
+            column: 38
+          }
+        },
+        type: "default-arg",
+        locations: [{
+          start: {
+            line: 5,
+            column: 25
+          },
+          end: {
+            line: 5,
+            column: 38
+          }
+        }],
+        line: 5
+      },
+      "1": {
+        loc: {
+          start: {
+            line: 6,
+            column: 2
+          },
+          end: {
+            line: 19,
+            column: 3
+          }
+        },
+        type: "switch",
+        locations: [{
+          start: {
+            line: 7,
+            column: 4
+          },
+          end: {
+            line: 11,
+            column: 8
+          }
+        }, {
+          start: {
+            line: 12,
+            column: 4
+          },
+          end: {
+            line: 16,
+            column: 8
+          }
+        }, {
+          start: {
+            line: 17,
+            column: 4
+          },
+          end: {
+            line: 18,
+            column: 19
+          }
+        }],
+        line: 6
+      }
+    },
+    s: {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    f: {
+      "0": 0
+    },
+    b: {
+      "0": [0],
+      "1": [0, 0, 0]
+    },
+    _coverageSchema: "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    hash: "ee2d7f2443fc6d5f09acd13734174ac883e9807f"
+  };
+  var coverage = global[gcv] || (global[gcv] = {});
+
+  if (!coverage[path] || coverage[path].hash !== hash) {
+    coverage[path] = coverageData;
+  }
+
+  var actualCoverage = coverage[path];
+  {
+    // @ts-ignore
+    cov_1dt9flzlbf = function () {
+      return actualCoverage;
+    };
+  }
+  return actualCoverage;
+}
+
+cov_1dt9flzlbf();
+var INITIAL_STATE =
+/* istanbul ignore next */
+(cov_1dt9flzlbf().s[0]++, {
+  data: undefined
+});
+
+/* istanbul ignore next */
+cov_1dt9flzlbf().s[1]++;
+
+var logUser = function logUser() {
+  /* istanbul ignore next */
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (cov_1dt9flzlbf().b[0][0]++, INITIAL_STATE);
+
+  /* istanbul ignore next */
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  /* istanbul ignore next */
+  cov_1dt9flzlbf().f[0]++;
+  cov_1dt9flzlbf().s[2]++;
+
+  switch (action.type) {
+    case 'LOGIN':
+      /* istanbul ignore next */
+      cov_1dt9flzlbf().b[1][0]++;
+      cov_1dt9flzlbf().s[3]++;
+      return {
+        data: action.data,
+        loggedIn: true
+      };
+
+    case 'LOGOUT':
+      /* istanbul ignore next */
+      cov_1dt9flzlbf().b[1][1]++;
+      cov_1dt9flzlbf().s[4]++;
+      return {
+        data: '',
+        loggedIn: false
+      };
+
+    default:
+      /* istanbul ignore next */
+      cov_1dt9flzlbf().b[1][2]++;
+      cov_1dt9flzlbf().s[5]++;
+      return state;
+  }
+};
+
+/* istanbul ignore next */
+var _default = logUser;
+
+/* istanbul ignore next */
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxvZ1VzZXIuanMiXSwibmFtZXMiOlsiSU5JVElBTF9TVEFURSIsImRhdGEiLCJ1bmRlZmluZWQiLCJsb2dVc2VyIiwic3RhdGUiLCJhY3Rpb24iLCJ0eXBlIiwibG9nZ2VkSW4iXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBZVk7Ozs7Ozs7OztBQWZaLElBQU1BLGFBQWE7QUFBQTtBQUFBLDBCQUFHO0FBQ3BCQyxFQUFBQSxJQUFJLEVBQUVDO0FBRGMsQ0FBSCxDQUFuQjs7Ozs7QUFJQSxJQUFNQyxPQUFPLEdBQUcsU0FBVkEsT0FBVSxHQUFtQztBQUFBO0FBQUEsTUFBbENDLEtBQWtDLG9HQUExQkosYUFBMEI7O0FBQUE7QUFBQSxNQUFYSyxNQUFXOztBQUFBO0FBQUE7QUFBQTs7QUFDakQsVUFBUUEsTUFBTSxDQUFDQyxJQUFmO0FBQ0UsU0FBSyxPQUFMO0FBQUE7QUFBQTtBQUFBO0FBQ0UsYUFBTztBQUNMTCxRQUFBQSxJQUFJLEVBQUVJLE1BQU0sQ0FBQ0osSUFEUjtBQUVMTSxRQUFBQSxRQUFRLEVBQUU7QUFGTCxPQUFQOztBQUlGLFNBQUssUUFBTDtBQUFBO0FBQUE7QUFBQTtBQUNFLGFBQU87QUFDTE4sUUFBQUEsSUFBSSxFQUFFLEVBREQ7QUFFTE0sUUFBQUEsUUFBUSxFQUFFO0FBRkwsT0FBUDs7QUFJRjtBQUFBO0FBQUE7QUFBQTtBQUNFLGFBQU9ILEtBQVA7QUFaSjtBQWNELENBZkQ7OztlQWlCZUQsTyIsInNvdXJjZXNDb250ZW50IjpbImNvbnN0IElOSVRJQUxfU1RBVEUgPSB7XG4gIGRhdGE6IHVuZGVmaW5lZCxcbn07XG5cbmNvbnN0IGxvZ1VzZXIgPSAoc3RhdGUgPSBJTklUSUFMX1NUQVRFLCBhY3Rpb24pID0+IHtcbiAgc3dpdGNoIChhY3Rpb24udHlwZSkge1xuICAgIGNhc2UgJ0xPR0lOJzpcbiAgICAgIHJldHVybiB7XG4gICAgICAgIGRhdGE6IGFjdGlvbi5kYXRhLFxuICAgICAgICBsb2dnZWRJbjogdHJ1ZSxcbiAgICAgIH07XG4gICAgY2FzZSAnTE9HT1VUJzpcbiAgICAgIHJldHVybiB7XG4gICAgICAgIGRhdGE6ICcnLFxuICAgICAgICBsb2dnZWRJbjogZmFsc2UsXG4gICAgICB9O1xuICAgIGRlZmF1bHQ6XG4gICAgICByZXR1cm4gc3RhdGU7XG4gIH1cbn07XG5cbmV4cG9ydCBkZWZhdWx0IGxvZ1VzZXI7XG4iXX0=

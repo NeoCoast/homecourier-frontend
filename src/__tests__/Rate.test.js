@@ -19,7 +19,7 @@ describe('Rating', () => {
   beforeEach(() => {
     useSelector.mockImplementation((selector) => selector({
       logUser: {
-        data: { documentNumber: '232323' },
+        data: { documentNumber: '232323', name: 'A', lastName: 'A' },
         loggedIn: false,
       },
     }));
@@ -75,7 +75,7 @@ describe('Rating', () => {
 
   test('Recognizes volunteer', async () => {
     const { getAllByText } = render(<RateOrder orderId={props.orderId} show={props.show} setShow={setShow} />);
-    expect(getAllByText(/Califique al usuario/i)).toHaveLength(3);
+    expect(getAllByText(/Califique al usuario/i)).toHaveLength(4);
   });
 
   test('Submits with no rating', async () => {

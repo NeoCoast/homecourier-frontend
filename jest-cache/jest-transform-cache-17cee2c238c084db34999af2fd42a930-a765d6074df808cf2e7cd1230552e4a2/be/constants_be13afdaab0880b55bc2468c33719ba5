@@ -1,0 +1,73 @@
+a554e6e8d50891670a398bb9348c0aea
+/* istanbul ignore next */
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ROUTES = void 0;
+
+function cov_2d7z15uzjq() {
+  var path = "/home/agus/Documents/homecourier/homecourier-frontend/src/data/constants.js";
+  var hash = "f7f3121d10736507299d5111c493c875b1fb567a";
+  var global = new Function("return this")();
+  var gcv = "__coverage__";
+  var coverageData = {
+    path: "/home/agus/Documents/homecourier/homecourier-frontend/src/data/constants.js",
+    statementMap: {
+      "0": {
+        start: {
+          line: 3,
+          column: 22
+        },
+        end: {
+          line: 12,
+          column: 1
+        }
+      }
+    },
+    fnMap: {},
+    branchMap: {},
+    s: {
+      "0": 0
+    },
+    f: {},
+    b: {},
+    _coverageSchema: "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    hash: "f7f3121d10736507299d5111c493c875b1fb567a"
+  };
+  var coverage = global[gcv] || (global[gcv] = {});
+
+  if (!coverage[path] || coverage[path].hash !== hash) {
+    coverage[path] = coverageData;
+  }
+
+  var actualCoverage = coverage[path];
+  {
+    // @ts-ignore
+    cov_2d7z15uzjq = function () {
+      return actualCoverage;
+    };
+  }
+  return actualCoverage;
+}
+
+cov_2d7z15uzjq();
+
+/* eslint-disable import/prefer-default-export */
+var ROUTES =
+/* istanbul ignore next */
+(cov_2d7z15uzjq().s[0]++, {
+  about: '/about-us',
+  home: '/',
+  register: '/register',
+  login: '/login',
+  orders: '/orders',
+  registerVolunteer: '/register-volunteer',
+  profile: '/profile',
+  myOrders: '/my-orders'
+});
+
+/* istanbul ignore next */
+exports.ROUTES = ROUTES;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNvbnN0YW50cy5qcyJdLCJuYW1lcyI6WyJST1VURVMiLCJhYm91dCIsImhvbWUiLCJyZWdpc3RlciIsImxvZ2luIiwib3JkZXJzIiwicmVnaXN0ZXJWb2x1bnRlZXIiLCJwcm9maWxlIiwibXlPcmRlcnMiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQWVZOzs7Ozs7Ozs7O0FBZlo7QUFFTyxJQUFNQSxNQUFNO0FBQUE7QUFBQSwwQkFBRztBQUNwQkMsRUFBQUEsS0FBSyxFQUFFLFdBRGE7QUFFcEJDLEVBQUFBLElBQUksRUFBRSxHQUZjO0FBR3BCQyxFQUFBQSxRQUFRLEVBQUUsV0FIVTtBQUlwQkMsRUFBQUEsS0FBSyxFQUFFLFFBSmE7QUFLcEJDLEVBQUFBLE1BQU0sRUFBRSxTQUxZO0FBTXBCQyxFQUFBQSxpQkFBaUIsRUFBRSxxQkFOQztBQU9wQkMsRUFBQUEsT0FBTyxFQUFFLFVBUFc7QUFRcEJDLEVBQUFBLFFBQVEsRUFBRTtBQVJVLENBQUgsQ0FBWiIsInNvdXJjZXNDb250ZW50IjpbIi8qIGVzbGludC1kaXNhYmxlIGltcG9ydC9wcmVmZXItZGVmYXVsdC1leHBvcnQgKi9cblxuZXhwb3J0IGNvbnN0IFJPVVRFUyA9IHtcbiAgYWJvdXQ6ICcvYWJvdXQtdXMnLFxuICBob21lOiAnLycsXG4gIHJlZ2lzdGVyOiAnL3JlZ2lzdGVyJyxcbiAgbG9naW46ICcvbG9naW4nLFxuICBvcmRlcnM6ICcvb3JkZXJzJyxcbiAgcmVnaXN0ZXJWb2x1bnRlZXI6ICcvcmVnaXN0ZXItdm9sdW50ZWVyJyxcbiAgcHJvZmlsZTogJy9wcm9maWxlJyxcbiAgbXlPcmRlcnM6ICcvbXktb3JkZXJzJyxcbn07XG4iXX0=

@@ -1,0 +1,303 @@
+728e09b8fefa95f2250eff737bd2d301
+/* istanbul ignore next */
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var
+/* istanbul ignore next */
+_grommet = require("grommet");
+
+var
+/* istanbul ignore next */
+_react = _interopRequireDefault(require("react"));
+
+var
+/* istanbul ignore next */
+_reactRouterDom = require("react-router-dom");
+
+var
+/* istanbul ignore next */
+_propTypes = _interopRequireDefault(require("prop-types"));
+
+var
+/* istanbul ignore next */
+_new_email = _interopRequireDefault(require("Assets/new_email.gif"));
+
+/* istanbul ignore next */
+function cov_1944q3sbo2() {
+  var path = "/home/agus/Documents/homecourier/homecourier-frontend/src/containers/Register/ConfirmPage/index.jsx";
+  var hash = "f3475823df1d9ae7ade1ee49985dab652b83ec66";
+  var global = new Function("return this")();
+  var gcv = "__coverage__";
+  var coverageData = {
+    path: "/home/agus/Documents/homecourier/homecourier-frontend/src/containers/Register/ConfirmPage/index.jsx",
+    statementMap: {
+      "0": {
+        start: {
+          line: 9,
+          column: 24
+        },
+        end: {
+          line: 40,
+          column: 1
+        }
+      },
+      "1": {
+        start: {
+          line: 10,
+          column: 2
+        },
+        end: {
+          line: 39,
+          column: 9
+        }
+      },
+      "2": {
+        start: {
+          line: 42,
+          column: 0
+        },
+        end: {
+          line: 44,
+          column: 2
+        }
+      }
+    },
+    fnMap: {
+      "0": {
+        name: "(anonymous_0)",
+        decl: {
+          start: {
+            line: 9,
+            column: 24
+          },
+          end: {
+            line: 9,
+            column: 25
+          }
+        },
+        loc: {
+          start: {
+            line: 10,
+            column: 2
+          },
+          end: {
+            line: 39,
+            column: 9
+          }
+        },
+        line: 10
+      }
+    },
+    branchMap: {},
+    s: {
+      "0": 0,
+      "1": 0,
+      "2": 0
+    },
+    f: {
+      "0": 0
+    },
+    b: {},
+    _coverageSchema: "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    hash: "f3475823df1d9ae7ade1ee49985dab652b83ec66"
+  };
+  var coverage = global[gcv] || (global[gcv] = {});
+
+  if (!coverage[path] || coverage[path].hash !== hash) {
+    coverage[path] = coverageData;
+  }
+
+  var actualCoverage = coverage[path];
+  {
+    // @ts-ignore
+    cov_1944q3sbo2 = function () {
+      return actualCoverage;
+    };
+  }
+  return actualCoverage;
+}
+
+cov_1944q3sbo2();
+cov_1944q3sbo2().s[0]++;
+
+var RegisterConfirm = function RegisterConfirm(
+/* istanbul ignore next */
+_ref) {
+  /* istanbul ignore next */
+  var username = _ref.username;
+
+  /* istanbul ignore next */
+  cov_1944q3sbo2().f[0]++;
+  cov_1944q3sbo2().s[1]++;
+  return /*#__PURE__*/(
+    /* istanbul ignore next */
+    _react["default"].createElement(
+    /* istanbul ignore next */
+    _grommet.
+    /* istanbul ignore next */
+    Grid,
+    /* istanbul ignore next */
+    {
+      columns: ['auto', ['auto', 'large'], 'auto'],
+      fill:
+      /* istanbul ignore next */
+      true,
+      gap: "small"
+    }, /*#__PURE__*/
+    /* istanbul ignore next */
+    _react["default"].createElement(
+    /* istanbul ignore next */
+    _grommet.
+    /* istanbul ignore next */
+    Box,
+    /* istanbul ignore next */
+    null), /*#__PURE__*/
+    /* istanbul ignore next */
+    _react["default"].createElement(
+    /* istanbul ignore next */
+    _grommet.
+    /* istanbul ignore next */
+    Card,
+    /* istanbul ignore next */
+    {
+      alignSelf: "center",
+      background: "white",
+      pad: "medium"
+    }, /*#__PURE__*/
+    /* istanbul ignore next */
+    _react["default"].createElement(
+    /* istanbul ignore next */
+    _grommet.
+    /* istanbul ignore next */
+    Heading,
+    /* istanbul ignore next */
+    {
+      level: "2",
+      alignSelf: "center",
+      margin: "0"
+    },
+    /* istanbul ignore next */
+    "Bienvenido, ", username,
+    /* istanbul ignore next */
+    "!"), /*#__PURE__*/
+    /* istanbul ignore next */
+    _react["default"].createElement(
+    /* istanbul ignore next */
+    _grommet.
+    /* istanbul ignore next */
+    Box,
+    /* istanbul ignore next */
+    {
+      direction: "row-responsive",
+      gap: "small",
+      justify: "center",
+      alignContent: "center",
+      align: "center"
+    }, /*#__PURE__*/
+    /* istanbul ignore next */
+    _react["default"].createElement(
+    /* istanbul ignore next */
+    _grommet.
+    /* istanbul ignore next */
+    Box,
+    /* istanbul ignore next */
+    {
+      width: "150px",
+      height: "150px",
+      justify: "center",
+      alignSelf: "center"
+    }, /*#__PURE__*/
+    /* istanbul ignore next */
+    _react["default"].createElement(
+    /* istanbul ignore next */
+    _grommet.
+    /* istanbul ignore next */
+    Image,
+    /* istanbul ignore next */
+    {
+      fit: "contain",
+      src:
+      /* istanbul ignore next */
+      _new_email[
+      /* istanbul ignore next */
+      "default"]
+    })), /*#__PURE__*/
+    /* istanbul ignore next */
+    _react["default"].createElement(
+    /* istanbul ignore next */
+    _grommet.
+    /* istanbul ignore next */
+    Paragraph,
+    /* istanbul ignore next */
+    {
+      alignSelf: "center"
+    },
+    /* istanbul ignore next */
+    "Su solicitud de registro se ha enviado correctamente, le hemos enviado un mail de confirmacion a su casilla de correo.")), /*#__PURE__*/
+    /* istanbul ignore next */
+    _react["default"].createElement(
+    /* istanbul ignore next */
+    _grommet.
+    /* istanbul ignore next */
+    Box,
+    /* istanbul ignore next */
+    {
+      alignSelf: "end"
+    }, /*#__PURE__*/
+    /* istanbul ignore next */
+    _react["default"].createElement(
+    /* istanbul ignore next */
+    _reactRouterDom.
+    /* istanbul ignore next */
+    Link,
+    /* istanbul ignore next */
+    {
+      to: "/"
+    }, /*#__PURE__*/
+    /* istanbul ignore next */
+    _react["default"].createElement(
+    /* istanbul ignore next */
+    _grommet.
+    /* istanbul ignore next */
+    Button,
+    /* istanbul ignore next */
+    {
+      primary:
+      /* istanbul ignore next */
+      true,
+      label: "Volver al inicio"
+    })))), /*#__PURE__*/
+    /* istanbul ignore next */
+    _react["default"].createElement(
+    /* istanbul ignore next */
+    _grommet.
+    /* istanbul ignore next */
+    Box,
+    /* istanbul ignore next */
+    null))
+  );
+};
+
+/* istanbul ignore next */
+cov_1944q3sbo2().s[2]++;
+RegisterConfirm.propTypes = {
+  username:
+  /* istanbul ignore next */
+  _propTypes[
+  /* istanbul ignore next */
+  "default"].string.isRequired
+};
+
+/* istanbul ignore next */
+var _default = RegisterConfirm;
+
+/* istanbul ignore next */
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImluZGV4LmpzeCJdLCJuYW1lcyI6WyJSZWdpc3RlckNvbmZpcm0iLCJ1c2VybmFtZSIsIm5ld0VtYWlsIiwicHJvcFR5cGVzIiwiUHJvcFR5cGVzIiwic3RyaW5nIiwiaXNSZXF1aXJlZCJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7OztBQUFBO0FBQUE7QUFBQTs7QUFHQTtBQUFBO0FBQUE7O0FBQ0E7QUFBQTtBQUFBOztBQUNBO0FBQUE7QUFBQTs7QUFDQTtBQUFBO0FBQUE7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBU1k7Ozs7Ozs7Ozs7O0FBUFosSUFBTUEsZUFBZSxHQUFHLFNBQWxCQSxlQUFrQjtBQUFBO0FBQUEsTUFDdEI7QUFBQTtBQUFBLE1BRHlCQyxRQUN6QixRQUR5QkEsUUFDekI7O0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUM7QUFBQTtBQUFBO0FBQUEsUUFBRDtBQUFBO0FBQUE7QUFBTSxNQUFBLE9BQU8sRUFBRSxDQUFDLE1BQUQsRUFBUyxDQUFDLE1BQUQsRUFBUyxPQUFULENBQVQsRUFBNEIsTUFBNUIsQ0FBZjtBQUFvRCxNQUFBLElBQUk7QUFBQTtBQUFBLFVBQXhEO0FBQXlELE1BQUEsR0FBRyxFQUFDO0FBQTdEO0FBQ0U7QUFBQTtBQUFDO0FBQUE7QUFBQTtBQUFBLE9BQUQ7QUFBQTtBQUFBLFNBREY7QUFFRTtBQUFBO0FBQUM7QUFBQTtBQUFBO0FBQUEsUUFBRDtBQUFBO0FBQUE7QUFBTSxNQUFBLFNBQVMsRUFBQyxRQUFoQjtBQUF5QixNQUFBLFVBQVUsRUFBQyxPQUFwQztBQUE0QyxNQUFBLEdBQUcsRUFBQztBQUFoRDtBQUNFO0FBQUE7QUFBQztBQUFBO0FBQUE7QUFBQSxXQUFEO0FBQUE7QUFBQTtBQUFTLE1BQUEsS0FBSyxFQUFDLEdBQWY7QUFBbUIsTUFBQSxTQUFTLEVBQUMsUUFBN0I7QUFBc0MsTUFBQSxNQUFNLEVBQUM7QUFBN0M7QUFBQTtBQUFBLG9CQUNlQSxRQURmO0FBQUE7QUFBQSxRQURGO0FBSUU7QUFBQTtBQUFDO0FBQUE7QUFBQTtBQUFBLE9BQUQ7QUFBQTtBQUFBO0FBQ0UsTUFBQSxTQUFTLEVBQUMsZ0JBRFo7QUFFRSxNQUFBLEdBQUcsRUFBQyxPQUZOO0FBR0UsTUFBQSxPQUFPLEVBQUMsUUFIVjtBQUlFLE1BQUEsWUFBWSxFQUFDLFFBSmY7QUFLRSxNQUFBLEtBQUssRUFBQztBQUxSO0FBT0U7QUFBQTtBQUFDO0FBQUE7QUFBQTtBQUFBLE9BQUQ7QUFBQTtBQUFBO0FBQUssTUFBQSxLQUFLLEVBQUMsT0FBWDtBQUFtQixNQUFBLE1BQU0sRUFBQyxPQUExQjtBQUFrQyxNQUFBLE9BQU8sRUFBQyxRQUExQztBQUFtRCxNQUFBLFNBQVMsRUFBQztBQUE3RDtBQUNFO0FBQUE7QUFBQztBQUFBO0FBQUE7QUFBQSxTQUFEO0FBQUE7QUFBQTtBQUFPLE1BQUEsR0FBRyxFQUFDLFNBQVg7QUFBcUIsTUFBQSxHQUFHO0FBQUVDO0FBQUFBO0FBQUFBO0FBQUFBO0FBQTFCLE1BREYsQ0FQRjtBQVVFO0FBQUE7QUFBQztBQUFBO0FBQUE7QUFBQSxhQUFEO0FBQUE7QUFBQTtBQUFXLE1BQUEsU0FBUyxFQUFDO0FBQXJCO0FBQUE7QUFBQSw2SEFWRixDQUpGO0FBbUJFO0FBQUE7QUFBQztBQUFBO0FBQUE7QUFBQSxPQUFEO0FBQUE7QUFBQTtBQUFLLE1BQUEsU0FBUyxFQUFDO0FBQWY7QUFDRTtBQUFBO0FBQUM7QUFBQTtBQUFBO0FBQUEsUUFBRDtBQUFBO0FBQUE7QUFBTSxNQUFBLEVBQUUsRUFBQztBQUFUO0FBQ0U7QUFBQTtBQUFDO0FBQUE7QUFBQTtBQUFBLFVBQUQ7QUFBQTtBQUFBO0FBQVEsTUFBQSxPQUFPO0FBQUE7QUFBQSxVQUFmO0FBQWdCLE1BQUEsS0FBSyxFQUFDO0FBQXRCLE1BREYsQ0FERixDQW5CRixDQUZGO0FBNEJFO0FBQUE7QUFBQztBQUFBO0FBQUE7QUFBQSxPQUFEO0FBQUE7QUFBQSxTQTVCRjtBQUFBO0FBNkJPLENBOUJUOzs7O0FBaUNBRixlQUFlLENBQUNHLFNBQWhCLEdBQTRCO0FBQzFCRixFQUFBQSxRQUFRO0FBQUVHO0FBQUFBO0FBQUFBO0FBQUFBLGFBQVVDLE1BQVYsQ0FBaUJDO0FBREQsQ0FBNUI7OztlQUllTixlIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHtcbiAgQm94LCBDYXJkLCBHcmlkLCBIZWFkaW5nLCBJbWFnZSwgUGFyYWdyYXBoLCBCdXR0b24sXG59IGZyb20gJ2dyb21tZXQnO1xuaW1wb3J0IFJlYWN0IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IExpbmsgfSBmcm9tICdyZWFjdC1yb3V0ZXItZG9tJztcbmltcG9ydCBQcm9wVHlwZXMgZnJvbSAncHJvcC10eXBlcyc7XG5pbXBvcnQgbmV3RW1haWwgZnJvbSAnQXNzZXRzL25ld19lbWFpbC5naWYnO1xuXG5jb25zdCBSZWdpc3RlckNvbmZpcm0gPSAoeyB1c2VybmFtZSB9KSA9PiAoXG4gIDxHcmlkIGNvbHVtbnM9e1snYXV0bycsIFsnYXV0bycsICdsYXJnZSddLCAnYXV0byddfSBmaWxsIGdhcD1cInNtYWxsXCI+XG4gICAgPEJveD48L0JveD5cbiAgICA8Q2FyZCBhbGlnblNlbGY9XCJjZW50ZXJcIiBiYWNrZ3JvdW5kPVwid2hpdGVcIiBwYWQ9XCJtZWRpdW1cIj5cbiAgICAgIDxIZWFkaW5nIGxldmVsPVwiMlwiIGFsaWduU2VsZj1cImNlbnRlclwiIG1hcmdpbj1cIjBcIj5cbiAgICAgICAgQmllbnZlbmlkbywge3VzZXJuYW1lfSFcbiAgICAgIDwvSGVhZGluZz5cbiAgICAgIDxCb3hcbiAgICAgICAgZGlyZWN0aW9uPVwicm93LXJlc3BvbnNpdmVcIlxuICAgICAgICBnYXA9XCJzbWFsbFwiXG4gICAgICAgIGp1c3RpZnk9XCJjZW50ZXJcIlxuICAgICAgICBhbGlnbkNvbnRlbnQ9XCJjZW50ZXJcIlxuICAgICAgICBhbGlnbj1cImNlbnRlclwiXG4gICAgICA+XG4gICAgICAgIDxCb3ggd2lkdGg9XCIxNTBweFwiIGhlaWdodD1cIjE1MHB4XCIganVzdGlmeT1cImNlbnRlclwiIGFsaWduU2VsZj1cImNlbnRlclwiPlxuICAgICAgICAgIDxJbWFnZSBmaXQ9XCJjb250YWluXCIgc3JjPXtuZXdFbWFpbH0gLz5cbiAgICAgICAgPC9Cb3g+XG4gICAgICAgIDxQYXJhZ3JhcGggYWxpZ25TZWxmPVwiY2VudGVyXCI+XG4gICAgICAgICAgU3Ugc29saWNpdHVkIGRlIHJlZ2lzdHJvIHNlIGhhIGVudmlhZG8gY29ycmVjdGFtZW50ZSwgbGUgaGVtb3MgZW52aWFkbyB1biBtYWlsIGRlXG4gICAgICAgICAgY29uZmlybWFjaW9uIGEgc3UgY2FzaWxsYSBkZSBjb3JyZW8uXG4gICAgICAgIDwvUGFyYWdyYXBoPlxuICAgICAgPC9Cb3g+XG4gICAgICA8Qm94IGFsaWduU2VsZj1cImVuZFwiPlxuICAgICAgICA8TGluayB0bz1cIi9cIj5cbiAgICAgICAgICA8QnV0dG9uIHByaW1hcnkgbGFiZWw9XCJWb2x2ZXIgYWwgaW5pY2lvXCIgLz5cbiAgICAgICAgPC9MaW5rPlxuICAgICAgPC9Cb3g+XG5cbiAgICA8L0NhcmQ+XG4gICAgPEJveD48L0JveD5cbiAgPC9HcmlkPlxuKTtcblxuUmVnaXN0ZXJDb25maXJtLnByb3BUeXBlcyA9IHtcbiAgdXNlcm5hbWU6IFByb3BUeXBlcy5zdHJpbmcuaXNSZXF1aXJlZCxcbn07XG5cbmV4cG9ydCBkZWZhdWx0IFJlZ2lzdGVyQ29uZmlybTtcbiJdfQ==

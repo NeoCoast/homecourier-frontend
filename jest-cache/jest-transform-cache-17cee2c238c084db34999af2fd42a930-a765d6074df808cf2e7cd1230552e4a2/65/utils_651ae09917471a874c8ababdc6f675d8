@@ -1,0 +1,100 @@
+93e108d69c11a09deb93717203d39856
+/* istanbul ignore next */
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MONTHS = void 0;
+
+function cov_1ucs6un2j0() {
+  var path = "/home/agus/Documents/homecourier/homecourier-frontend/src/data/utils.js";
+  var hash = "c25615eea552f7cda932363e1add1fce2c6720fc";
+  var global = new Function("return this")();
+  var gcv = "__coverage__";
+  var coverageData = {
+    path: "/home/agus/Documents/homecourier/homecourier-frontend/src/data/utils.js",
+    statementMap: {
+      "0": {
+        start: {
+          line: 3,
+          column: 22
+        },
+        end: {
+          line: 16,
+          column: 1
+        }
+      }
+    },
+    fnMap: {},
+    branchMap: {},
+    s: {
+      "0": 0
+    },
+    f: {},
+    b: {},
+    _coverageSchema: "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    hash: "c25615eea552f7cda932363e1add1fce2c6720fc"
+  };
+  var coverage = global[gcv] || (global[gcv] = {});
+
+  if (!coverage[path] || coverage[path].hash !== hash) {
+    coverage[path] = coverageData;
+  }
+
+  var actualCoverage = coverage[path];
+  {
+    // @ts-ignore
+    cov_1ucs6un2j0 = function () {
+      return actualCoverage;
+    };
+  }
+  return actualCoverage;
+}
+
+cov_1ucs6un2j0();
+
+/* eslint-disable import/prefer-default-export */
+var MONTHS =
+/* istanbul ignore next */
+(cov_1ucs6un2j0().s[0]++, [{
+  month: 1,
+  displayValue: 'Enero'
+}, {
+  month: 2,
+  displayValue: 'Febrero'
+}, {
+  month: 3,
+  displayValue: 'Marzo'
+}, {
+  month: 4,
+  displayValue: 'Abril'
+}, {
+  month: 5,
+  displayValue: 'Mayo'
+}, {
+  month: 6,
+  displayValue: 'Junio'
+}, {
+  month: 7,
+  displayValue: 'Julio'
+}, {
+  month: 8,
+  displayValue: 'Agosto'
+}, {
+  month: 9,
+  displayValue: 'Septiembre'
+}, {
+  month: 10,
+  displayValue: 'Octubre'
+}, {
+  month: 11,
+  displayValue: 'Noviembre'
+}, {
+  month: 12,
+  displayValue: 'Diciembre'
+}]);
+
+/* istanbul ignore next */
+exports.MONTHS = MONTHS;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInV0aWxzLmpzIl0sIm5hbWVzIjpbIk1PTlRIUyIsIm1vbnRoIiwiZGlzcGxheVZhbHVlIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFlWTs7Ozs7Ozs7OztBQWZaO0FBRU8sSUFBTUEsTUFBTTtBQUFBO0FBQUEsMEJBQUcsQ0FDcEI7QUFBRUMsRUFBQUEsS0FBSyxFQUFFLENBQVQ7QUFBWUMsRUFBQUEsWUFBWSxFQUFFO0FBQTFCLENBRG9CLEVBRXBCO0FBQUVELEVBQUFBLEtBQUssRUFBRSxDQUFUO0FBQVlDLEVBQUFBLFlBQVksRUFBRTtBQUExQixDQUZvQixFQUdwQjtBQUFFRCxFQUFBQSxLQUFLLEVBQUUsQ0FBVDtBQUFZQyxFQUFBQSxZQUFZLEVBQUU7QUFBMUIsQ0FIb0IsRUFJcEI7QUFBRUQsRUFBQUEsS0FBSyxFQUFFLENBQVQ7QUFBWUMsRUFBQUEsWUFBWSxFQUFFO0FBQTFCLENBSm9CLEVBS3BCO0FBQUVELEVBQUFBLEtBQUssRUFBRSxDQUFUO0FBQVlDLEVBQUFBLFlBQVksRUFBRTtBQUExQixDQUxvQixFQU1wQjtBQUFFRCxFQUFBQSxLQUFLLEVBQUUsQ0FBVDtBQUFZQyxFQUFBQSxZQUFZLEVBQUU7QUFBMUIsQ0FOb0IsRUFPcEI7QUFBRUQsRUFBQUEsS0FBSyxFQUFFLENBQVQ7QUFBWUMsRUFBQUEsWUFBWSxFQUFFO0FBQTFCLENBUG9CLEVBUXBCO0FBQUVELEVBQUFBLEtBQUssRUFBRSxDQUFUO0FBQVlDLEVBQUFBLFlBQVksRUFBRTtBQUExQixDQVJvQixFQVNwQjtBQUFFRCxFQUFBQSxLQUFLLEVBQUUsQ0FBVDtBQUFZQyxFQUFBQSxZQUFZLEVBQUU7QUFBMUIsQ0FUb0IsRUFVcEI7QUFBRUQsRUFBQUEsS0FBSyxFQUFFLEVBQVQ7QUFBYUMsRUFBQUEsWUFBWSxFQUFFO0FBQTNCLENBVm9CLEVBV3BCO0FBQUVELEVBQUFBLEtBQUssRUFBRSxFQUFUO0FBQWFDLEVBQUFBLFlBQVksRUFBRTtBQUEzQixDQVhvQixFQVlwQjtBQUFFRCxFQUFBQSxLQUFLLEVBQUUsRUFBVDtBQUFhQyxFQUFBQSxZQUFZLEVBQUU7QUFBM0IsQ0Fab0IsQ0FBSCxDQUFaIiwic291cmNlc0NvbnRlbnQiOlsiLyogZXNsaW50LWRpc2FibGUgaW1wb3J0L3ByZWZlci1kZWZhdWx0LWV4cG9ydCAqL1xuXG5leHBvcnQgY29uc3QgTU9OVEhTID0gW1xuICB7IG1vbnRoOiAxLCBkaXNwbGF5VmFsdWU6ICdFbmVybycgfSxcbiAgeyBtb250aDogMiwgZGlzcGxheVZhbHVlOiAnRmVicmVybycgfSxcbiAgeyBtb250aDogMywgZGlzcGxheVZhbHVlOiAnTWFyem8nIH0sXG4gIHsgbW9udGg6IDQsIGRpc3BsYXlWYWx1ZTogJ0FicmlsJyB9LFxuICB7IG1vbnRoOiA1LCBkaXNwbGF5VmFsdWU6ICdNYXlvJyB9LFxuICB7IG1vbnRoOiA2LCBkaXNwbGF5VmFsdWU6ICdKdW5pbycgfSxcbiAgeyBtb250aDogNywgZGlzcGxheVZhbHVlOiAnSnVsaW8nIH0sXG4gIHsgbW9udGg6IDgsIGRpc3BsYXlWYWx1ZTogJ0Fnb3N0bycgfSxcbiAgeyBtb250aDogOSwgZGlzcGxheVZhbHVlOiAnU2VwdGllbWJyZScgfSxcbiAgeyBtb250aDogMTAsIGRpc3BsYXlWYWx1ZTogJ09jdHVicmUnIH0sXG4gIHsgbW9udGg6IDExLCBkaXNwbGF5VmFsdWU6ICdOb3ZpZW1icmUnIH0sXG4gIHsgbW9udGg6IDEyLCBkaXNwbGF5VmFsdWU6ICdEaWNpZW1icmUnIH0sXG5dO1xuIl19
