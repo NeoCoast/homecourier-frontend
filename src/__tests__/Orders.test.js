@@ -1,12 +1,13 @@
 // eslint-disable jsx-props-no-spreading
 import React from 'react';
 import faker from 'faker';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor, getByText } from '@testing-library/react';
 import { useSelector } from 'react-redux';
 import Orders from 'Components/OrdersList';
 import Order from 'Components/OrderCard';
-import ViewOrderModal from 'Components/Modals/ViewOrderModal';
+import OrdersService from 'Api/orders.service';
 import SuccessModal from 'Components/Modals/SuccessModal';
+import ErrorModal from 'Components/Modals/ErrorModal';
 
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
@@ -15,6 +16,32 @@ jest.mock('react-redux', () => ({
     push: jest.fn(),
   }),
 }));
+
+jest.mock('Api/orders.service');
+
+describe('Success modal for application', () => {
+  test('success message', () => {
+    const setShow = jest.fn();
+    const { getByText }= render(
+      <SuccessModal message="Ha tomado la orden! Gracias por ayudar!" show setShow={setShow} />
+    );
+    expect(getByText(/Ha tomado/i)).toBeInTheDocument();
+    fireEvent.click(document.getElementById('close-ok-modal'));
+    expect(setShow).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('Error modal for application', () => {
+  test('Error message', () => {
+    const setShow = jest.fn();
+    const { getByText } = render(
+      <ErrorModal show setShow={setShow} />
+    );
+    expect(getByText(/Lo sentimos/i)).toBeInTheDocument();
+    fireEvent.click(document.getElementById('close-err-modal'));
+    expect(setShow).toHaveBeenCalledTimes(1);
+  });
+});
 
 describe('Orders', () => {
   beforeEach(() => {
@@ -150,9 +177,15 @@ describe('Orders', () => {
     expect(getAllByText(props.orders[0].description)[0]).toBeInTheDocument();
   });
 
-  test('Take order modal', () => {
+  test('Finish order', async () => {
+    useSelector.mockImplementation((selector) => selector({
+      logUser: {
+        data: {  },
+        loggedIn: false,
+      },
+    }));
     const props = {
-      order: {
+      orders: [{
         id: faker.random.number(),
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
@@ -160,26 +193,53 @@ describe('Orders', () => {
         categories: [{
           label: 'Supermercado',
         }],
-      },
+        status: 'in_process'
+      }],
     };
-    const onClose = jest.fn();
-    const onConfirm = jest.fn();
-    const { getAllByText } = render(
-      <ViewOrderModal order={props.order} onClose={onClose} onConfirm={onConfirm} />
-    );
-    fireEvent.click(getAllByText(/Postularse/i)[2]);
-    expect(onConfirm).toHaveBeenCalledTimes(1);
-    expect(onClose).toHaveBeenCalledTimes(1);
-  });
-
-  describe('Success modal for application', () => {
-    test('ok button', () => {
-      const setShow = jest.fn();
-      render(
-        <SuccessModal message="Ha tomado la orden! Gracias por ayudar!" show setShow={setShow} />
-      );
-      fireEvent.click(document.getElementById('close-ok-modal'));
-      expect(setShow).toHaveBeenCalledTimes(1);
+    OrdersService.setOrderStatus.mockResolvedValue({
+      data: {
+        order_id: faker.random.number()
+      },
     });
+    const setLoading = jest.fn();
+    const { getByText, getAllByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
+    fireEvent.click(getByText(/Ver más/i));
+    fireEvent.click(getByText(/Finalizar/i));
+    await waitFor(() => {
+      expect(getByText(/Calific/i)).toBeInTheDocument();
+
+    });
+  })
+
+  test('Take order modal', async () => {
+    
+    const props = {
+      orders: [{
+        id: faker.random.number(),
+        description: faker.lorem.paragraph(),
+        title: faker.random.words(),
+        helpee: faker.internet.userName(),
+        categories: [{
+          label: 'Supermercado',
+        }],
+        status: 'created'
+      }],
+    };
+    OrdersService.take.mockResolvedValue({
+      data: {
+        order_id: faker.random.number()
+      },
+    });
+
+    const setLoading = jest.fn();
+    const { getByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
+    fireEvent.click(getByText(/Ver más/i));
+    fireEvent.click(getByText(/Postularse/i));
+    await waitFor(() => {
+      expect(getByText(/Ha tomado/i)).toBeInTheDocument();
+      fireEvent.click(document.getElementById('close-ok-modal'));
+    });
+
   });
 });
+
