@@ -22,8 +22,8 @@ const VolunteerApplicationsList = ({ orderId }) => {
     const fetchVolunteerApplications = async () => {
       try {
         setLoading(true);
-        const res = await orderServices.getApplicationsList(orderId);
-        setVolunteerApplications(res);
+        const response = await orderServices.getApplicationsList(orderId);
+        setVolunteerApplications(response);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -101,8 +101,8 @@ const VolunteerApplicationsList = ({ orderId }) => {
                   <Button
                     primary
                     label="Aceptar"
-                    onClick={(e) => {
-                      e.preventDefault();
+                    onClick={(event) => {
+                      event.preventDefault();
                       onAccept(item.id);
                     }}
                   />
