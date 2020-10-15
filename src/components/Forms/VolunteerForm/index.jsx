@@ -52,7 +52,13 @@ const VolunteerForm = ({
           required
           size="small"
         >
-          <MaskedInput data-tip="React-tooltip" name="userId" id="userId" mask={mask} />
+          <MaskedInput
+            aria-label="userId"
+            data-tip="React-tooltip"
+            name="userId"
+            id="userId"
+            mask={mask}
+          />
         </FormField>
         <ReactTooltip place="bottom" type="info" effect="float">
           Si su CI es menor a un millon ingrese 0 al comienzo.
@@ -66,6 +72,7 @@ const VolunteerForm = ({
           required
         >
           <TextInput
+            aria-label="documentFace"
             name="documentFace"
             id="documentFace"
             type="file"
@@ -84,6 +91,7 @@ const VolunteerForm = ({
           required
         >
           <TextInput
+            aria-label="documentBack"
             name="documentBack"
             id="documentBack"
             type="file"
