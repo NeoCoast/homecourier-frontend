@@ -49,7 +49,6 @@ const Login = () => {
     userInfo.token = user.token;
     const rating = user.documentNumber ? await volunteersService.pendingRating(userInfo.id)
       : await helpeesService.pendingRating(userInfo.id);
-    console.log('rating: ', rating);
     userInfo.pendingRateId = rating.orderId;
     userInfo.pendingRate = rating.pending;
     await dispatch(login(userInfo));

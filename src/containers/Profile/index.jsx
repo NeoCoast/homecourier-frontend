@@ -21,7 +21,7 @@ const Profile = () => {
       <Box>
         <Heading>Bienvenido {userInfo.username}</Heading>
       </Box>
-      {rate && <RateOrder orderId={userInfo.pendingRateId} setShow={setRate} show={rate} />}
+      <RateOrder orderId={userInfo.pendingRateId} setShow={setRate} show={rate} />
     </Box>
   );
 };
