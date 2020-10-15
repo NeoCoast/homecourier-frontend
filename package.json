@@ -8,7 +8,7 @@
     "build": "webpack --mode production",
     "lint": "eslint ./ --ignore-pattern .gitignore --ignore-pattern dist --ext js,jsx .",
     "stylelint": "stylelint '**/*.scss'",
-    "test": "jest --collect-coverage",
+    "test": "jest --collect-coverage --silent",
     "test:watch": "jest --watch"
   },
   "author": "NeoCoast",
