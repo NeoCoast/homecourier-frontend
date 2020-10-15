@@ -35,7 +35,7 @@ const ProfileDropdown = () => {
   };
 
   return (
-    <Box fill justify="center" align="end" pad="small">
+    <Box justify="center" align="end" pad="small">
       <Box ref={avatarRef}>
         <Avatar src={userData.avatar ? userData.avatar : AddImage} onClick={switchDrop} border="all" />
       </Box>
