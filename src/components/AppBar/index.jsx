@@ -29,10 +29,13 @@ const AppBar = () => {
         </Heading>
       </Box>
       {!loggedIn && <BarButton />}
-      <Box fill direction="row" alignSelf="end" justify="end" align="center">
-        {loggedIn && <NotificationMenu />}
-        {loggedIn && <ProfileDropdown />}
-      </Box>
+      {loggedIn
+      && (
+        <Box fill direction="row" alignSelf="end" justify="end" align="center">
+          <NotificationMenu />
+          <ProfileDropdown />
+        </Box>
+      )}
       {sideMenu && <SideMenu onClose={onClose} />}
     </Nav>
   );
