@@ -1,7 +1,7 @@
 // eslint-disable jsx-props-no-spreading
 import React from 'react';
 import faker from 'faker';
-import { fireEvent, render, waitFor, getByText } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { useSelector } from 'react-redux';
 import Orders from 'Components/OrdersList';
 import Order from 'Components/OrderCard';

@@ -3,7 +3,7 @@ import { ToastContainer } from 'react-toastify';
 
 const CustomToast = () => (
   <ToastContainer
-    position="top-right"
+    position="bottom-right"
     autoClose={5000}
     hideProgressBar={false}
     newestOnTop={false}
