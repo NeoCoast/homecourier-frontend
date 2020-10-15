@@ -5,9 +5,16 @@ const getOrders = (status) => HTTP.get(`/orders/show/all?status=${status}`);
 const getApplicationsList = (orderId) => HTTP.get('/orders/show/volunteers', { params: { 'order_id': orderId } })
   .then(({ data }) => data);
 
+const getMyOrders = (helpeeId) => HTTP.get(`/orders/show/helpee?helpee_id=${helpeeId}`);
+
 const take = ({ volunteerId, orderId }) => HTTP.post('/orders/take', {
   volunteerId,
   orderId,
+}).then(({ data }) => data);
+
+const setOrderStatus = ({ orderId, status }) => HTTP.post('orders/status', {
+  orderId,
+  status,
 }).then(({ data }) => data);
 
 const create = ({
@@ -28,4 +35,6 @@ export default {
   take,
   create,
   acceptVolunteerForOrder,
+  getMyOrders,
+  setOrderStatus,
 };

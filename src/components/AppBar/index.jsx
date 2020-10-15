@@ -8,6 +8,7 @@ import Logo from 'Assets/homecourier_logo.png';
 import BarButton from 'Components/BarButton';
 import ProfileDropdown from 'Components/ProfileDropdown';
 import SideMenu from 'Components/SideMenu';
+import NotificationMenu from 'Components/NotificationMenu';
 
 const AppBar = () => {
   const loggedIn = useSelector((state) => state.logUser.loggedIn);
@@ -28,7 +29,13 @@ const AppBar = () => {
         </Heading>
       </Box>
       {!loggedIn && <BarButton />}
-      {loggedIn && <ProfileDropdown />}
+      {loggedIn
+      && (
+        <Box fill direction="row" alignSelf="end" justify="end" align="center">
+          <NotificationMenu />
+          <ProfileDropdown />
+        </Box>
+      )}
       {sideMenu && <SideMenu onClose={onClose} />}
     </Nav>
   );
