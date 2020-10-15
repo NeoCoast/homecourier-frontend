@@ -5,6 +5,7 @@ import {
 import PropTypes from 'prop-types';
 import ChipContainer from 'Components/Utils/ChipContainer';
 import UserProfileInfo from 'Components/Utils/UserProfileInfo';
+import { ORDER_STATUS_ACTIONS } from 'Data/constants';
 
 const ViewOrderModal = ({ order, onClose, onConfirm }) => (
   <Layer responsive={false} onEsc={onClose} onClickOutside={onClose} full="horizontal" margin="xlarge" round="large">
@@ -31,7 +32,7 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => (
         <Button secondary label="Cancelar" onClick={onClose} />
         <Button
           primary
-          label="Postularse"
+          label={ORDER_STATUS_ACTIONS[order.status]}
           onClick={() => {
             onConfirm(order.id);
             onClose();

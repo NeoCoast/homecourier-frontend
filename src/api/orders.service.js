@@ -9,6 +9,11 @@ const take = ({ volunteerId, orderId }) => HTTP.post('/orders/take', {
   orderId,
 }).then(({ data }) => data);
 
+const setOrderStatus = ({ orderId, status }) => HTTP.post('orders/status', {
+  orderId,
+  status,
+}).then(({ data }) => data);
+
 const create = ({
   title, helpeeId, categories, description,
 }) => HTTP.post('/orders', {
@@ -23,4 +28,5 @@ export default {
   take,
   create,
   getMyOrders,
+  setOrderStatus,
 };

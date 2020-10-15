@@ -17,6 +17,7 @@ const RateOrder = (props) => {
     setShow,
   } = props;
 
+
   const isHelpee = undefined === useSelector((state) => state.logUser.data.documentNumber);
 
   const rate = (info) => {
