@@ -4,7 +4,6 @@ import {
   Box, Button, TextArea, Heading, Layer, TextInput,
 } from 'grommet';
 import Select from 'react-select';
-import { notifySuccess, notifyError } from 'Helpers/toast.helper';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ordersService from 'Api/orders.service';
@@ -36,23 +35,43 @@ const CreateOrder = ({ closeModal }) => {
         });
       });
     } catch (error) {
-      notifyError(error);
+      setInvalid(true);
+      setErrorMessage('Ocurrío un error intentando comunicarse con el servidor');
     }
     setOptions(opts);
   };
 
   const newOrder = async () => {
     let errorFlag = false;
+    let msgError = '';
     if (!title) {
-      notifyError('Título es obligatorio');
+      msgError += 'Título es obligatorio';
+      errorFlag = true;
+    } else if (title.length < 5) {
+      msgError += 'Título debe tener al menos 5 carácteres';
       errorFlag = true;
     }
     if (categories.length === 0) {
-      notifyError('Debe seleccionar al menos una categoría');
+      if (msgError) {
+        msgError += '\nDebe seleccionar al menos una categoría';
+      } else {
+        msgError = 'Debe seleccionar al menos una categoría';
+      }
       errorFlag = true;
     }
     if (!description) {
-      notifyError('Descripción es obligatoria');
+      if (msgError) {
+        msgError += '\nDescripción es obligatoria';
+      } else {
+        msgError = 'Descripción es obligatoria';
+      }
+      errorFlag = true;
+    } else if (description.length < 5) {
+      if (msgError) {
+        msgError += '\nDescripción debe tener al menos 5 carácteres';
+      } else {
+        msgError = 'Descripción debe tener al menos 5 carácteres';
+      }
       errorFlag = true;
     }
     if (!errorFlag) {
@@ -70,10 +89,12 @@ const CreateOrder = ({ closeModal }) => {
         setErrorMessage('Ocurrío un error intentando comunicarse con el servidor');
         errorFlag = true;
       }
+    } else {
+      setInvalid(true);
+      setErrorMessage(msgError);
     }
     if (!errorFlag) {
       setLoading(false);
-      notifySuccess('Su pedido fue registrado con exito');
       closeModal();
     }
   };
