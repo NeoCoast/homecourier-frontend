@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Box, InfiniteScroll, Text, Button,
 } from 'grommet';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { Alert } from 'grommet-icons';
 import Spinner from 'Components/Utils/Spinner';
 import UserProfileInfo from 'Components/Utils/UserProfileInfo';
@@ -13,9 +11,7 @@ import ErrorModal from 'Components/Modals/ErrorModal';
 import SuccessModal from 'Components/Modals/SuccessModal';
 
 const VolunteerApplicationsList = ({ orderId }) => {
-  const loggedIn = useSelector((state) => state.logUser.loggedIn);
-  const history = useHistory();
-  const [voluntierApplications, setVoluntierApplications] = useState([]);
+  const [volunteerApplications, setVolunteerApplications] = useState([]);
   const [loading, setLoading] = useState(false);
   const [invalid, setInvalid] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -23,23 +19,20 @@ const VolunteerApplicationsList = ({ orderId }) => {
   const [successMsg, setSuccesMsg] = useState('');
 
   useEffect(() => {
-    if (!loggedIn) history.push('/');
-    else {
-      const fetchVoluntierApplications = async () => {
-        try {
-          setLoading(true);
-          const res = await orderServices.getApplicationsList(orderId);
-          setVoluntierApplications(res);
-          setLoading(false);
-        } catch (error) {
-          setLoading(false);
-          setErrorMsg('Se ha producido un error al listar las postulaciones');
-          setInvalid(true);
-          console.error('error: ', error);
-        }
-      };
-      fetchVoluntierApplications();
-    }
+    const fetchVolunteerApplications = async () => {
+      try {
+        setLoading(true);
+        const res = await orderServices.getApplicationsList(orderId);
+        setVolunteerApplications(res);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        setErrorMsg('Se ha producido un error al listar las postulaciones');
+        setInvalid(true);
+        console.error('error: ', error);
+      }
+    };
+    fetchVolunteerApplications();
   }, []);
 
   const onAccept = async (volunteerId) => {
@@ -64,7 +57,7 @@ const VolunteerApplicationsList = ({ orderId }) => {
       {invalid && <ErrorModal errorMessage={errorMsg} setShow={setInvalid} show={invalid} />}
       {success && <SuccessModal setShow={setSuccess} show={setSuccess} message={successMsg} />}
       { loading && <Spinner />}
-      { !loading && voluntierApplications != null && voluntierApplications.length > 0 && (
+      { !loading && volunteerApplications != null && volunteerApplications.length > 0 && (
         <Box
           pad="small"
         >
@@ -77,7 +70,7 @@ const VolunteerApplicationsList = ({ orderId }) => {
             Lista de postulaciones
           </Text>
           <InfiniteScroll
-            items={voluntierApplications}
+            items={volunteerApplications}
           >
             {(item, index) => (
               <Box
@@ -119,7 +112,7 @@ const VolunteerApplicationsList = ({ orderId }) => {
           </InfiniteScroll>
         </Box>
       )}
-      { !loading && voluntierApplications != null && voluntierApplications.length === 0 && (
+      { !loading && volunteerApplications != null && volunteerApplications.length === 0 && (
         <Box
           pad="small"
           direction="row"
