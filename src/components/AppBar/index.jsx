@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Box, Button, Heading, Image, Nav, Text,
+  Box, Button, Heading, Image, Nav,
 } from 'grommet';
 import { useSelector } from 'react-redux';
 import { Menu } from 'grommet-icons';
@@ -12,10 +12,7 @@ import NotificationMenu from 'Components/NotificationMenu';
 
 const AppBar = () => {
   const loggedIn = useSelector((state) => state.logUser.loggedIn);
-  const notis = useSelector((state) => state.userNotifications.notifications);
   const [sideMenu, setSideMenu] = useState(false);
-
-  const hola = () =>{ console.log('i am notis', notis); return [...notis];}
 
   const onClose = () => setSideMenu(false);
   return (
@@ -28,7 +25,7 @@ const AppBar = () => {
           <Image src={Logo} fit="contain" />
         </Box>
         <Heading level="3" margin={{ horizontal: 'small', vertical: 'none' }}>
-          HomeCourier {console.log('rerendering', notis)}
+          HomeCourier
         </Heading>
       </Box>
       {!loggedIn && <BarButton />}

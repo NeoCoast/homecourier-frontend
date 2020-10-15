@@ -7,6 +7,7 @@ import React, { useRef, useState } from 'react';
 import notificationsService from 'Api/notifications.service';
 import { RingLoader } from 'react-spinners';
 import { loadAll } from 'Actions/userNotifications';
+import NotificationComponent from './Notification';
 
 const NotificationMenu = () => {
   const dispatch = useDispatch();
@@ -67,17 +68,6 @@ const NotificationMenu = () => {
     setSeen();
   };
 
-  const listChildren = (item) => (
-    <Box direction="row" justify="between" fill="horizontal" align="center" gap="small" style={{ minHeight: '50px' }} key={item.id}>
-      {item.status === 'not_seen' && <Box round background="brand" style={{ height: '10px', width: '10px' }} id="new-box"></Box>}
-      <Box>
-        <Text style={{ fontWeight: 'bold' }}>{item.id}:{item.title}</Text>
-        <Text>{item.body}</Text>
-      </Box>
-      <Text size="small">Hace 5 min.</Text>
-    </Box>
-  );
-
   return (
     <Box pad="small" justify="center">
 
@@ -109,7 +99,7 @@ const NotificationMenu = () => {
               <List
                 data={notSeenNotifications}
               >
-                {listChildren}
+                {NotificationComponent}
               </List>
             )}
             <Box border="bottom" fill="horizontal" margin={{ bottom: 'small' }}></Box>
@@ -121,7 +111,7 @@ const NotificationMenu = () => {
               <List
                 data={seenNotifications}
               >
-                {listChildren}
+                {NotificationComponent}
               </List>
             )}
             {seenNotifications.length === 0 && <Box border="bottom" fill="horizontal" margin={{ bottom: 'small' }}></Box>}
@@ -144,7 +134,7 @@ const NotificationMenu = () => {
                       setPageNumber(pageNumber + 1);
                     }}
                   >
-                    {(item) => listChildren(item)}
+                    {NotificationComponent}
                   </List>
                 </Box>
               </Box>
