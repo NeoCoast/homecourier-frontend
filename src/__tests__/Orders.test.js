@@ -202,7 +202,7 @@ describe('Orders', () => {
       },
     });
     const setLoading = jest.fn();
-    const { getByText, getAllByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
+    const { getByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
     fireEvent.click(getByText(/Ver más/i));
     fireEvent.click(getByText(/Finalizar/i));
     await waitFor(() => {
