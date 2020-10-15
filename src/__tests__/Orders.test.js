@@ -199,7 +199,7 @@ describe('Orders', () => {
   test('Finish order', async () => {
     useSelector.mockImplementation((selector) => selector({
       logUser: {
-        data: { name: 'A', lastName: 'A' },
+        data: { name: faker.name.firstName(), lastName: faker.name.lastName()},
         loggedIn: false,
       },
     }));
