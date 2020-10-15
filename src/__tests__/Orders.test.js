@@ -22,7 +22,7 @@ jest.mock('Api/orders.service');
 describe('Success modal for application', () => {
   test('success message', () => {
     const setShow = jest.fn();
-    const { getByText }= render(
+    const { getByText } = render(
       <SuccessModal message="Ha tomado la orden! Gracias por ayudar!" show setShow={setShow} />
     );
     expect(getByText(/Ha tomado/i)).toBeInTheDocument();
@@ -180,7 +180,7 @@ describe('Orders', () => {
   test('Finish order', async () => {
     useSelector.mockImplementation((selector) => selector({
       logUser: {
-        data: {  },
+        data: {},
         loggedIn: false,
       },
     }));
@@ -193,26 +193,24 @@ describe('Orders', () => {
         categories: [{
           label: 'Supermercado',
         }],
-        status: 'in_process'
+        status: 'in_process',
       }],
     };
     OrdersService.setOrderStatus.mockResolvedValue({
       data: {
-        order_id: faker.random.number()
+        order_id: faker.random.number(),
       },
     });
     const setLoading = jest.fn();
-    const { getByText, getAllByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
+    const { getByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
     fireEvent.click(getByText(/Ver más/i));
     fireEvent.click(getByText(/Finalizar/i));
     await waitFor(() => {
       expect(getByText(/Calific/i)).toBeInTheDocument();
-
     });
-  })
+  });
 
   test('Take order modal', async () => {
-    
     const props = {
       orders: [{
         id: faker.random.number(),
@@ -222,12 +220,12 @@ describe('Orders', () => {
         categories: [{
           label: 'Supermercado',
         }],
-        status: 'created'
+        status: 'created',
       }],
     };
     OrdersService.take.mockResolvedValue({
       data: {
-        order_id: faker.random.number()
+        order_id: faker.random.number(),
       },
     });
 
@@ -239,7 +237,5 @@ describe('Orders', () => {
       expect(getByText(/Ha tomado/i)).toBeInTheDocument();
       fireEvent.click(document.getElementById('close-ok-modal'));
     });
-
   });
 });
-
