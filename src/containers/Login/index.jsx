@@ -5,6 +5,8 @@ import {
 } from 'grommet';
 import { Link } from 'react-router-dom';
 import usersService from 'Api/users.service';
+import volunteersService from 'Api/volunteer.service';
+import helpeesService from 'Api/helpee.service';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { login } from 'Actions/logUser';
@@ -26,20 +28,38 @@ const Login = () => {
     </Text>
   );
 
+  const signIn = async (Forms) => {
+    const loginResponse = await usersService.login({
+      user: {
+        email: Forms.value.email,
+        password: Forms.value.password,
+      },
+    });
+    const info = loginResponse.data;
+    info.token = loginResponse.headers.authorization;
+    await dispatch(login(info));
+    return info;
+  };
+
+  const loadUserInfo = async (user) => {
+    const response = user.documentNumber
+      ? await volunteersService.info(user.id)
+      : await helpeesService.info(user.id);
+    const userInfo = response.data;
+    userInfo.token = user.token;
+    const rating = user.documentNumber ? await volunteersService.pendingRating(userInfo.id)
+      : await helpeesService.pendingRating(userInfo.id);
+    userInfo.pendingRateId = rating.orderId;
+    userInfo.pendingRate = rating.pending;
+    await dispatch(login(userInfo));
+  };
+
   const submitLogin = async (Forms) => {
     try {
       setLoading(true);
-      const response = await usersService.login({
-        user: {
-          email: Forms.value.email,
-          password: Forms.value.password,
-        },
-      });
-      const userInfo = response.data; // Creates an object with user data and login token
-      userInfo.token = response.headers.authorization;
-      await dispatch(login(userInfo)); // Waits for redux's state to change
-      if (userInfo.documentNumber) history.push(ROUTES.orders);
-      else history.push(ROUTES.profile);
+      const loginData = await signIn(Forms);
+      await loadUserInfo(loginData);
+      history.push(ROUTES.profile);
     } catch (failure) {
       setLoading(false);
       console.log(failure);
@@ -97,7 +117,6 @@ const Login = () => {
         </Box>
 
         {invalid && <ErrorModal errorMessage={error} setShow={setInvalid} show={invalid} />}
-
         {loading && <Spinner />}
       </Box>
     </Grid>

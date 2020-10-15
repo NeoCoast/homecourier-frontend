@@ -78,7 +78,6 @@ const Rating = (props) => {
       </Stack>
     );
   }
-
   return (
     <Box>
       {loading && <Spinner />}

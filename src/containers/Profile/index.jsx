@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { Box, Heading } from 'grommet';
 import { useSelector } from 'react-redux';
@@ -6,14 +6,22 @@ import RateOrder from 'Containers/RateOrder';
 
 const Profile = () => {
   const userInfo = useSelector((state) => state.logUser.data);
-  const [unrated, setUnrated] = useState(true);
+  const [rate, setRate] = useState(false);
+
+  useEffect(() => {
+    if (userInfo.pendingRate) {
+      setRate(true);
+    } else {
+      setRate(false);
+    }
+  }, [userInfo]);
 
   return (
     <Box fill align="center">
       <Box>
         <Heading>Bienvenido {userInfo.username}</Heading>
-        <RateOrder orderId={4} show={unrated} setShow={setUnrated} />
       </Box>
+      <RateOrder orderId={userInfo.pendingRateId} setShow={setRate} show={rate} />
     </Box>
   );
 };
