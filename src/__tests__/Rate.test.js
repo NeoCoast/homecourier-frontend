@@ -1,11 +1,11 @@
 // eslint-disable jsx-props-no-spreading
 import React from 'react';
 import faker from 'faker';
-import { fireEvent, render } from '@testing-library/react';
-import Rating from 'Components/Rating';
-import Order from 'Components/OrderCard';
-import ViewOrderModal from 'Components/Modals/ViewOrderModal';
-import SuccessModal from 'Components/Modals/SuccessModal';
+import {
+  fireEvent, render, screen, waitFor, cleanup,
+} from '@testing-library/react';
+import RateOrder from 'Containers/RateOrder';
+import { useSelector } from 'react-redux';
 
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
@@ -16,87 +16,73 @@ jest.mock('react-redux', () => ({
 }));
 
 describe('Rating', () => {
-  const openModal = jest.fn();
-
-  test('Shows the title', () => {
-    const props = {
-      title: faker.random.words(),
-      onSubmit: console.log('Rated'),
-    };
-    const { getByText } = render(<Rating title={props.title} />);
-
-    expect(getByText(props.order.title)).toBeInTheDocument();
-  });
-
-  test('Shows the stars', () => {
-    const props = {
-      stars: faker.random.number(),
-      onSubmit: console.log('Rated'),
-    };
-    const { getByRole } = render(<Rating stars={props.stars} />);
-
-    expect(getByRole('Stack')).toBeInTheDocument();
-  });
-
-  test('Open modal', () => {
-    const props = {
-      buttonLabel: 'rate',
-      onSubmit: console.log('Rated'),
-    };
-    const { getByText } = render(<Order order={props.order} viewportSize="small" openModal={openModal} />);
-    fireEvent.click(getByText(/rate/i));
-    expect(openModal).toHaveBeenCalledTimes(1);
-  });
-
-  test('Shows more', () => {
-    const props = {
-      orders: [{
-        id: faker.random.number(),
-        description: faker.lorem.paragraph(),
-        title: faker.random.words(),
-        helpee: faker.internet.userName(),
-        categories: [{
-          label: 'Supermercado',
-        }],
-      }],
-    };
-    const setLoading = jest.fn();
-    const { getByText } = render(<Rating orders={props.orders} setLoading={setLoading} />);
-    fireEvent.click(getByText(/Ver más/i));
-    expect(getByText(/Descripción/i)).toBeInTheDocument();
-  });
-
-  test('Take order modal', () => {
-    const props = {
-      order: {
-        id: faker.random.number(),
-        description: faker.lorem.paragraph(),
-        title: faker.random.words(),
-        helpee: faker.internet.userName(),
-        categories: [{
-          label: 'Supermercado',
-        }],
+  beforeEach(() => {
+    useSelector.mockImplementation((selector) => selector({
+      logUser: {
+        data: { documentNumber: '232323' },
+        loggedIn: false,
       },
-    };
-    const onClose = jest.fn();
-    const onConfirm = jest.fn();
-    const { getAllByText } = render(
-      <ViewOrderModal order={props.order} onClose={onClose} onConfirm={onConfirm} />
-    );
-    fireEvent.click(getAllByText(/Postularse/i)[2]);
-    expect(onConfirm).toHaveBeenCalledTimes(1);
-    expect(onClose).toHaveBeenCalledTimes(1);
+    }));
+    cleanup();
   });
 
-  describe('Success modal for application', () => {
-    test('ok button', () => {
-      const setShow = jest.fn();
-      const { getByText } = render(
-        <SuccessModal message="Ha tomado la orden! Gracias por ayudar!" show setShow={setShow} />
-      );
-      // fireEvent.click(getBy(/Calificar/i));
-      fireEvent.click(getByText(/Calificar/i));
-      expect(setShow).toHaveBeenCalledTimes(1);
+  const setShow = () => false;
+
+  const props = {
+    orderId: 3,
+    show: true,
+    title: faker.random.words(),
+    buttonLabel: faker.random.words(),
+    onSubmit: console.log('Rated'),
+    stars: faker.random.number({
+      'min': 10,
+      'max': 50,
+    }),
+    description: faker.random.words(),
+    errorMessageComment: faker.random.words(),
+    errorMessageRating: faker.random.words(),
+    successMessage: faker.random.words(),
+  };
+
+  test('Shows Icons', async () => {
+    render(<RateOrder orderId={props.orderId} stars={props.stars} show={props.show} setShow={setShow} />);
+    const items = await screen.findAllByLabelText(/Fireball/i);
+    expect(items).toHaveLength(props.stars);
+  });
+
+  test('Rates user', async () => {
+    const { getByText } = render(<RateOrder orderId={props.orderId} buttonLabel={props.buttonLabel} show={props.show} setShow={setShow} />);
+
+    fireEvent.click(getByText(props.buttonLabel));
+    await waitFor(() => {
+      expect(getByText(/Lo Sentimos! Ha ocurrido error./i)).toBeInTheDocument();
+    });
+  });
+
+  test('Changes placeholder', async () => {
+    const { getByPlaceholderText } = render(<RateOrder orderId={props.orderId} description={props.description} show={props.show} setShow={setShow} />);
+    expect(getByPlaceholderText(props.description)).toBeInTheDocument();
+  });
+
+  test('Clicks on Star', async () => {
+    const dom = render(<RateOrder orderId={props.orderId} stars={props.stars} show={props.show} setShow={setShow} />);
+    const items = await screen.findAllByLabelText(/Fireball/i);
+    fireEvent.click(items[props.stars - 1]);
+    await waitFor(() => {
+      expect(dom.findByLabelText(/StatusGoodSmall/i));
+    });
+  });
+
+  test('Recognizes volunteer', async () => {
+    const { getAllByText } = render(<RateOrder orderId={props.orderId} show={props.show} setShow={setShow} />);
+    expect(getAllByText(/Califique al usuario/i)).toHaveLength(3);
+  });
+
+  test('Submits with no rating', async () => {
+    const dom = render(<RateOrder orderId={props.orderId} buttonLabel={props.buttonLabel} stars={props.stars} show={props.show} setShow={setShow} />);
+    fireEvent.click(dom.getByText(props.buttonLabel));
+    await waitFor(() => {
+      expect(dom.getByText(/Lo Sentimos! Ha ocurrido error./i)).toBeInTheDocument();
     });
   });
 });

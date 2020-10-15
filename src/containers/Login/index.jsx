@@ -79,7 +79,7 @@ const Login = () => {
           <FormField name="password">
             <TextInput id="password" name="password" placeholder="Contraseña" type="password" required />
           </FormField>
-          <Button primary disabled={loading} label="Login" fill="horizontal" type="submit" />
+          <Button primary disabled={loading} label="Ingresar" fill="horizontal" type="submit" />
         </Form>
         <Box fill gap="small">
           <Box direction="row" fill justify="center" gap="small">
