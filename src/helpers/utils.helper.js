@@ -1,4 +1,5 @@
 /* eslint-disable import/prefer-default-export */
+import { DateTime } from 'luxon';
 
 export const jsonToFormData = (json, formName) => {
   const formData = new FormData();
@@ -24,4 +25,15 @@ export const dataURItoBlob = (dataURI) => {
   }
 
   return new Blob([ia], { type: mimeString });
+};
+
+export const dateToPrint = (createdAt) => {
+  const dateTime = DateTime.fromISO(createdAt);
+  if (dateTime.toFormat('dd/MM/yyyy') === DateTime.local().toFormat('dd/MM/yyyy')) {
+    return dateTime.toFormat('HH:mm');
+  }
+  if (dateTime.toFormat('yyyy') === DateTime.local().toFormat('yyyy')) {
+    return dateTime.toFormat('dd/MM HH:mm');
+  }
+  return dateTime.toFormat('dd/MM/yyyy HH:mm');
 };

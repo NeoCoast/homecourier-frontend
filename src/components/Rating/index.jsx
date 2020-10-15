@@ -78,6 +78,7 @@ const Rating = (props) => {
       </Stack>
     );
   }
+
   return (
     <Box>
       {loading && <Spinner />}
@@ -99,15 +100,17 @@ const Rating = (props) => {
               <Box align="center" pad="medium">
                 <TextArea
                   size="medium"
+                  id="Comment"
                   placeholder={description}
                   onChange={(event) => setFeedBack(event.target.value)}
                 />
               </Box>
               <Button
                 margin="small"
-                label={buttonLabel}
                 onClick={handleSubmit}
-              />
+                label={buttonLabel}
+              >
+              </Button>
             </Layer>
           )}
     </Box>
