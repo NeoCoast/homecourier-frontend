@@ -1,7 +1,6 @@
 import React from 'react';
 import faker from 'faker';
 import { fireEvent, waitFor, cleanup } from '@testing-library/react';
-import { ROUTES } from 'Data/constants';
 import { MONTHS } from 'Data/utils';
 import Register from 'Containers/Register';
 import render from '../../__mocks__/render';
@@ -73,7 +72,7 @@ describe('Register container', () => {
     fireEvent.click(getByRole('button', { name: 'Registrarse' }));
 
     await waitFor(() => {
-      expect(getAllByText(/El Campo es Obligatorio/i)).toHaveLength(6);
+      expect(getAllByText(/Requerido/i)).toHaveLength(7);
       expect(getByText(/Inserte un email válido/i)).toBeInTheDocument();
     });
   });
@@ -83,7 +82,6 @@ describe('Register container', () => {
       getByText,
       getByRole,
       getByLabelText,
-      history,
     } = render(<Register />);
 
     // random data
@@ -115,16 +113,18 @@ describe('Register container', () => {
 
     expect(getByRole('form')).toBeInTheDocument();
 
+    const usernameResponse = faker.internet.userName();
     helpeeService.create.mockResolvedValue({
       status: 200,
-      username: faker.internet.userName(),
+      username: usernameResponse,
     });
 
     // submit form
     fireEvent.click(getByRole('button', { name: 'Registrarse' }));
 
     await waitFor(() => {
-      expect(history.location.pathname).toBe(ROUTES.registerOk);
+      // expect(getByText(`Bienvenido, ${usernameResponse}`)).toBeInTheDocument();
+      expect(getByText('Su solicitud de registro se ha enviado correctamente, le hemos enviado un mail de confirmacion a su casilla de correo.')).toBeInTheDocument();
     });
   });
 
