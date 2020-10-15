@@ -29,7 +29,6 @@ const VolunteerApplicationsList = ({ orderId }) => {
         setLoading(false);
         setErrorMsg('Se ha producido un error al listar las postulaciones');
         setInvalid(true);
-        console.error('error: ', error);
       }
     };
     fetchVolunteerApplications();
@@ -46,7 +45,6 @@ const VolunteerApplicationsList = ({ orderId }) => {
       setLoading(false);
       setErrorMsg('Se ha producido un error al aceptar al voluntario');
       setInvalid(true);
-      console.error('error: ', error);
     }
   };
 

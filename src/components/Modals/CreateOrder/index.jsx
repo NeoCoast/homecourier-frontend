@@ -10,7 +10,6 @@ import ordersService from 'Api/orders.service';
 import categoriesService from 'Api/categories.service';
 import Spinner from 'Components/Utils/Spinner';
 import ErrorModal from 'Components/Modals/ErrorModal';
-import 'react-toastify/dist/ReactToastify.css';
 
 const CreateOrder = ({ closeModal }) => {
   const [title, setTitle] = useState('');
@@ -152,13 +151,13 @@ const CreateOrder = ({ closeModal }) => {
         </Box>
       </Box>
       {invalid
-      && (
-        <ErrorModal
-          errorMessage={errorMessage}
-          setShow={setInvalid}
-          show={invalid}
-        />
-      )}
+        && (
+          <ErrorModal
+            errorMessage={errorMessage}
+            setShow={setInvalid}
+            show={invalid}
+          />
+        )}
       {loading && <Spinner />}
     </Layer>
   );
