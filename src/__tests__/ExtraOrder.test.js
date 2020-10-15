@@ -23,10 +23,14 @@ describe('Extra order', () => {
         id: faker.random.number(),
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
+        status: 'created',
       }],
     };
     ordersService.take.mockImplementation(() => ({ status: 200 }));
@@ -44,10 +48,14 @@ describe('Extra order', () => {
         id: faker.random.number(),
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
+        status: 'created',
       }],
     };
     ordersService.take.mockImplementation(() => { throw new Error('error'); });

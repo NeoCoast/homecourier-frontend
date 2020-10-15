@@ -26,7 +26,7 @@ describe('Register', () => {
   test('Has login button', () => {
     const { getByText } = render(<Router><Login /></Router>);
 
-    expect(getByText(/Login/i)).toBeInTheDocument();
+    expect(getByText(/Ingresar/i)).toBeInTheDocument();
   });
 
   test('Shows Required Error', () => {
@@ -35,7 +35,7 @@ describe('Register', () => {
     fireEvent.change(document.getElementById('email'), { target: { value: 'esto no es email' } });
     fireEvent.change(document.getElementById('password'), { target: { value: 'password' } });
 
-    fireEvent.click(getByText(/Login/i));
+    fireEvent.click(getByText(/Ingresar/i));
 
     expect(getByText(/Inserte un email válido/i)).toBeInTheDocument();
   });
@@ -50,7 +50,7 @@ describe('Register', () => {
 
     fireEvent.change(document.getElementById('email'), { target: { value: user.email } });
     fireEvent.change(document.getElementById('password'), { target: { value: user.password } });
-    fireEvent.click(dom.getByText(/Login/i));
+    fireEvent.click(dom.getByText(/Ingresar/i));
     await waitFor(() => {
       expect(dom.getByText(/Lo Sentimos! Ha ocurrido error./i)).toBeInTheDocument();
     });
