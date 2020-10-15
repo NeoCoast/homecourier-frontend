@@ -12,15 +12,18 @@ import storage from 'redux-persist/lib/storage';
 
 import { combineReducers } from '@reduxjs/toolkit';
 import logUser from 'Reducers/logUser';
+import userNotifications from 'Reducers/userNotifications';
 
 const rootReducer = combineReducers({
   logUser,
+  userNotifications,
 });
 
 const persistConfig = {
   key: 'root',
   version: 1,
   storage,
+  blacklist: ['userNotifications'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
