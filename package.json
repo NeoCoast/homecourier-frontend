@@ -8,7 +8,7 @@
     "build": "webpack --mode production",
     "lint": "eslint ./ --ignore-pattern .gitignore --ignore-pattern dist --ext js,jsx .",
     "stylelint": "stylelint '**/*.scss'",
-    "test": "jest --collect-coverage",
+    "test": "jest --collect-coverage --silent",
     "test:watch": "jest --watch"
   },
   "author": "NeoCoast",
@@ -60,6 +60,7 @@
     "dotenv-webpack": "^3.0.0",
     "file-loader": "^6.1.0",
     "grommet": "^2.15.0",
+    "grommet-icons": "^4.5.0",
     "luxon": "^1.25.0",
     "react": "^16.9.0",
     "react-actioncable-provider": "^2.0.0",
