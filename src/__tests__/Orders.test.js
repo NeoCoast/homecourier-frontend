@@ -47,7 +47,7 @@ describe('Orders', () => {
   beforeEach(() => {
     useSelector.mockImplementation((selector) => selector({
       logUser: {
-        data: { documentNumber: '232323', name: 'A', lastName: 'A' },
+        data: { documentNumber: '232323', name: faker.name.firstName(), lastName: faker.name.lastName() },
         loggedIn: false,
       },
     }));
