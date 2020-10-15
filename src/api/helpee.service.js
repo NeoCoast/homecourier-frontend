@@ -11,7 +11,10 @@ const create = (helpee) => {
 
 const info = (id) => HTTP.get(`/helpees/${id}`);
 
+const pendingRating = (id) => HTTP.post('helpees/ratingPending', { user_id: id }).then(({ data }) => data);
+
 export default {
   create,
   info,
+  pendingRating,
 };

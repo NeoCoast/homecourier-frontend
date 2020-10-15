@@ -1,9 +1,9 @@
 import React from 'react';
 import Rating from 'Components/Rating';
 import { Box } from 'grommet';
-import { useSelector } from 'react-redux';
 import ratingService from 'Api/rating.service';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 const RateOrder = (props) => {
   const {
@@ -19,14 +19,17 @@ const RateOrder = (props) => {
     setShow,
   } = props;
 
-  const isHelpee = (undefined === useSelector((state) => state.logUser.document_number));
+  const isHelpee = undefined === useSelector((state) => state.logUser.data.documentNumber);
 
   const rate = (info) => {
     const ratingData = info;
-    ratingData.orderId = orderId;
-    ratingData.isHelpee = isHelpee;
+    ratingData.order_id = orderId;
     console.log(ratingData);
-    ratingService.rateFromOrder(ratingData);
+    if (isHelpee) {
+      ratingService.rateVolunteer(ratingData);
+    } else {
+      ratingService.rateHelpee(ratingData);
+    }
   };
 
   return (

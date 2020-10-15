@@ -41,21 +41,26 @@ const Login = () => {
     return info;
   };
 
-  const getUserInfo = async (user) => {
-    const response = user.documentNumber ? await volunteersService.info(user.id) : await helpeesService.info(user.id);
+  const loadUserInfo = async (user) => {
+    const response = user.documentNumber
+      ? await volunteersService.info(user.id)
+      : await helpeesService.info(user.id);
     const userInfo = response.data;
     userInfo.token = user.token;
+    const rating = user.documentNumber ? await volunteersService.pendingRating(userInfo.id)
+      : await helpeesService.pendingRating(userInfo.id);
+    console.log('rating: ', rating);
+    userInfo.pendingRateId = rating.orderId;
+    userInfo.pendingRate = rating.pending;
     await dispatch(login(userInfo));
-    return userInfo;
   };
 
   const submitLogin = async (Forms) => {
     try {
       setLoading(true);
       const loginData = await signIn(Forms);
-      const user = await getUserInfo(loginData);
-      if (user.documentNumber) history.push(ROUTES.orders);
-      else history.push(ROUTES.profile);
+      await loadUserInfo(loginData);
+      history.push(ROUTES.profile);
     } catch (failure) {
       setLoading(false);
       console.log(failure);
@@ -113,7 +118,6 @@ const Login = () => {
         </Box>
 
         {invalid && <ErrorModal errorMessage={error} setShow={setInvalid} show={invalid} />}
-
         {loading && <Spinner />}
       </Box>
     </Grid>
