@@ -9,6 +9,12 @@ const create = (volunteer) => {
     .catch((error) => error.response);
 };
 
+const info = (id) => HTTP.get(`/volunteers/${id}`);
+
+const pendingRating = (id) => HTTP.post('volunteers/ratingPending', { user_id: id }).then(({ data }) => data);
+
 export default {
   create,
+  info,
+  pendingRating,
 };
