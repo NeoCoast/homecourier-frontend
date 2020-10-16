@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open --env.mode development",
-    "build": "webpack --mode production",
+    "build": "webpack --mode production --env.mode production",
     "lint": "eslint ./ --ignore-pattern .gitignore --ignore-pattern dist --ext js,jsx .",
     "stylelint": "stylelint '**/*.scss'",
     "test": "jest --collect-coverage --silent",

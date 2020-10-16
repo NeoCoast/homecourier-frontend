@@ -6,6 +6,7 @@ import {
 import { useSelector } from 'react-redux';
 import VolunteerApplicationsList from 'Components/VolunteerApplicationsList';
 import orderServices from 'Api/orders.service';
+import faker from 'faker';
 
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
