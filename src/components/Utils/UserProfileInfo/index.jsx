@@ -1,6 +1,7 @@
 import { Avatar, Box, Text } from 'grommet';
 import React from 'react';
 import PropTypes from 'prop-types';
+import CalificationGradient from 'Components/Utils/CalificationGradient';
 
 const UserProfileInfo = ({ user }) => (
   <Box direction="row" gap="small" fill="horizontal">
@@ -8,6 +9,7 @@ const UserProfileInfo = ({ user }) => (
 
     <Box>
       <Text>{`${user.name.toUpperCase()} ${user.lastname.toUpperCase()}`}</Text>
+      <CalificationGradient percent={75} />
     </Box>
   </Box>
 );

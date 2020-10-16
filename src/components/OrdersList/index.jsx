@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Box, InfiniteScroll, ResponsiveContext } from 'grommet';
 import PropTypes from 'prop-types';
 import ordersService from 'Api/orders.service';
@@ -39,7 +39,6 @@ const OrdersList = ({
       });
       setLoading(false);
       if (status === 'finished') {
-        setOrderList((orderList) => orderList.filter((order) => order.id !== orderId));
         setShowRating(true);
       }
     } catch (error) {
@@ -67,14 +66,28 @@ const OrdersList = ({
         break;
     }
   };
+
+  const volunteerApplied = async () => {
+    if (userData.documentNumber) {
+      const volunteersOrders = await ordersService.getVolunteerOrders(userData.id.toString());
+      const volunteerOrderIds = volunteersOrders.data ? volunteersOrders.data.map((x) => x.id) : [];
+      setAlreadyApplied(volunteerOrderIds);
+    }
+  };
+
+  useEffect(() => {
+    if (!viewOrderModal) volunteerApplied();
+  }, [viewOrderModal]);
+
   const volunteerId = useSelector((state) => state.logUser.data.id);
-  const [orderList, setOrderList] = useState(orders);
+  const userData = useSelector((state) => state.logUser.data);
   const [errorModal, setErrorModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [showRating, setShowRating] = useState(false);
   const [message, setMessage] = useState('');
   const viewportSize = useContext(ResponsiveContext);
   const [orderSelected, setOrderSelected] = useState(null);
+  const [alreadyApplied, setAlreadyApplied] = useState([]);
 
   const openModal = (order) => {
     setOrderSelected(order);
@@ -94,10 +107,10 @@ const OrdersList = ({
         pad={{ horizontal: viewportSize === 'small' ? 'small' : '20vw', vertical: 'medium' }}
         overflow="auto"
         fill
-        items={orderList}
+        items={orders}
       >
         {(order) => (
-          <OrderCard order={order} viewportSize={viewportSize} key={order.id} openModal={openModal} />
+          <OrderCard order={order} viewportSize={viewportSize} key={order.id} openModal={openModal} alreadyApplied={alreadyApplied.includes(order.id)} />
         )}
       </InfiniteScroll>
 

@@ -13,7 +13,6 @@ import MyOrders from 'Containers/MyOrders';
 import PublicOnlyRoute from 'Components/Router/PublicOnlyRoute';
 import PrivateRoute from 'Components/Router/PrivateRoute';
 import VolunteerOnlyRoute from 'Components/Router/VolunteerOnlyRoute';
-import HelpeeOnlyRoute from 'Components/Router/HelpeeOnlyRoute';
 
 import './index.scss';
 

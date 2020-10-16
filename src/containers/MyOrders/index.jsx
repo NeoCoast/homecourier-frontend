@@ -9,7 +9,7 @@ import CreateOrder from 'Components/Modals/CreateOrder';
 
 const MyOrders = () => {
   const [loading, setLoading] = useState(false);
-  const [orders, setOrders] = useState(false);
+  const [orders, setOrders] = useState([]);
   const [createOrderModal, setCreateOrderModal] = useState(false);
   const [viewOrderModal, setViewOrderModal] = useState(false);
   const userInfo = useSelector((state) => state.logUser.data);
@@ -29,6 +29,7 @@ const MyOrders = () => {
       }
     };
     if (!createOrderModal && !viewOrderModal) fetchOrders();
+    console.log(orders);
   }, [createOrderModal, viewOrderModal]);
 
   const closeModal = () => {
