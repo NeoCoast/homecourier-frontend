@@ -13,7 +13,16 @@ export const ROUTES = {
 
 export const ORDER_STATUS_ACTIONS = {
   created: 'Postularse',
+  accepted: 'Comenzar',
   in_process: 'Finalizar',
+};
+
+export const ORDER_STATUS_PHASE_NUMBER = {
+  created: 0,
+  accepted: 1,
+  in_process: 2,
+  finished: 3,
+  cancelled: 3,
 };
 
 export const NEXT_STATUS = {

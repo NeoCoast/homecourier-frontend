@@ -10,7 +10,9 @@ import SuccessModal from 'Components/Modals/SuccessModal';
 import RateOrder from 'Containers/RateOrder';
 import { NEXT_STATUS } from 'Data/constants';
 
-const OrdersList = ({ orders, setLoading }) => {
+const OrdersList = ({
+  orders, setLoading, setViewOrderModal, viewOrderModal,
+}) => {
   const takeOrder = async (orderId) => {
     try {
       setLoading(true);
@@ -55,7 +57,9 @@ const OrdersList = ({ orders, setLoading }) => {
       case 'created':
         takeOrder(orderId);
         break;
-
+      case 'accepted':
+        setOrderStatus({ orderId, status });
+        break;
       case 'in_process':
         setOrderStatus({ orderId, status });
         break;
@@ -65,7 +69,6 @@ const OrdersList = ({ orders, setLoading }) => {
   };
   const volunteerId = useSelector((state) => state.logUser.data.id);
   const [orderList, setOrderList] = useState(orders);
-  const [viewOrder, setViewOrder] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [showRating, setShowRating] = useState(false);
@@ -75,11 +78,11 @@ const OrdersList = ({ orders, setLoading }) => {
 
   const openModal = (order) => {
     setOrderSelected(order);
-    setViewOrder(true);
+    setViewOrderModal(true);
   };
 
   const closeModal = () => {
-    setViewOrder(false);
+    setViewOrderModal(false);
   };
 
   return (
@@ -100,7 +103,7 @@ const OrdersList = ({ orders, setLoading }) => {
 
       {errorModal && <ErrorModal setShow={setErrorModal} show={errorModal} errorMessage={message} />}
       {successModal && <SuccessModal setShow={setSuccessModal} show={successModal} message={message} />}
-      {viewOrder && <ViewOrderModal order={orderSelected} onClose={closeModal} onConfirm={orderAction} />}
+      {viewOrderModal && <ViewOrderModal order={orderSelected} onClose={closeModal} onConfirm={orderAction} />}
       {showRating && <RateOrder orderId={orderSelected.id} show={showRating} setShow={setShowRating} title="Califique al voluntario" />}
     </Box>
 
@@ -110,6 +113,8 @@ const OrdersList = ({ orders, setLoading }) => {
 OrdersList.propTypes = {
   orders: PropTypes.array.isRequired,
   setLoading: PropTypes.func.isRequired,
+  viewOrderModal: PropTypes.bool.isRequired,
+  setViewOrderModal: PropTypes.func.isRequired,
 };
 
 export default OrdersList;

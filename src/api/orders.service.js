@@ -7,6 +7,8 @@ const getApplicationsList = (orderId) => HTTP.get('/orders/show/volunteers', { p
 
 const getMyOrders = (helpeeId) => HTTP.get(`/orders/show/helpee?helpee_id=${helpeeId}`);
 
+const getVolunteerOrders = (volunteerId) => HTTP.get(`/orders/show/volunteer?volunteer_id=${volunteerId}`);
+
 const take = ({ volunteerId, orderId }) => HTTP.post('/orders/take', {
   volunteerId,
   orderId,
@@ -37,4 +39,5 @@ export default {
   acceptVolunteerForOrder,
   getMyOrders,
   setOrderStatus,
+  getVolunteerOrders,
 };

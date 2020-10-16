@@ -28,7 +28,7 @@ const App = () => (
         <PublicOnlyRoute exact path={ROUTES.registerVolunteer} component={() => <Register volunteer />} />
         <PrivateRoute exact path={ROUTES.profile} component={Profile} />
         <VolunteerOnlyRoute exact path={ROUTES.orders} component={Orders} />
-        <HelpeeOnlyRoute exact path={ROUTES.myOrders} component={MyOrders} />
+        <PrivateRoute exact path={ROUTES.myOrders} component={MyOrders} />
         <Route component={NotFound} />
       </Switch>
     </MainContainer>
