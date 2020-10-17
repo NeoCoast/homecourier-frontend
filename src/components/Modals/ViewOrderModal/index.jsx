@@ -79,9 +79,18 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
         )}
       </Box>
       <Box direction="row" gap="small" fill justify="end" pad="medium">
-        {order.status !== 'created' && order.status !== 'finished' && (
-          <Button secondary label="Cancelar Pedido" hoverIndicator="accent-2" />
-        )}
+        {order.status !== 'created' && order.status !== 'finished'
+          && (
+            <Button
+              secondary
+              label="Cancelar Pedido"
+              hoverIndicator="accent-2"
+              onClick={() => {
+                onConfirm(order.id, true);
+                onClose();
+              }}
+            />
+          )}
         {userData.documentNumber
           && !(alreadyApplied && order.status === 'created')
           && order.status !== 'finished'

@@ -62,6 +62,9 @@ const OrdersList = ({
       case 'in_process':
         setOrderStatus({ orderId, status });
         break;
+      case 'cancelled':
+        setOrderStatus({ orderId, status });
+        break;
       default:
         break;
     }
