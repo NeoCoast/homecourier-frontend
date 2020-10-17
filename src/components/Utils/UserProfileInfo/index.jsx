@@ -3,11 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const UserProfileInfo = ({ user }) => (
-  <Box direction="row" gap="small" margin={{ vertical: 'small' }} fill="horizontal">
+  <Box direction="row" gap="small" fill="horizontal">
     <Avatar src={`https://robohash.org/${user.username}`} border="all" />
 
     <Box>
-      <Text>{`${user.name} ${user.lastname}`}</Text>
+      <Text>{`${user.name.toUpperCase()} ${user.lastname.toUpperCase()}`}</Text>
     </Box>
   </Box>
 );
