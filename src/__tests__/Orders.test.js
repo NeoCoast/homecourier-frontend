@@ -2,22 +2,36 @@
 import React from 'react';
 import faker from 'faker';
 import { fireEvent, render, waitFor } from '@testing-library/react';
-import { useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import Orders from 'Components/OrdersList';
 import Order from 'Components/OrderCard';
 import OrdersService from 'Api/orders.service';
 import SuccessModal from 'Components/Modals/SuccessModal';
 import ErrorModal from 'Components/Modals/ErrorModal';
-
-jest.mock('react-redux', () => ({
-  useDispatch: jest.fn(),
-  useSelector: jest.fn(),
-  useHistory: () => ({
-    push: jest.fn(),
-  }),
-}));
+import logUser from 'Reducers/logUser';
+import userNotifications from 'Reducers/logUser';
+import { combineReducers } from '@reduxjs/toolkit';
+import { createStore } from 'redux';
 
 jest.mock('Api/orders.service');
+
+function renderWithProviders(ui, reduxState) {
+  const initialState = {
+    logUser: {
+      data: { id: 1, documentNumber: '232323' },
+      loggedIn: false,
+    },
+    userNotifications: {
+      notifications: [],
+    },
+  };
+  const rootReducer = combineReducers({
+    logUser,
+    userNotifications,
+  });
+  const store = createStore(rootReducer, reduxState || initialState);
+  return render(<Provider store={store}>{ui}</Provider>);
+}
 
 describe('Success modal for application', () => {
   test('success message', () => {
@@ -44,14 +58,6 @@ describe('Error modal for application', () => {
 });
 
 describe('Orders', () => {
-  beforeEach(() => {
-    useSelector.mockImplementation((selector) => selector({
-      logUser: {
-        data: { documentNumber: '232323' },
-        loggedIn: false,
-      },
-    }));
-  });
   const openModal = jest.fn();
   const viewportSize = jest.fn();
 
@@ -60,13 +66,17 @@ describe('Orders', () => {
       order: {
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          id: 33,
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
       },
     };
-    const { getByText } = render(<Order order={props.order} viewportSize={viewportSize} openModal={openModal} />);
+    const { getByText } = renderWithProviders(<Order order={props.order} viewportSize={viewportSize} openModal={openModal} />);
 
     expect(getByText(props.order.title)).toBeInTheDocument();
   });
@@ -77,6 +87,7 @@ describe('Orders', () => {
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
         helpee: {
+          id: 33,
           name: faker.name.firstName(),
           lastname: faker.name.lastName(),
         },
@@ -85,9 +96,9 @@ describe('Orders', () => {
         }],
       },
     };
-    const { getByText } = render(<Order order={props.order} viewportSize={viewportSize} openModal={openModal} />);
+    const { getByText } = renderWithProviders(<Order order={props.order} viewportSize={viewportSize} openModal={openModal} />);
 
-    expect(getByText(`${props.order.helpee.name} ${props.order.helpee.lastname}`)).toBeInTheDocument();
+    expect(getByText(`${props.order.helpee.name.toUpperCase()} ${props.order.helpee.lastname.toUpperCase()}`)).toBeInTheDocument();
   });
 
   test('Shows the description', () => {
@@ -95,13 +106,17 @@ describe('Orders', () => {
       order: {
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          id: 33,
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
       },
     };
-    const { getByText } = render(<Order order={props.order} viewportSize={viewportSize} openModal={openModal} />);
+    const { getByText } = renderWithProviders(<Order order={props.order} viewportSize={viewportSize} openModal={openModal} />);
 
     expect(getByText(props.order.description)).toBeInTheDocument();
   });
@@ -111,13 +126,18 @@ describe('Orders', () => {
       order: {
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          id: 33,
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
+        status: 'created',
       },
     };
-    const { getByText } = render(<Order order={props.order} viewportSize="small" openModal={openModal} />);
+    const { getByText } = renderWithProviders(<Order order={props.order} viewportSize="small" openModal={openModal} />);
     fireEvent.click(getByText(/Ver más/i));
     expect(openModal).toHaveBeenCalledTimes(1);
   });
@@ -128,14 +148,18 @@ describe('Orders', () => {
         id: faker.random.number(),
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          id: 33,
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
       }],
     };
     const setLoading = jest.fn();
-    const { getByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
+    const { getByText } = renderWithProviders(<Orders orders={props.orders} setLoading={setLoading} />);
 
     expect(getByText(props.orders[0].description)).toBeInTheDocument();
   });
@@ -146,14 +170,18 @@ describe('Orders', () => {
         id: faker.random.number(),
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          id: 33,
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
       }],
     };
     const setLoading = jest.fn();
-    const { getByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
+    const { getByText } = renderWithProviders(<Orders orders={props.orders} setLoading={setLoading} />);
     fireEvent.click(getByText(/Ver más/i));
     expect(getByText(/Categorías/i)).toBeInTheDocument();
   });
@@ -164,45 +192,49 @@ describe('Orders', () => {
         id: faker.random.number(),
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          id: 33,
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
       }],
     };
     const setLoading = jest.fn();
-    const { getByText, getAllByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
+    const { getByText, getAllByText } = renderWithProviders(<Orders orders={props.orders} setLoading={setLoading} />);
     fireEvent.click(getByText(/Ver más/i));
     fireEvent.click(getAllByText(/Cancelar/i)[1]);
     expect(getAllByText(props.orders[0].description)[0]).toBeInTheDocument();
   });
 
   test('Finish order', async () => {
-    useSelector.mockImplementation((selector) => selector({
-      logUser: {
-        data: {},
-        loggedIn: false,
-      },
-    }));
     const props = {
       orders: [{
         id: faker.random.number(),
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          id: 33,
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
+        volunteers: [{ id: 1 }],
         status: 'in_process',
       }],
     };
+
     OrdersService.setOrderStatus.mockResolvedValue({
       data: {
         order_id: faker.random.number(),
       },
     });
     const setLoading = jest.fn();
-    const { getByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
+    const { getByText } = renderWithProviders(<Orders orders={props.orders} setLoading={setLoading} modalClosed={jest.fn()} />);
     fireEvent.click(getByText(/Ver más/i));
     fireEvent.click(getByText(/Finalizar/i));
     await waitFor(() => {
@@ -216,7 +248,11 @@ describe('Orders', () => {
         id: faker.random.number(),
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          id: 33,
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
@@ -228,9 +264,13 @@ describe('Orders', () => {
         order_id: faker.random.number(),
       },
     });
+    OrdersService.getOrders.mockResolvedValue({
+      data: props.orders,
+    });
 
     const setLoading = jest.fn();
-    const { getByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
+    const setViewOrderModal = jest.fn();
+    const { getByText } = renderWithProviders(<Orders orders={props.orders} setLoading={setLoading} modalClosed={setViewOrderModal} />);
     fireEvent.click(getByText(/Ver más/i));
     fireEvent.click(getByText(/Postularse/i));
     await waitFor(() => {

@@ -5,7 +5,7 @@ import {
 } from 'grommet';
 import PropTypes from 'prop-types';
 import {
-  Home, Deliver, Task, Package, StatusCritical, StatusCriticalSmall,
+  Home, Task, Package, StatusCritical, StatusCriticalSmall,
 } from 'grommet-icons';
 
 // Props:
@@ -77,7 +77,6 @@ Stepper.defaultProps = {
   stepsLabel: [
     'Orden tomada',
     'Realizando orden',
-    'En camino',
     'Entregado',
   ],
   cancelled: false,
@@ -85,7 +84,6 @@ Stepper.defaultProps = {
   icons: [
     <Package size="large" color="black" />,
     <Task size="large" color="black" />,
-    <Deliver size="large" color="black" />,
     <Home size="large" color="black" />,
   ],
 };

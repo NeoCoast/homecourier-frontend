@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { ORDER_STATUS_PHASE_NUMBER } from 'Data/constants';
 
 const OrderCard = ({
-  order, viewportSize, openModal, alreadyApplied,
+  order, viewportSize, openModal,
 }) => {
   const userData = useSelector((state) => state.logUser.data);
 
@@ -32,7 +32,7 @@ const OrderCard = ({
           <Box direction="row-responsive" gap="small" justify="between">
             <Box>
               <UserProfileInfo user={order.helpee} />
-              {(alreadyApplied || userData.id === order.helpee.id)
+              {(order.volunteers ? order.volunteers.map((x) => x.id).includes(userData.id) : false || userData.id === order.helpee.id)
               && (
                 <MiniStatusDisplay activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]} />
               )}
@@ -67,6 +67,5 @@ OrderCard.propTypes = {
   order: PropTypes.object.isRequired,
   viewportSize: PropTypes.string.isRequired,
   openModal: PropTypes.func.isRequired,
-  alreadyApplied: PropTypes.bool.isRequired,
 };
 export default OrderCard;

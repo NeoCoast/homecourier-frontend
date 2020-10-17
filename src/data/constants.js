@@ -30,3 +30,17 @@ export const NEXT_STATUS = {
   accepted: 'in_process',
   in_process: 'finished',
 };
+
+export const STEP_DATA = {
+  steps: 3,
+  stepsLabel: [
+    'Orden tomada',
+    'Realizando orden',
+    'Entregado',
+  ],
+  stepsContent: [
+    'El voluntario se dirige a su ubicación para comenzar su orden.',
+    'El voluntario se dirige a conseguir sus productos.',
+    'La orden ha sido realizada. Muchas gracias.',
+  ],
+};

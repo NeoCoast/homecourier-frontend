@@ -11,7 +11,7 @@ const MyOrders = () => {
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([]);
   const [createOrderModal, setCreateOrderModal] = useState(false);
-  const [viewOrderModal, setViewOrderModal] = useState(false);
+  const [viewOrderModal, setViewOrderModal] = useState(true);
   const userInfo = useSelector((state) => state.logUser.data);
 
   useEffect(() => {
@@ -23,12 +23,13 @@ const MyOrders = () => {
         else response = await ordersService.getVolunteerOrders(userInfo.id.toString());
         setLoading(false);
         setOrders(response.data);
+        setViewOrderModal(false);
       } catch (error) {
         setLoading(false);
         console.error('error: ', error);
       }
     };
-    if (!createOrderModal && !viewOrderModal) fetchOrders();
+    if (!createOrderModal && viewOrderModal) fetchOrders();
     console.log(orders);
   }, [createOrderModal, viewOrderModal]);
 
@@ -57,7 +58,7 @@ const MyOrders = () => {
           Lo sentimos! No hay pedidos en el sistema.
         </Heading>
       )}
-      {orders.length > 0 && <OrdersList orders={orders} setLoading={setLoading} setViewOrderModal={setViewOrderModal} viewOrderModal={viewOrderModal} />}
+      {orders.length > 0 && <OrdersList orders={orders} setLoading={setLoading} modalClosed={setViewOrderModal} />}
     </Box>
   );
 };

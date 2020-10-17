@@ -7,9 +7,16 @@ const UserProfileInfo = ({ user }) => (
   <Box direction="row" gap="small" fill="horizontal">
     <Avatar src={`https://robohash.org/${user.username}`} border="all" />
 
-    <Box>
+    <Box
+      style={{
+        flex: '1 1 0',
+      }}
+    >
       <Text>{`${user.name.toUpperCase()} ${user.lastname.toUpperCase()}`}</Text>
-      <CalificationGradient percent={75} />
+      <CalificationGradient
+        percent={user.rating !== null ? ((Number(user.rating) * 5) / 100) : 0}
+        maxRating={5}
+      />
     </Box>
   </Box>
 );
