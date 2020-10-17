@@ -203,7 +203,7 @@ describe('Orders', () => {
       }],
     };
     const setLoading = jest.fn();
-    const { getByText, getAllByText } = renderWithProviders(<Orders orders={props.orders} setLoading={setLoading} />);
+    const { getByText, getAllByText } = renderWithProviders(<Orders orders={props.orders} setLoading={setLoading} modalClosed={jest.fn()} />);
     fireEvent.click(getByText(/Ver más/i));
     fireEvent.click(getAllByText(/Cancelar/i)[1]);
     expect(getAllByText(props.orders[0].description)[0]).toBeInTheDocument();
