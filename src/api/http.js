@@ -7,9 +7,6 @@ const HTTP = applyConverters(
     baseURL: `${process.env.API_URL}/api/v1/`,
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true,
     },
   }),
 );
