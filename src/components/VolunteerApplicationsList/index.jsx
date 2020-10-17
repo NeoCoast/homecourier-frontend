@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box, InfiniteScroll, Text, Button,
+  Box, InfiniteScroll, Text, Button, Heading,
 } from 'grommet';
 import { Alert } from 'grommet-icons';
 import Spinner from 'Components/Utils/Spinner';
@@ -52,64 +52,77 @@ const VolunteerApplicationsList = ({ orderId }) => {
 
   return (
     <Box
-      background="light-1"
+      background="white"
+      style={{
+        minWidth: '300px',
+      }}
     >
       {invalid && <ErrorModal errorMessage={errorMsg} setShow={setInvalid} show={invalid} />}
       {success && <SuccessModal setShow={setSuccess} show={setSuccess} message={successMsg} />}
       { loading && <Spinner />}
       { !loading && volunteerApplications != null && volunteerApplications.length > 0 && (
         <Box
-          pad="small"
+          basis="full"
         >
-          <Text
+          <Box
+            pad={{ bottom: 'medium' }}
+          >
+            <Heading
+              level="4"
+              margin={{ bottom: 'medium' }}
+            >
+              Lista de postulaciones
+            </Heading>
+          </Box>
+          <Box
+            overflow={{ horizontal: 'hidden', vertical: 'auto' }}
             style={{
-              marginBottom: '20px',
+              paddingRight: '10px',
             }}
-            size="large"
           >
-            Lista de postulaciones
-          </Text>
-          <InfiniteScroll
-            items={volunteerApplications}
-          >
-            {(item, index) => (
-              <Box
-                key={index}
-                border={{
-                  side: 'bottom',
-                  color: 'dark-4',
-                  size: 'xsmall',
-                }}
-                style={{
-                  minWidth: '600px',
-                }}
-                pad="small"
-                direction="row"
-                justify="between"
-                margin="5px"
-              >
+            <InfiniteScroll
+              items={volunteerApplications}
+            >
+              {(item, index) => (
                 <Box
-                  gap="small"
-                  direction="row"
+                  key={index}
+                  border={{
+                    side: 'bottom',
+                    color: 'dark-4',
+                    size: 'xsmall',
+                  }}
+                  style={{
+                    minHeight: '150px',
+                  }}
+                  pad="small"
+                  margin="5px"
                 >
-                  <UserProfileInfo user={item} />
-                </Box>
+                  <Box>
+                    <UserProfileInfo
+                      style={{
+                        flex: '1 1 0',
+                      }}
+                      user={item}
+                    />
+                  </Box>
 
-                <Box
-                  alignSelf="center"
-                >
-                  <Button
-                    primary
-                    label="Aceptar"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      onAccept(item.id);
-                    }}
-                  />
+                  <Box>
+                    <Button
+                      style={{
+                        marginBottom: '10px',
+                      }}
+                      primary
+                      label="Aceptar"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        onAccept(item.id);
+                      }}
+                    />
+                  </Box>
                 </Box>
-              </Box>
-            )}
-          </InfiniteScroll>
+              )}
+            </InfiniteScroll>
+          </Box>
         </Box>
       )}
       { !loading && volunteerApplications != null && volunteerApplications.length === 0 && (
