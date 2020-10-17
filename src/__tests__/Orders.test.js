@@ -47,7 +47,7 @@ describe('Orders', () => {
   beforeEach(() => {
     useSelector.mockImplementation((selector) => selector({
       logUser: {
-        data: { documentNumber: '232323' },
+        data: { documentNumber: '232323', name: faker.name.firstName(), lastName: faker.name.lastName() },
         loggedIn: false,
       },
     }));
@@ -90,7 +90,7 @@ describe('Orders', () => {
     };
     const { getByText } = render(<Order order={props.order} viewportSize={viewportSize} openModal={openModal} />);
 
-    expect(getByText(`${props.order.helpee.name} ${props.order.helpee.lastname}`)).toBeInTheDocument();
+    expect(getByText(`${props.order.helpee.name.toUpperCase()} ${props.order.helpee.lastname.toUpperCase()}`)).toBeInTheDocument();
   });
 
   test('Shows the description', () => {
@@ -98,7 +98,10 @@ describe('Orders', () => {
       order: {
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
@@ -121,6 +124,7 @@ describe('Orders', () => {
         categories: [{
           label: 'Supermercado',
         }],
+        status: 'created',
       },
     };
     const { getByText } = render(<Order order={props.order} viewportSize="small" openModal={openModal} />);
@@ -195,7 +199,7 @@ describe('Orders', () => {
   test('Finish order', async () => {
     useSelector.mockImplementation((selector) => selector({
       logUser: {
-        data: {},
+        data: { name: faker.name.firstName(), lastName: faker.name.lastName()},
         loggedIn: false,
       },
     }));
