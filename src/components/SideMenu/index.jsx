@@ -44,18 +44,17 @@ const SideMenu = ({ onClose }) => {
                     }}
                   />
                 )}
-              {!userData.documentNumber
-                && (
-                  <Anchor
-                    icon={<FormNext />}
-                    label="Mis Pedidos"
-                    margin="small"
-                    onClick={() => {
-                      history.push(ROUTES.myOrders);
-                      onClose();
-                    }}
-                  />
-                )}
+
+              <Anchor
+                icon={<FormNext />}
+                label="Mis Pedidos"
+                margin="small"
+                onClick={() => {
+                  history.push(ROUTES.myOrders);
+                  onClose();
+                }}
+              />
+
             </AccordionPanel>
           </Accordion>
         </Box>

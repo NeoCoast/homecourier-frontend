@@ -13,7 +13,6 @@ import MyOrders from 'Containers/MyOrders';
 import PublicOnlyRoute from 'Components/Router/PublicOnlyRoute';
 import PrivateRoute from 'Components/Router/PrivateRoute';
 import VolunteerOnlyRoute from 'Components/Router/VolunteerOnlyRoute';
-import HelpeeOnlyRoute from 'Components/Router/HelpeeOnlyRoute';
 
 import './index.scss';
 
@@ -28,7 +27,7 @@ const App = () => (
         <PublicOnlyRoute exact path={ROUTES.registerVolunteer} component={() => <Register volunteer />} />
         <PrivateRoute exact path={ROUTES.profile} component={Profile} />
         <VolunteerOnlyRoute exact path={ROUTES.orders} component={Orders} />
-        <HelpeeOnlyRoute exact path={ROUTES.myOrders} component={MyOrders} />
+        <PrivateRoute exact path={ROUTES.myOrders} component={MyOrders} />
         <Route component={NotFound} />
       </Switch>
     </MainContainer>
