@@ -7,7 +7,7 @@ import Spinner from 'Components/Utils/Spinner';
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [viewOrderModal, setViewOrderModal] = useState(false);
+  const [viewOrderModal, setViewOrderModal] = useState(true);
 
   useEffect(() => {
     const fetchOrders = async () => {
