@@ -4,7 +4,7 @@ import store from 'Store/store';
 
 const HTTP = applyConverters(
   axios.create({
-    baseURL: `${process.env.API_URI}/api/v1/`,
+    baseURL: `${process.env.API_URL}/api/v1/`,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
