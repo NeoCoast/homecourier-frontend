@@ -11,32 +11,25 @@ import { ORDER_STATUS_ACTIONS, ORDER_STATUS_PHASE_NUMBER, STEP_DATA } from 'Data
 import Stepper from 'Components/Utils/Stepper';
 import VolunteerApplicationList from 'Components/VolunteerApplicationsList';
 import { useSelector } from 'react-redux';
-import ordersService from 'Api/orders.service';
 import { useState, useEffect } from 'react';
 
 const ViewOrderModal = ({ order, onClose, onConfirm }) => {
   const userData = useSelector((state) => state.logUser.data);
   const [alreadyApplied, setAlreadyApplied] = useState(false);
-  const [loading, setLoading] = useState(false);
   const icons = [
     <Package size="large" color="black" />,
     <Task size="large" color="black" />,
     <Home size="large" color="black" />,
   ];
 
-  const volunteerApplied = async () => {
+  const volunteerApplied = () => {
     if (userData.documentNumber) {
-      setLoading(true);
-      const volunteersOrders = await ordersService.getVolunteerOrders(userData.id.toString());
-      const volunteerOrderIds = volunteersOrders.data ? volunteersOrders.data.map((x) => x.id) : [];
-      setAlreadyApplied(volunteerOrderIds.includes(order.id));
-      setLoading(false);
+      const volunteerOrderIds = order.volunteers ? order.volunteers.map((x) => x.id) : [];
+      setAlreadyApplied(volunteerOrderIds.includes(userData.id));
     }
-    return false;
   };
 
   useEffect(() => {
-    console.log(order);
     volunteerApplied();
   }, []);
 
@@ -92,7 +85,6 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
         {userData.documentNumber
           && !(alreadyApplied && order.status === 'created')
           && order.status !== 'finished'
-          && !loading
           && (
             <Button
               primary

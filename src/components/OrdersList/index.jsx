@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Box, InfiniteScroll, ResponsiveContext } from 'grommet';
 import PropTypes from 'prop-types';
 import ordersService from 'Api/orders.service';
@@ -11,7 +11,7 @@ import RateOrder from 'Containers/RateOrder';
 import { NEXT_STATUS } from 'Data/constants';
 
 const OrdersList = ({
-  orders, setLoading, setViewOrderModal, viewOrderModal,
+  orders, setLoading, modalClosed,
 }) => {
   const takeOrder = async (orderId) => {
     try {
@@ -67,27 +67,14 @@ const OrdersList = ({
     }
   };
 
-  const volunteerApplied = async () => {
-    if (userData.documentNumber) {
-      const volunteersOrders = await ordersService.getVolunteerOrders(userData.id.toString());
-      const volunteerOrderIds = volunteersOrders.data ? volunteersOrders.data.map((x) => x.id) : [];
-      setAlreadyApplied(volunteerOrderIds);
-    }
-  };
-
-  useEffect(() => {
-    if (!viewOrderModal) volunteerApplied();
-  }, [viewOrderModal]);
-
   const volunteerId = useSelector((state) => state.logUser.data.id);
-  const userData = useSelector((state) => state.logUser.data);
+  const [viewOrderModal, setViewOrderModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [showRating, setShowRating] = useState(false);
   const [message, setMessage] = useState('');
   const viewportSize = useContext(ResponsiveContext);
   const [orderSelected, setOrderSelected] = useState(null);
-  const [alreadyApplied, setAlreadyApplied] = useState([]);
 
   const openModal = (order) => {
     setOrderSelected(order);
@@ -96,6 +83,7 @@ const OrdersList = ({
 
   const closeModal = () => {
     setViewOrderModal(false);
+    modalClosed(true);
   };
 
   return (
@@ -110,7 +98,7 @@ const OrdersList = ({
         items={orders}
       >
         {(order) => (
-          <OrderCard order={order} viewportSize={viewportSize} key={order.id} openModal={openModal} alreadyApplied={alreadyApplied.includes(order.id)} />
+          <OrderCard order={order} viewportSize={viewportSize} key={order.id} openModal={openModal} />
         )}
       </InfiniteScroll>
 
@@ -126,8 +114,7 @@ const OrdersList = ({
 OrdersList.propTypes = {
   orders: PropTypes.array.isRequired,
   setLoading: PropTypes.func.isRequired,
-  viewOrderModal: PropTypes.bool.isRequired,
-  setViewOrderModal: PropTypes.func.isRequired,
+  modalClosed: PropTypes.func.isRequired,
 };
 
 export default OrdersList;

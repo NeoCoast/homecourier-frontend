@@ -16,12 +16,13 @@ const Orders = () => {
         const res = await ordersService.getOrders('created');
         setLoading(false);
         setOrders(res.data);
+        setViewOrderModal(false);
       } catch (error) {
         setLoading(false);
         console.error('error: ', error);
       }
     };
-    if (!viewOrderModal) fetchOrders();
+    if (viewOrderModal) fetchOrders();
   }, [viewOrderModal]);
 
   return (
@@ -32,7 +33,7 @@ const Orders = () => {
           Lo sentimos! No hay pedidos en el sistema.
         </Heading>
       )}
-      {orders.length > 0 && <OrdersList orders={orders} setLoading={setLoading} setViewOrderModal={setViewOrderModal} viewOrderModal={viewOrderModal} />}
+      {orders.length > 0 && <OrdersList orders={orders} setLoading={setLoading} modalClosed={setViewOrderModal} />}
     </Box>
   );
 };
