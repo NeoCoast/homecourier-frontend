@@ -10,7 +10,7 @@ import orderServices from 'Api/orders.service';
 import ErrorModal from 'Components/Modals/ErrorModal';
 import SuccessModal from 'Components/Modals/SuccessModal';
 
-const VolunteerApplicationsList = ({ orderId }) => {
+const VolunteerApplicationsList = ({ orderId, onClose }) => {
   const [volunteerApplications, setVolunteerApplications] = useState([]);
   const [loading, setLoading] = useState(false);
   const [invalid, setInvalid] = useState(false);
@@ -58,7 +58,7 @@ const VolunteerApplicationsList = ({ orderId }) => {
       }}
     >
       {invalid && <ErrorModal errorMessage={errorMsg} setShow={setInvalid} show={invalid} />}
-      {success && <SuccessModal setShow={setSuccess} show={setSuccess} message={successMsg} />}
+      {success && <SuccessModal setShow={setSuccess} show={setSuccess} message={successMsg} aditionalClose={onClose} />}
       { loading && <Spinner />}
       { !loading && volunteerApplications != null && volunteerApplications.length > 0 && (
         <Box
@@ -145,6 +145,7 @@ const VolunteerApplicationsList = ({ orderId }) => {
 
 VolunteerApplicationsList.propTypes = {
   orderId: PropTypes.number.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default VolunteerApplicationsList;

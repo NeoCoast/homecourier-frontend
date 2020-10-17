@@ -60,7 +60,10 @@ describe('Orders', () => {
       order: {
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
@@ -111,7 +114,10 @@ describe('Orders', () => {
       order: {
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
@@ -128,7 +134,10 @@ describe('Orders', () => {
         id: faker.random.number(),
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
@@ -146,7 +155,10 @@ describe('Orders', () => {
         id: faker.random.number(),
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
@@ -164,7 +176,10 @@ describe('Orders', () => {
         id: faker.random.number(),
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
@@ -189,7 +204,10 @@ describe('Orders', () => {
         id: faker.random.number(),
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
@@ -216,7 +234,10 @@ describe('Orders', () => {
         id: faker.random.number(),
         description: faker.lorem.paragraph(),
         title: faker.random.words(),
-        helpee: faker.internet.userName(),
+        helpee: {
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
         categories: [{
           label: 'Supermercado',
         }],
