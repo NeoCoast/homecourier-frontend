@@ -22,7 +22,7 @@ const RateOrder = (props) => {
   const rate = (info) => {
     const ratingData = info;
     ratingData.order_id = orderId;
-    if (isHelpee) {
+    if (!isHelpee) {
       ratingService.rateVolunteer(ratingData);
     } else {
       ratingService.rateHelpee(ratingData);
