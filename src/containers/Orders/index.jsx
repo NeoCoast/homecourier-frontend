@@ -7,6 +7,7 @@ import Spinner from 'Components/Utils/Spinner';
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [viewOrderModal, setViewOrderModal] = useState(true);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -15,13 +16,14 @@ const Orders = () => {
         const res = await ordersService.getOrders('created');
         setLoading(false);
         setOrders(res.data);
+        setViewOrderModal(false);
       } catch (error) {
         setLoading(false);
         console.error('error: ', error);
       }
     };
-    fetchOrders();
-  }, []);
+    if (viewOrderModal) fetchOrders();
+  }, [viewOrderModal]);
 
   return (
     <Box id="box" fill align="center">
@@ -31,7 +33,7 @@ const Orders = () => {
           Lo sentimos! No hay pedidos en el sistema.
         </Heading>
       )}
-      {orders.length > 0 && <OrdersList orders={orders} setLoading={setLoading} />}
+      {orders.length > 0 && <OrdersList orders={orders} setLoading={setLoading} modalClosed={setViewOrderModal} />}
     </Box>
   );
 };

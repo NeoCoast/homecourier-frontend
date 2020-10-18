@@ -28,32 +28,32 @@ describe('Create new order', () => {
   });
 
   test('Shows create button', () => {
-    const { getByText } = render(<CreateOrder />);
+    const { getAllByText } = render(<CreateOrder />);
 
-    expect(getByText(/Nuevo pedido/i)).toBeInTheDocument();
+    expect(getAllByText(/Crear/i)[1]).toBeInTheDocument();
   });
 
   test('Shows title button', async () => {
     const dom = render(<CreateOrder />);
-    fireEvent.click(dom.getByText(/Nuevo pedido/i));
+    fireEvent.click(dom.getAllByText(/Crear/i)[3]);
     await waitFor(() => {
-      expect(dom.getByText(/Título/)).toBeInTheDocument();
+      expect(dom.getByText('Título')).toBeInTheDocument();
     });
   });
 
   test('Shows categories field', async () => {
     const dom = render(<CreateOrder />);
-    fireEvent.click(dom.getByText(/Nuevo pedido/i));
+    fireEvent.click(dom.getAllByText(/Crear/i)[3]);
     await waitFor(() => {
-      expect(dom.getByText(/Categorías/)).toBeInTheDocument();
+      expect(dom.getByText('Categorías')).toBeInTheDocument();
     });
   });
 
   test('Shows description field', async () => {
     const dom = render(<CreateOrder />);
-    fireEvent.click(dom.getByText(/Nuevo pedido/i));
+    fireEvent.click(dom.getAllByText(/Crear/i)[3]);
     await waitFor(() => {
-      expect(dom.getByText(/Descripción/)).toBeInTheDocument();
+      expect(dom.getByText('Descripción')).toBeInTheDocument();
     });
   });
 });
