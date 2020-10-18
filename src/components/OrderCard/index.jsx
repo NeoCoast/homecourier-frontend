@@ -22,7 +22,7 @@ const OrderCard = ({
       elevation="xlarge"
       margin={{ horizontal: 'small', bottom: 'large' }}
     >
-      <CardHeader pad={{ horizontal: 'xlarge', top: 'medium', bottom: 'medium' }}>
+      <CardHeader pad={{ horizontal: 'large', top: 'medium', bottom: 'medium' }}>
         <Heading level="4" margin="none">
           {order.title}
         </Heading>
@@ -30,14 +30,14 @@ const OrderCard = ({
       <CardBody pad={{ horizontal: 'large' }}>
         <Box gap="small" fill>
           <Box direction="row-responsive" gap="small" justify="between">
-            <Box>
+            <Box fill={!!userData.documentNumber}>
               {userData.documentNumber && <UserProfileInfo user={order.helpee} />}
               {(order.volunteers ? order.volunteers.map((x) => x.id).includes(userData.id) : false || userData.id === order.helpee.id)
               && (
                 <MiniStatusDisplay activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]} />
               )}
             </Box>
-            <Box>
+            <Box fill>
               <Heading level="5" margin={{ top: 'small', bottom: 'xsmall' }}>
                 Descripción
               </Heading>
