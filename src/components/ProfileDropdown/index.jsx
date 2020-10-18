@@ -37,7 +37,7 @@ const ProfileDropdown = () => {
   return (
     <Box justify="center" align="end" pad="small">
       <Box ref={avatarRef}>
-        <Avatar src={userData.avatar ? userData.avatar : AddImage} onClick={switchDrop} border="all" />
+        <Avatar src={userData.avatar ? `${process.env.API_URL}${userData.avatar}` : AddImage} onClick={switchDrop} border="all" />
       </Box>
 
       {openDrop && (
