@@ -14,7 +14,7 @@ const UserProfileInfo = ({ user }) => (
     >
       <Text>{`${user.name.toUpperCase()} ${user.lastname.toUpperCase()}`}</Text>
       <CalificationGradient
-        percent={user.rating !== null ? ((Number(user.rating) * 5) / 100) : 0}
+        percent={user.rating !== null ? ((Number(user.rating) * 100) / 5) : 0}
         maxRating={5}
       />
     </Box>

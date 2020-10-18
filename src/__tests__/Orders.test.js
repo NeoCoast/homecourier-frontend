@@ -210,12 +210,6 @@ describe('Orders', () => {
   });
 
   test('Finish order', async () => {
-    useSelector.mockImplementation((selector) => selector({
-      logUser: {
-        data: { name: faker.name.firstName(), lastName: faker.name.lastName() },
-        loggedIn: false,
-      },
-    }));
     const props = {
       orders: [{
         id: faker.random.number(),
