@@ -6,6 +6,7 @@ import {
 import { useSelector } from 'react-redux';
 import VolunteerApplicationsList from 'Components/VolunteerApplicationsList';
 import orderServices from 'Api/orders.service';
+import faker from 'faker';
 
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
@@ -24,7 +25,7 @@ describe('Orders', () => {
         data: { documentNumber: '232323', name: faker.name.firstName(), lastName: faker.name.lastName() },
         loggedIn: true,
       },
-    }));
+    }),);
   });
 
   test('Shows the component without applications', async () => {

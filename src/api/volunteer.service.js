@@ -11,7 +11,7 @@ const create = (volunteer) => {
 
 const info = (id) => HTTP.get(`/volunteers/${id}`);
 
-const pendingRating = (id) => HTTP.post('volunteers/ratingPending', { user_id: id }).then(({ data }) => data);
+const pendingRating = (id) => HTTP.post('volunteers/ratingPending', { volunteer_id: id }).then(({ data }) => data);
 
 export default {
   create,

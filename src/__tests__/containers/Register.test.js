@@ -64,15 +64,13 @@ describe('Register container', () => {
 
   test('hitting the submit button should show errors', async () => {
     const {
-      getByLabelText, getByRole, getByText, getAllByText,
+      getByRole, getByText, getAllByText,
     } = render(<Register />);
 
-    fireEvent.change(getByLabelText('birthDay'), { target: { value: 1 } });
-    fireEvent.change(getByLabelText('birthYear'), { target: { value: 1 } });
     fireEvent.click(getByRole('button', { name: 'Registrarse' }));
 
     await waitFor(() => {
-      expect(getAllByText(/Requerido/i)).toHaveLength(7);
+      expect(getAllByText(/Requerido/i)).toHaveLength(9);
       expect(getByText(/Inserte un email válido/i)).toBeInTheDocument();
     });
   });
@@ -125,6 +123,54 @@ describe('Register container', () => {
     await waitFor(() => {
       // expect(getByText(`Bienvenido, ${usernameResponse}`)).toBeInTheDocument();
       expect(getByText('Su solicitud de registro se ha enviado correctamente, le hemos enviado un mail de confirmacion a su casilla de correo.')).toBeInTheDocument();
+    });
+  });
+
+  test('filling the form, hitting submit and error response', async () => {
+    const {
+      getByText,
+      getByRole,
+      getByLabelText,
+    } = render(<Register />);
+
+    // random data
+    const username = faker.internet.userName();
+    const emailValue = faker.internet.email();
+    const nameValue = faker.name.firstName(undefined);
+    const lastnameValue = faker.name.lastName(undefined);
+    const passwordValue = faker.internet.password();
+    const repeatPasswordValue = passwordValue;
+    const addressValue = faker.address.streetAddress(undefined);
+    const birthDayValue = faker.random.number(30);
+    const month = MONTHS[9];
+    const birthYearValue = faker.random.number({ min: 1, max: 4 });
+
+    // select month
+    fireEvent.click(getByLabelText('birthMonth'));
+    fireEvent.click(getByText(month.displayValue));
+
+    // change all fields
+    fireEvent.change(getByLabelText('username'), { target: { value: username } });
+    fireEvent.change(getByLabelText('email'), { target: { value: emailValue } });
+    fireEvent.change(getByLabelText('name'), { target: { value: nameValue } });
+    fireEvent.change(getByLabelText('lastname'), { target: { value: lastnameValue } });
+    fireEvent.change(getByLabelText('password'), { target: { value: passwordValue } });
+    fireEvent.change(getByLabelText('repeatPassword'), { target: { value: repeatPasswordValue } });
+    fireEvent.change(getByLabelText('address'), { target: { value: addressValue } });
+    fireEvent.change(getByLabelText('birthDay'), { target: { value: birthDayValue } });
+    fireEvent.change(getByLabelText('birthYear'), { target: { value: birthYearValue } });
+
+    expect(getByRole('form')).toBeInTheDocument();
+
+    helpeeService.create.mockResolvedValue({
+      status: 400,
+    });
+
+    // submit form
+    fireEvent.click(getByRole('button', { name: 'Registrarse' }));
+
+    await waitFor(() => {
+      expect(getByText('Verifique que los datos introducidos sean correctos')).toBeInTheDocument();
     });
   });
 
