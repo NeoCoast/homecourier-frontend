@@ -21,7 +21,7 @@ const OrdersList = ({
         orderId,
       });
       setLoading(false);
-      setMessage('Ha tomado la orden! Gracias por ayudar!');
+      setMessage('Se ha postulado la orden! Gracias por ayudar!');
       setSuccessModal(true);
     } catch (error) {
       setLoading(false);

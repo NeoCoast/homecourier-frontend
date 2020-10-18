@@ -49,7 +49,7 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
       </Box>
       <Box direction="row" fill pad="medium">
         <Box pad={{ horizontal: 'large', vertical: 'medium' }} gap="medium" fill>
-          <UserProfileInfo user={order.helpee} />
+          {userData.documentNumber && <UserProfileInfo user={order.helpee} />}
           <Box>
             <Heading level="4" margin={{ vertical: 'small', horizontal: 'none' }}>
               Categorías
@@ -91,7 +91,8 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
               }}
             />
           )}
-        {userData.documentNumber
+        {((userData.documentNumber && order.status !== 'in_process')
+          || (!userData.documentNumber && order.status === 'in_process'))
           && !(alreadyApplied && order.status === 'created')
           && order.status !== 'finished'
           && (
