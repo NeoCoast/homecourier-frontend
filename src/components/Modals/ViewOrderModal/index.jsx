@@ -91,7 +91,8 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
               }}
             />
           )}
-        {userData.documentNumber
+        {((userData.documentNumber && order.status !== 'in_process')
+          || (!userData.documentNumber && order.status === 'in_process'))
           && !(alreadyApplied && order.status === 'created')
           && order.status !== 'finished'
           && (
