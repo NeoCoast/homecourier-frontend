@@ -25,7 +25,7 @@ describe('Orders', () => {
         data: { documentNumber: '232323', name: faker.name.firstName(), lastName: faker.name.lastName() },
         loggedIn: true,
       },
-    }));
+    }),);
   });
 
   test('Shows the component without applications', async () => {
