@@ -1,16 +1,31 @@
 import React from 'react';
 import faker from 'faker';
 import { fireEvent, render, waitFor } from '@testing-library/react';
-import ordersService from 'Api/orders.service';
+import { Provider } from 'react-redux';
 import Orders from 'Components/OrdersList';
+import logUser from 'Reducers/logUser';
+import userNotifications from 'Reducers/logUser';
+import { combineReducers } from '@reduxjs/toolkit';
+import { createStore } from 'redux';
+import ordersService from 'Api/orders.service';
 
-jest.mock('react-redux', () => ({
-  useDispatch: jest.fn(),
-  useSelector: jest.fn(),
-  useHistory: () => ({
-    push: jest.fn(),
-  }),
-}));
+function renderWithProviders(ui, reduxState) {
+  const initialState = {
+    logUser: {
+      data: { id: 1, documentNumber: '232323' },
+      loggedIn: false,
+    },
+    userNotifications: {
+      notifications: [],
+    },
+  };
+  const rootReducer = combineReducers({
+    logUser,
+    userNotifications,
+  });
+  const store = createStore(rootReducer, reduxState || initialState);
+  return render(<Provider store={store}>{ui}</Provider>);
+}
 
 jest.mock('Api/orders.service', () => ({
   take: jest.fn(),
@@ -35,7 +50,7 @@ describe('Extra order', () => {
     };
     ordersService.take.mockImplementation(() => ({ status: 200 }));
     const setLoading = jest.fn();
-    const { getByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
+    const { getByText } = renderWithProviders(<Orders orders={props.orders} setLoading={setLoading} modalClosed={jest.fn()} />);
     fireEvent.click(getByText(/Ver más/i));
     await fireEvent.click(getByText(/Postularse/i));
     await waitFor(() => {
@@ -60,7 +75,7 @@ describe('Extra order', () => {
     };
     ordersService.take.mockImplementation(() => { throw new Error('error'); });
     const setLoading = jest.fn();
-    const { getByText, getAllByText } = render(<Orders orders={props.orders} setLoading={setLoading} />);
+    const { getByText, getAllByText } = renderWithProviders(<Orders orders={props.orders} setLoading={setLoading} modalClosed={jest.fn()} />);
     fireEvent.click(getByText(/Ver más/i));
     await fireEvent.click(getAllByText(/Postularse/i)[1]);
     await waitFor(() => {
