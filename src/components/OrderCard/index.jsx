@@ -31,7 +31,7 @@ const OrderCard = ({
         <Box gap="small" fill>
           <Box direction="row-responsive" gap="small" justify="between">
             <Box>
-              <UserProfileInfo user={order.helpee} />
+              {userData.documentNumber && <UserProfileInfo user={order.helpee} />}
               {(order.volunteers ? order.volunteers.map((x) => x.id).includes(userData.id) : false || userData.id === order.helpee.id)
               && (
                 <MiniStatusDisplay activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]} />

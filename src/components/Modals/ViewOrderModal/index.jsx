@@ -49,7 +49,7 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
       </Box>
       <Box direction="row" fill pad="medium">
         <Box pad={{ horizontal: 'large', vertical: 'medium' }} gap="medium" fill>
-          <UserProfileInfo user={order.helpee} />
+          {userData.documentNumber && <UserProfileInfo user={order.helpee} />}
           <Box>
             <Heading level="4" margin={{ vertical: 'small', horizontal: 'none' }}>
               Categorías
