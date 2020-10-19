@@ -14,24 +14,30 @@ const MyOrders = () => {
   const [viewOrderModal, setViewOrderModal] = useState(true);
   const userInfo = useSelector((state) => state.logUser.data);
 
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      let response;
+      if (!userInfo.documentNumber) response = await ordersService.getMyOrders(userInfo.id.toString());
+      else response = await ordersService.getVolunteerOrders(userInfo.id.toString());
+      setLoading(false);
+      setOrders(response.data);
+    } catch (error) {
+      setLoading(false);
+      console.error('error: ', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        setLoading(true);
-        let response;
-        if (!userInfo.documentNumber) response = await ordersService.getMyOrders(userInfo.id.toString());
-        else response = await ordersService.getVolunteerOrders(userInfo.id.toString());
-        setLoading(false);
-        setOrders(response.data);
-        setViewOrderModal(false);
-      } catch (error) {
-        setLoading(false);
-        console.error('error: ', error);
-      }
-    };
-    if (!createOrderModal && viewOrderModal) fetchOrders();
-    console.log(orders);
-  }, [createOrderModal, viewOrderModal]);
+    if (!createOrderModal) fetchOrders();
+  }, [createOrderModal]);
+
+  useEffect(() => {
+    if (viewOrderModal) {
+      fetchOrders();
+      setViewOrderModal(false);
+    }
+  }, [viewOrderModal]);
 
   const closeModal = () => {
     setCreateOrderModal(false);
