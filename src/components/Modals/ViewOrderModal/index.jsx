@@ -65,13 +65,16 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
             </Paragraph>
           </Box>
         </Box>
-        {order.helpee.id === userData.id && order.status !== 'created' && (
+        {((order.volunteers ? order.volunteers.map((x) => x.id).includes(userData.id) : false)
+        || order.helpee.id === userData.id) && order.status !== 'created'
+        && (
           <Stepper
             steps={STEP_DATA.steps}
             stepsLabel={STEP_DATA.stepsLabel}
             stepsContent={STEP_DATA.stepsContent}
             activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]}
             icons={icons}
+            cancelled={order.status === 'cancelled'}
           />
         )}
         {order.helpee.id === userData.id && order.status === 'created' && (
@@ -79,7 +82,7 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
         )}
       </Box>
       <Box direction="row" gap="small" fill justify="end" pad="medium">
-        {order.status !== 'created' && order.status !== 'finished'
+        {order.status !== 'created' && order.status !== 'finished' && order.status !== 'cancelled'
           && (
             <Button
               secondary
@@ -94,6 +97,7 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
         {userData.documentNumber
           && !(alreadyApplied && order.status === 'created')
           && order.status !== 'finished'
+          && order.status !== 'cancelled'
           && (
             <Button
               primary
