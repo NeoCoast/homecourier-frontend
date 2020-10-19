@@ -30,11 +30,11 @@ const OrderCard = ({
       <CardBody pad={{ horizontal: 'large' }}>
         <Box gap="small" fill>
           <Box direction="row-responsive" gap="small" justify="between">
-            <Box fill={!!userData.documentNumber}>
+            <Box fill>
               {userData.documentNumber && <UserProfileInfo user={order.helpee} />}
-              {(order.volunteers ? order.volunteers.map((x) => x.id).includes(userData.id) : false || userData.id === order.helpee.id)
+              {((order.volunteers ? order.volunteers.map((x) => x.id).includes(userData.id) : false) || userData.id === order.helpee.id)
               && (
-                <MiniStatusDisplay activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]} />
+                <MiniStatusDisplay activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]} cancelled={order.status === 'cancelled'} />
               )}
             </Box>
             <Box fill>
