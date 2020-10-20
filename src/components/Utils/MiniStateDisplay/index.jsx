@@ -22,25 +22,22 @@ const Stepper = (props) => {
   const { stepsLabel } = props;
   const { cancelled } = props;
   const { cancelledText } = props;
-  const cancelledSteps = [1, 2, 3];
   const { icons } = props;
 
   return (
     <Box>
       {cancelled && (
         <Box align="center">
-          <Box>
-            <Box direction="column" gap="xlarge">
-              {cancelledSteps.map((value) => (
-                <Box margin="small" key={value}>
-                  <Stack alignSelf="center">
-                    <StatusCriticalSmall size="large" color="accent-2" />
-                    <StatusCritical id={String(value)} size="large" color="black" />
-                  </Stack>
-                </Box>
-              ))}
+          <Box direction="row">
+            <Box direction="column" gap="xlarge" align="center">
+              <Box margin="small">
+                <Stack alignSelf="center">
+                  <StatusCriticalSmall size="large" color="accent-2" />
+                  <StatusCritical size="large" color="black" />
+                </Stack>
+              </Box>
             </Box>
-            <Text textAlign="center" margin="medium" size="large">
+            <Text textAlign="center" margin="small" alignSelf="center">
               {cancelledText}
             </Text>
           </Box>
@@ -80,7 +77,7 @@ Stepper.defaultProps = {
     'Entregado',
   ],
   cancelled: false,
-  cancelledText: 'La orden ha sido cancelada',
+  cancelledText: 'Cancelada',
   icons: [
     <Package size="large" color="black" />,
     <Task size="large" color="black" />,
