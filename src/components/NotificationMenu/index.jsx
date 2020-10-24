@@ -73,13 +73,16 @@ const NotificationMenu = () => {
 
       <Stack anchor="top-right" fill onClick={openNotiDrop} style={{ cursor: 'pointer' }} id="noty-stack">
         <Notification size="30" />
-        <Box
-          background="brand"
-          pad={{ horizontal: 'xsmall' }}
-          round
-        >
-          <Text size="xsmall">{notis.filter((x) => x.status === 'not_seen').length}</Text>
-        </Box>
+        { notSeenNotifications.length > 0
+          && (
+            <Box
+              background="brand"
+              pad={{ horizontal: 'xsmall' }}
+              round
+            >
+              <Text size="xsmall">{notis.filter((x) => x.status === 'not_seen').length}</Text>
+            </Box>
+          )}
       </Stack>
       <Box ref={notiRef}></Box>
 
@@ -92,8 +95,8 @@ const NotificationMenu = () => {
         >
           <Box pad="small" style={{ minWidth: '300px' }}>
             <Heading level="4" margin="none">Notificaciones</Heading>
-            <Box border="bottom" fill="horizontal" margin={{ bottom: 'small' }}></Box>
-            <Heading level="5" margin="none">Nuevas</Heading>
+            {notSeenNotifications.length === 0 && seenNotifications.length === 0
+              && <Text size="small">No hay notificaciones para mostrar.</Text>}
             {notSeenNotifications.length > 0
             && (
               <List
@@ -102,10 +105,6 @@ const NotificationMenu = () => {
                 {NotificationComponent}
               </List>
             )}
-            <Box border="bottom" fill="horizontal" margin={{ bottom: 'small' }}></Box>
-            {notSeenNotifications.length === 0 && <Text size="small">No hay notificaciones para mostrar.</Text>}
-            {notSeenNotifications.length === 0 && <Box border="bottom" fill="horizontal" margin={{ bottom: 'small' }}></Box>}
-            <Heading level="5" margin="none">Vistas</Heading>
             {seenNotifications.length > 0
             && (
               <List
@@ -114,9 +113,6 @@ const NotificationMenu = () => {
                 {NotificationComponent}
               </List>
             )}
-            {seenNotifications.length === 0 && <Box border="bottom" fill="horizontal" margin={{ bottom: 'small' }}></Box>}
-            {seenNotifications.length === 0 && <Text size="small">No hay notificaciones para mostrar.</Text>}
-            <Box border="bottom" fill="horizontal" margin={{ bottom: 'small' }}></Box>
             {!viewHistory && !loading && <Anchor onClick={() => openHistory()}>Ver todas</Anchor>}
             { loading && <Box fill="horizontal" justify="center" align="center"><RingLoader loading size={80} color="#54a3ff" /></Box>}
             { viewHistory
