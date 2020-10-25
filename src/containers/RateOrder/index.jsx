@@ -1,9 +1,10 @@
 import React from 'react';
 import Rating from 'Components/Rating';
 import { Box } from 'grommet';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ratingService from 'Api/rating.service';
 import PropTypes from 'prop-types';
+import { login } from 'Actions/logUser';
 
 const RateOrder = (props) => {
   const {
@@ -16,10 +17,10 @@ const RateOrder = (props) => {
     show,
     setShow,
   } = props;
-
+  const dispatch = useDispatch();
   const isHelpee = undefined === useSelector((state) => state.logUser.data.documentNumber);
 
-  const rate = (info) => {
+  const rate = async (info) => {
     const ratingData = info;
     ratingData.order_id = orderId;
     if (!isHelpee) {
@@ -27,6 +28,11 @@ const RateOrder = (props) => {
     } else {
       ratingService.rateHelpee(ratingData);
     }
+
+    const user = useSelector((state) => state.logUser);
+    user.data.pendingRateId = null;
+    user.data.pendingRate = false;
+    await dispatch(login(user));
   };
 
   return (
@@ -44,7 +50,7 @@ const RateOrder = (props) => {
           errorMessageRating="Debe calificar al voluntario antes de continuar."
           successMessage={successMessage}
         />
-      )}
+      )} {console.log('errorMessageComment: ', errorMessageComment)}
       {!isHelpee && (
         <Rating
           onSubmit={rate}
