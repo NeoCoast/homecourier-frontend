@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
-  Box, InfiniteScroll, Text, Button, Heading,
+  Box, InfiniteScroll, Text, Button, Heading, ResponsiveContext,
 } from 'grommet';
 import { Alert } from 'grommet-icons';
 import Spinner from 'Components/Utils/Spinner';
@@ -17,6 +17,7 @@ const VolunteerApplicationsList = ({ orderId, onClose }) => {
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccesMsg] = useState('');
+  const viewPortSize = useContext(ResponsiveContext);
 
   useEffect(() => {
     const fetchVolunteerApplications = async () => {
@@ -53,9 +54,7 @@ const VolunteerApplicationsList = ({ orderId, onClose }) => {
   return (
     <Box
       background="white"
-      style={{
-        minWidth: '300px',
-      }}
+      fill="horizontal"
     >
       {invalid && <ErrorModal errorMessage={errorMsg} setShow={setInvalid} show={invalid} />}
       {success && <SuccessModal setShow={setSuccess} show={setSuccess} message={successMsg} aditionalClose={onClose} />}
@@ -69,56 +68,48 @@ const VolunteerApplicationsList = ({ orderId, onClose }) => {
           >
             <Heading
               level="4"
-              margin={{ bottom: 'medium' }}
+              margin={{ bottom: 'medium', top: 'small' }}
             >
               Lista de postulaciones
             </Heading>
           </Box>
           <Box
-            overflow={{ horizontal: 'hidden', vertical: 'auto' }}
-            style={{
-              paddingRight: '10px',
-            }}
+            overflow="auto"
+            height={viewPortSize === 'small' ? '30vh' : '100%'}
           >
             <InfiniteScroll
               items={volunteerApplications}
             >
               {(item, index) => (
                 <Box
+                  direction="row-responsive"
                   key={index}
                   border={{
                     side: 'bottom',
                     color: 'dark-4',
                     size: 'xsmall',
                   }}
-                  style={{
-                    minHeight: '150px',
-                  }}
+                  style={{ minHeight: viewPortSize === 'small' ? '150px' : 0 }}
                   pad="small"
                   margin="5px"
+                  gap={viewPortSize !== 'small' ? 'medium' : 'small'}
                 >
-                  <Box>
-                    <UserProfileInfo
-                      style={{
-                        flex: '1 1 0',
-                      }}
-                      user={item}
-                    />
-                  </Box>
-
-                  <Box>
+                  <UserProfileInfo
+                    user={item}
+                  />
+                  <Box style={{ minWidth: viewPortSize !== 'small' ? '95px' : 0 }}>
                     <Button
-                      style={{
-                        marginBottom: '10px',
-                      }}
                       primary
                       label="Aceptar"
+                      size="small"
+                      margin={viewPortSize !== 'small' && { vertical: 'medium' }}
                       onClick={(event) => {
                         event.preventDefault();
                         onAccept(item.id);
                       }}
                     />
                   </Box>
+
                 </Box>
               )}
             </InfiniteScroll>
