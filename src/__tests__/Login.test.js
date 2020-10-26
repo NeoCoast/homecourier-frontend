@@ -4,7 +4,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import { useSelector } from 'react-redux';
 import Login from 'Containers/Login';
 import { BrowserRouter as Router } from 'react-router-dom';
-import usersService from '../api/users.service';
+import usersService from 'Api/users.service';
 
 const mockDispatch = jest.fn();
 
@@ -16,7 +16,7 @@ jest.mock('react-redux', () => ({
   }),
 }));
 
-jest.mock('../api/users.service');
+jest.mock('Api/users.service');
 
 describe('Register', () => {
   beforeEach(() => {

@@ -12,7 +12,7 @@ jest.mock('react-redux', () => ({
   }),
 }));
 
-jest.mock('../api/http');
+jest.mock('Api/http');
 
 describe('Register', () => {
   beforeEach(() => {
