@@ -167,7 +167,8 @@ describe('CreateOrder component', () => {
     fireEvent.click(screen.getAllByRole('button', { name: 'Crear' })[1]);
 
     await waitFor(() => {
-      expect(screen.getByText(/Título es obligatorio/i)).toBeInTheDocument();
+      expect(screen.getByText(/Título debe tener al menos 5 carácteres/i)).toBeInTheDocument();
+      expect(screen.getByText(/Descripción debe tener al menos 5 carácteres/i)).toBeInTheDocument();
     });
   });
 });

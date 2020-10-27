@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { render as rtlRender } from '@testing-library/react';
-// import store from 'Store/store';
 import { createStore } from 'redux';
 import logUser from 'Reducers/logUser';
 import userNotifications from 'Reducers/logUser';
@@ -34,7 +33,6 @@ function render(
   return {
     ...rtlRender(ui, { wrapper: Wrapper, ...renderOptions }),
     history,
-    // store,
   };
 }
 
