@@ -93,7 +93,7 @@ const Rating = (props) => {
       {success && <SuccessModal message={successMessage} setShow={setSuccess} show={success} />}
       { show
           && (
-            <Layer margin="large" position="center" modal responsive={false}>
+            <Layer margin="medium" position="center" modal responsive={false}>
               <Heading margin="small" level={headingSize} alignSelf="center">{ title }</Heading>
               <Box
                 justify="center"

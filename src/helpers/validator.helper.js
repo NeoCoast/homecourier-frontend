@@ -29,6 +29,26 @@ export const validateComment = (value, disable, errorMessage) => {
   return { status: 'info' };
 };
 
+export const validateInput = (value, errorMessage, msg) => {
+  if (!value || value.length < 5) {
+    return {
+      status: 'error',
+      message: errorMessage(msg),
+    };
+  }
+  return { status: 'info' };
+};
+
+export const validateSelect = (value, errorMessage, msg) => {
+  if (!value) {
+    return {
+      status: 'error',
+      message: errorMessage(msg),
+    };
+  }
+  return { status: 'info' };
+};
+
 export const validateRepeatPassword = (value, formValues, errorMessage) => {
   if (value !== formValues.password) {
     return { status: 'error', message: errorMessage('Las contraseñas no coinciden') };
