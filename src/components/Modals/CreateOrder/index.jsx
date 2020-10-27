@@ -128,17 +128,31 @@ const CreateOrder = ({ closeModal }) => {
       >
         <Heading level="2">Crear un pedido</Heading>
         <Box id="boxTitle" fill="horizontal">
-          <Heading level="3">Título</Heading>
-          <TextInput id="title" placeholder="Ingrese el título" value={title} onChange={(event) => setTitle(event.target.value)} />
+          <Heading htmlFor="title" level="3">Título</Heading>
+          <TextInput
+            id="title"
+            aria-label="title"
+            placeholder="Ingrese el título"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+          />
         </Box>
         <Box id="boxCategories" fill="horizontal">
-          <Heading level="3">Categorías</Heading>
-          <Select isMulti id="categories" options={options} onChange={handleChange} width="fill" />
+          <Heading htmlFor="categories" level="3">Categorías</Heading>
+          <Select
+            isMulti
+            id="categories"
+            aria-label="categories"
+            options={options}
+            onChange={handleChange}
+            width="fill"
+          />
         </Box>
         <Box id="boxDescription" fill="horizontal">
-          <Heading level="3">Descripción</Heading>
+          <Heading htmlFor="description" level="3">Descripción</Heading>
           <TextArea
             id="description"
+            aria-label="description"
             placeholder="Ingrese la descripción"
             value={description}
             onChange={(event) => setDescription(event.target.value)}

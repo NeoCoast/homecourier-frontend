@@ -4,7 +4,7 @@ import {
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
-import { validateImagesGrommetForm } from '../../../helpers/validator.helper';
+import { validateImagesGrommetForm } from 'Helpers/validator.helper';
 
 const VolunteerForm = ({
   message, setDocFront, setDocBack, docFront, docBack,
