@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Box, Anchor } from 'grommet';
+import { Box, Anchor, ResponsiveContext } from 'grommet';
 import { Login, Home } from 'grommet-icons';
 import { ROUTES } from 'Data/constants';
 
@@ -27,7 +27,7 @@ const BarButton = () => {
   };
 
   return (
-    <Box direction="row-responsive" gap="medium" justify="end" align="center" fill pad={{ right: 'small' }}>
+    <Box direction="row" gap="medium" justify="end" align="center" fill pad={{ right: 'small' }}>
       <Link
         to="/"
         onMouseEnter={() => expandItem(setOnHoverHome)}
