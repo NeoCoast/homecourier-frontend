@@ -22,7 +22,7 @@ const SuccesModal = ({
     >
       <Box direction="row" align="center" justify="between" fill="horizontal">
         <Heading level="2" margin="medium">
-          Éxito!
+          ¡Éxito!
         </Heading>
         <Button onClick={closeModal} margin="medium" icon={(<Close />)} hoverIndicator="accent-2" id="close-ok-modal" />
       </Box>
