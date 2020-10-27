@@ -54,7 +54,7 @@ const MyOrders = () => {
           primary
           icon={<Add color="white" />}
           onClick={() => setCreateOrderModal(true)}
-          label="Nuevo Pedido"
+          label="Nuevo pedido"
           margin={{ right: 'xlarge', vertical: 'small' }}
         />
       )}

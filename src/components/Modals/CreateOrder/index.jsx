@@ -133,7 +133,15 @@ const CreateOrder = ({ closeModal }) => {
         </Box>
         <Box id="boxCategories" fill="horizontal">
           <Heading level="3">Categorías</Heading>
-          <Select isMulti id="categories" options={options} onChange={handleChange} width="fill" />
+          <Select
+            isMulti
+            placeholder="Seleccionar..."
+            id="categories"
+            options={options}
+            noOptionsMessage={() => 'No hay más opciones para seleccionar'}
+            onChange={handleChange}
+            width="fill"
+          />
         </Box>
         <Box id="boxDescription" fill="horizontal">
           <Heading level="3">Descripción</Heading>
