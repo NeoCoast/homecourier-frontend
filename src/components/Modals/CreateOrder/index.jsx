@@ -10,7 +10,7 @@ import ordersService from 'Api/orders.service';
 import categoriesService from 'Api/categories.service';
 import Spinner from 'Components/Utils/Spinner';
 import ErrorModal from 'Components/Modals/ErrorModal';
-import { validateInput, validateSelect } from 'Helpers/validator.helper';
+import { validateTitle, validateInput } from 'Helpers/validator.helper';
 
 const CreateOrder = ({ closeModal }) => {
   const [title, setTitle] = useState('');
@@ -88,10 +88,11 @@ const CreateOrder = ({ closeModal }) => {
   return (
     <Layer
       position="center"
+      margin="medium"
       responsive={false}
-      margin="large"
       onEsc={() => closeModal()}
       onClickOutside={() => closeModal()}
+      fill="horizontal"
     >
       <Box
         align="center"
@@ -100,24 +101,37 @@ const CreateOrder = ({ closeModal }) => {
         background="white"
         pad="small"
         gap="small"
+        responsive={false}
       >
         <Heading level={2} margin="none">Crear un pedido</Heading>
-        <Heading level={3} margin="none">Título</Heading>
         <Form onSubmit={newOrder}>
-          <FormField name="title" validate={(value) => validateInput(value, errorMsg, 'errorMsg')}>
+          <Heading level={3} margin="none">Título</Heading>
+          <FormField
+            name="title"
+            validate={(value) => validateTitle(value, errorMsg, 'El titulo es requerido', 'Titulo debe tener al menos 5 caracteres')}
+          >
             <Box id="boxTitle" fill="horizontal">
-              <TextInput id="title" name="title" placeholder="Ingrese el título" value={title} onChange={(event) => setTitle(event.target.value)} />
+              <TextInput
+                id="title"
+                name="title"
+                placeholder="Ingrese el título"
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
+              />
             </Box>
           </FormField>
           <Heading level={3} margin="none">Categorías</Heading>
-          <FormField name="categories" validate={(value) => validateSelect(value, errorMsg, 'errorMsg')}>
+          <FormField name="categories" validate={(value) => validateInput(value, errorMsg, 'Debe seleccionar al menos una categoria')}>
             <Box id="boxCategories" fill="horizontal">
               <Select isMulti id="categories" name="categories" options={options} onChange={handleChange} width="fill" />
             </Box>
           </FormField>
           <Heading level={3} margin="none">Descripción</Heading>
-          <FormField name="description" validate={(value) => validateInput(value, errorMsg, 'errorMsg')}>
-            <Box height="small" id="boxDescription">
+          <FormField
+            name="description"
+            validate={(value) => validateTitle(value, errorMsg, 'La descripcion es requerida', 'La descripcion debe tener al menos 5 caracteres')}
+          >
+            <Box height="xxsmall" responsive={false} id="boxDescription">
               <TextArea
                 id="description"
                 name="description"

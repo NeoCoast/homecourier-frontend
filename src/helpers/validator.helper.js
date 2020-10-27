@@ -29,17 +29,23 @@ export const validateComment = (value, disable, errorMessage) => {
   return { status: 'info' };
 };
 
-export const validateInput = (value, errorMessage, msg) => {
-  if (!value || value.length < 5) {
+export const validateTitle = (value, errorMessage, msg, msgShort) => {
+  if (!value) {
     return {
       status: 'error',
       message: errorMessage(msg),
     };
   }
+  if (value.length < 5) {
+    return {
+      status: 'error',
+      message: errorMessage(msgShort),
+    };
+  }
   return { status: 'info' };
 };
 
-export const validateSelect = (value, errorMessage, msg) => {
+export const validateInput = (value, errorMessage, msg) => {
   if (!value) {
     return {
       status: 'error',
