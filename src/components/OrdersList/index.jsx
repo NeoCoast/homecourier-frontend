@@ -41,6 +41,10 @@ const OrdersList = ({
       if (status === 'finished') {
         setShowRating(true);
       }
+      if (status === 'cancelled') {
+        setMessage('Se ha cancelado la orden correctamente.');
+        setSuccessModal(true);
+      }
     } catch (error) {
       setLoading(false);
       setMessage('Hubo un error.');
