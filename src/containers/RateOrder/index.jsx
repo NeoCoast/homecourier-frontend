@@ -19,6 +19,7 @@ const RateOrder = (props) => {
   } = props;
   const dispatch = useDispatch();
   const isHelpee = undefined === useSelector((state) => state.logUser.data.documentNumber);
+  const user = useSelector((state) => state.logUser.data);
 
   const rate = async (info) => {
     const ratingData = info;
@@ -29,10 +30,10 @@ const RateOrder = (props) => {
       ratingService.rateHelpee(ratingData);
     }
 
-    const user = useSelector((state) => state.logUser);
-    user.data.pendingRateId = null;
-    user.data.pendingRate = false;
-    await dispatch(login(user));
+    const userData = JSON.parse(JSON.stringify(user));
+    userData.pendingRateId = null;
+    userData.pendingRate = false;
+    await dispatch(login(userData));
   };
 
   return (
