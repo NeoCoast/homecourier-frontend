@@ -18,7 +18,7 @@ const SideMenu = ({ onClose }) => {
       <Layer full="vertical" position="left" onEsc={onClose} onClickOutside={onClose}>
         <Box pad="medium">
           <Box direction="row" justify="between" fill="horizontal">
-            <Heading level="5">Menu</Heading>
+            <Heading level="5">Menú</Heading>
             <Button icon={<Close />} margin="small" onClick={onClose} />
           </Box>
           <Accordion multiple activeIndex={activeIndex} onActive={(newIndex) => setActiveIndex(newIndex)}>
@@ -36,7 +36,7 @@ const SideMenu = ({ onClose }) => {
                 && (
                   <Anchor
                     icon={<FormNext />}
-                    label="Ver Pedidos"
+                    label="Ver pedidos"
                     margin="small"
                     onClick={() => {
                       history.push(ROUTES.orders);
@@ -47,7 +47,7 @@ const SideMenu = ({ onClose }) => {
 
               <Anchor
                 icon={<FormNext />}
-                label="Mis Pedidos"
+                label="Mis pedidos"
                 margin="small"
                 onClick={() => {
                   history.push(ROUTES.myOrders);

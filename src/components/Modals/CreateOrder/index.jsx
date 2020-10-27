@@ -141,9 +141,11 @@ const CreateOrder = ({ closeModal }) => {
           <Heading htmlFor="categories" level="3">Categorías</Heading>
           <Select
             isMulti
+            placeholder="Seleccionar..."
             id="categories"
             aria-label="categories"
             options={options}
+            noOptionsMessage={() => 'No hay más opciones para seleccionar'}
             onChange={handleChange}
             width="fill"
           />

@@ -27,7 +27,7 @@ const BarButton = () => {
   };
 
   return (
-    <Box direction="row-responsive" gap="medium" justify="end" align="center" fill pad={{ right: 'small' }}>
+    <Box direction="row" gap="medium" justify="end" align="center" fill pad={{ right: 'small' }}>
       <Link
         to="/"
         onMouseEnter={() => expandItem(setOnHoverHome)}

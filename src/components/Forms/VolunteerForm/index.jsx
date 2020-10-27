@@ -47,7 +47,7 @@ const VolunteerForm = ({
         <FormField
           name="userId"
           htmlFor="userId"
-          label={message('Número de Documento')}
+          label={message('Número de documento')}
           fill
           required
           size="small"
@@ -66,7 +66,7 @@ const VolunteerForm = ({
         <FormField
           name="documentFace"
           htmlFor="documentFace"
-          label={message('Frente del Documento')}
+          label={message('Frente del documento')}
           fill
           validate={() => validateImagesGrommetForm(docFront)}
           required
@@ -85,7 +85,7 @@ const VolunteerForm = ({
         <FormField
           name="documentBack"
           htmlFor="documentBack"
-          label={message('Dorso  del Documento ')}
+          label={message('Dorso  del documento ')}
           fill
           validate={() => validateImagesGrommetForm(docBack)}
           required

@@ -92,7 +92,7 @@ const GeneralUserForm = ({ message, errorMessage }) => (
       <FormField
         name="repeatPassword"
         htmlfor="repeatPassword"
-        label={message('Repetir Contraseña')}
+        label={message('Repetir contraseña')}
         fill
         required
         validate={(value, formValues) => validateRepeatPassword(value, formValues, errorMessage)}
