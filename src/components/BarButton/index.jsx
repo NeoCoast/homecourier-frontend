@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Box, Anchor, ResponsiveContext } from 'grommet';
+import { Box, Anchor } from 'grommet';
 import { Login, Home } from 'grommet-icons';
 import { ROUTES } from 'Data/constants';
 
