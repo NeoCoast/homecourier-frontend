@@ -3,12 +3,13 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import { useSelector } from 'react-redux';
 import CreateOrder from 'Components/Modals/CreateOrder';
 
-jest.mock('react-redux', () => ({
+jest.mock(() => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
   useHistory: () => ({
     push: jest.fn(),
   }),
+  closeModal: jest.fn(() => false),
 }));
 
 jest.mock('react-router-dom', () => ({
@@ -28,32 +29,31 @@ describe('Create new order', () => {
   });
 
   test('Shows create button', () => {
-    const { getAllByText } = render(<CreateOrder />);
+    const { getByText } = render(<CreateOrder />);
 
-    expect(getAllByText(/Crear/i)[1]).toBeInTheDocument();
+    expect(getByText(/Crear/i)).toBeInTheDocument();
   });
 
   test('Shows title button', async () => {
     const dom = render(<CreateOrder />);
-    fireEvent.click(dom.getAllByText(/Crear/i)[3]);
-    await waitFor(() => {
-      expect(dom.getByText('Título')).toBeInTheDocument();
-    });
+    expect(dom.getByText('Título')).toBeInTheDocument();
   });
 
   test('Shows categories field', async () => {
     const dom = render(<CreateOrder />);
-    fireEvent.click(dom.getAllByText(/Crear/i)[3]);
-    await waitFor(() => {
-      expect(dom.getByText('Categorías')).toBeInTheDocument();
-    });
+    expect(dom.getByText('Categorías')).toBeInTheDocument();
   });
 
   test('Shows description field', async () => {
     const dom = render(<CreateOrder />);
-    fireEvent.click(dom.getAllByText(/Crear/i)[3]);
+    expect(dom.getByText('Descripción')).toBeInTheDocument();
+  });
+
+  test('Shows description error', async () => {
+    const dom = render(<CreateOrder />);
+    fireEvent.click(dom.getByText(/Crear/i));
     await waitFor(() => {
-      expect(dom.getByText('Descripción')).toBeInTheDocument();
+      expect(dom.getByText('La descripción es requerida')).toBeInTheDocument();
     });
   });
 });

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Box, Button, TextArea, Heading, Layer, TextInput, Form, FormField, Text,
+  Box, Button, TextArea, Heading, Layer, TextInput, Form, FormField, Text, ResponsiveContext,
 } from 'grommet';
 import Select from 'react-select';
 import { useSelector } from 'react-redux';
@@ -23,6 +23,8 @@ const CreateOrder = ({ closeModal }) => {
   const userLoggedIn = useSelector((state) => state.logUser.loggedIn);
   const helpeeId = useSelector((state) => state.logUser.data.id);
   const history = useHistory();
+  const size = React.useContext(ResponsiveContext);
+  let descSize = size === 'small' ? 'xsmall' : 'small';
 
   const getCategories = async () => {
     const opts = [];
@@ -83,7 +85,9 @@ const CreateOrder = ({ closeModal }) => {
     } else {
       getCategories();
     }
-  }, [userLoggedIn]);
+    if (size === 'small') descSize = 'xsmall';
+    else descSize = 'small';
+  }, [userLoggedIn, size]);
 
   return (
     <Layer
@@ -108,7 +112,7 @@ const CreateOrder = ({ closeModal }) => {
           <Heading level={3} margin="none">Título</Heading>
           <FormField
             name="title"
-            validate={(value) => validateTitle(value, errorMsg, 'El titulo es requerido', 'Titulo debe tener al menos 5 caracteres')}
+            validate={(value) => validateTitle(value, errorMsg, 'El título es requerido', 'Titulo debe tener al menos 5 caracteres')}
           >
             <Box id="boxTitle" fill="horizontal">
               <TextInput
@@ -121,7 +125,7 @@ const CreateOrder = ({ closeModal }) => {
             </Box>
           </FormField>
           <Heading level={3} margin="none">Categorías</Heading>
-          <FormField name="categories" validate={(value) => validateInput(value, errorMsg, 'Debe seleccionar al menos una categoria')}>
+          <FormField name="categories" validate={(value) => validateInput(value, errorMsg, 'Debe seleccionar al menos una categoría')}>
             <Box id="boxCategories" fill="horizontal">
               <Select isMulti id="categories" name="categories" options={options} onChange={handleChange} width="fill" />
             </Box>
@@ -129,9 +133,9 @@ const CreateOrder = ({ closeModal }) => {
           <Heading level={3} margin="none">Descripción</Heading>
           <FormField
             name="description"
-            validate={(value) => validateTitle(value, errorMsg, 'La descripcion es requerida', 'La descripcion debe tener al menos 5 caracteres')}
+            validate={(value) => validateTitle(value, errorMsg, 'La descripción es requerida', 'La descripción debe tener al menos 5 caracteres')}
           >
-            <Box height="xxsmall" responsive={false} id="boxDescription">
+            <Box height={descSize} responsive={false} id="boxDescription">
               <TextArea
                 id="description"
                 name="description"
@@ -144,7 +148,7 @@ const CreateOrder = ({ closeModal }) => {
               />
             </Box>
           </FormField>
-          <Box direction="row-responsive" pad="small" align="center">
+          <Box direction="row-responsive" align="center">
             <Button primary fill type="submit" label="Crear" />
           </Box>
         </Form>
