@@ -23,7 +23,6 @@ const Rating = (props) => {
     show,
   } = props;
 
-  // const [show, setShow] = useState(false);
   const starsElement = [];
   const [active, setActive] = useState(-1);
   const [feedBack, setFeedBack] = useState('');
@@ -67,6 +66,8 @@ const Rating = (props) => {
     }
   };
 
+  const deviceSize = React.useContext(ResponsiveContext);
+
   for (let i = 0; i < stars; i++) {
     starsElement.push(
       <Stack
@@ -96,6 +97,7 @@ const Rating = (props) => {
             <Layer margin="medium" position="center" modal responsive={false}>
               <Heading margin="small" level={headingSize} alignSelf="center">{ title }</Heading>
               <Box
+                fill="horizontal"
                 justify="center"
                 alignSelf="center"
                 direction="row"
@@ -103,7 +105,7 @@ const Rating = (props) => {
                 margin="xsmall"
                 responsive={false}
               >
-                { starsElement }
+                {starsElement}
               </Box>
               <Form onSubmit={handleSubmit}>
                 <Box pad="small">
@@ -152,7 +154,7 @@ Rating.propTypes = {
 Rating.defaultProps = {
   stars: 5,
   title: 'Califique al voluntario',
-  description: 'Por favor, haga un comentario sobre su experiencia',
+  description: 'Por favor, haga un comentario sobre su experiencia.',
   buttonLabel: 'Calificar',
   errorMessageComment: 'Por favor, de un comentario sobre que no fue de su agrado en su experiencia',
   successMessage: 'Ha calificado con éxito. Gracias!',

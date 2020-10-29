@@ -4,7 +4,7 @@ import {
 } from 'grommet';
 import { useSelector } from 'react-redux';
 import { Menu } from 'grommet-icons';
-import Logo from 'Assets/homecourier_logo.png';
+import Logo from 'Assets/homecourier_logo.webp';
 import BarButton from 'Components/BarButton';
 import ProfileDropdown from 'Components/ProfileDropdown';
 import SideMenu from 'Components/SideMenu';

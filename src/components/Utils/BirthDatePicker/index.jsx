@@ -8,7 +8,7 @@ import { MONTHS } from 'Data/utils';
 const BirthDatePicker = ({ validateDay, validateYear }) => (
   <Box fill>
     <Text size="small" margin={{ top: '5px', bottom: '5px' }}>
-      Fecha de Nacimiento:
+      Fecha de nacimiento:
     </Text>
     <Grid rows={['full']} columns={['auto', '8rem', 'auto']} fill gap="small">
       <FormField name="birthDay" validate={validateDay} required>

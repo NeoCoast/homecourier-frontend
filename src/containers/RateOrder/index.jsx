@@ -76,10 +76,10 @@ RateOrder.propTypes = {
 
 RateOrder.defaultProps = {
   stars: 5,
-  description: 'Por favor, haga un comentario sobre su experiencia',
+  description: 'Por favor, haga un comentario sobre su experiencia.',
   buttonLabel: 'Calificar',
-  errorMessageComment: 'Por favor, de un comentario sobre que no fue de su agrado en su experiencia',
-  successMessage: 'Ha calificado con éxito. Gracias!',
+  errorMessageComment: 'Por favor, deje un comentario de lo que no fue de su agrado.',
+  successMessage: 'Ha calificado con éxito. ¡Gracias!',
 };
 
 export default RateOrder;
