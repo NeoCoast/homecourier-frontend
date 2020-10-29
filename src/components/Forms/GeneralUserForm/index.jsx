@@ -13,7 +13,7 @@ import {
 const GeneralUserForm = ({ message, errorMessage }) => (
   <Box>
     <Box direction="row-responsive" gap="small" fill="horizontal" justify="stretch" alignContent="around">
-      <FormField name="username" htmlfor="username" label={message('Nombre de Usuario')} fill required>
+      <FormField name="username" htmlfor="username" label={message('Nombre de usuario')} fill required>
         <TextInput name="username" id="username" />
       </FormField>
 
