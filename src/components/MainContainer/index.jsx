@@ -39,8 +39,8 @@ const MainContainer = ({ children }) => {
   if (loggedIn) {
     return (
       <ActionCableProvider url={`${process.env.WS_URL}?token=${userData.token.replace(/Bearer /, '')}`}>
-        <ActionCableConsumer channel="WebNotificationsChannel" onReceived={(data) => updateNotifications(data)} onConnected={() => console.log('connected')}>
-          <ActionCableConsumer channel="PendingRatingChannel" onReceived={(data) => updateRating(data)} onConnected={() => console.log('connectededed 2')}>
+        <ActionCableConsumer channel="WebNotificationsChannel" onReceived={(data) => updateNotifications(data)}>
+          <ActionCableConsumer channel="PendingRatingChannel" onReceived={(data) => updateRating(data)}>
             <Layout>{children}</Layout>
           </ActionCableConsumer>
         </ActionCableConsumer>
