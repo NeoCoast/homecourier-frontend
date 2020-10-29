@@ -36,7 +36,14 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
   }, []);
 
   return (
-    <Layer responsive={false} onEsc={onClose} onClickOutside={onClose} margin={viewPortSize === 'small' ? 'small' : 'xlarge'} round="large" full="horizontal">
+    <Layer
+      responsive={false}
+      onEsc={onClose}
+      onClickOutside={onClose}
+      margin="small"
+      round="large"
+      full={viewPortSize === 'small' ? 'horizontal' : false}
+    >
       <Box direction="row" justify="between" fill="horizontal" style={{ maxHeight: '66px' }}>
         <Heading level="3" margin={{ horizontal: 'large' }}>
           {order.title}
@@ -91,7 +98,9 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
         )}
 
         {order.helpee.id === userData.id && order.status === 'created' && viewPortSize !== 'small' && (
-          <VolunteerApplicationList orderId={order.id} onClose={onClose} />
+          <Box style={{ minWidth: '400px' }}>
+            <VolunteerApplicationList orderId={order.id} onClose={onClose} />
+          </Box>
         )}
       </Box>
       <Box direction="row" gap="small" fill justify="end" pad="medium">

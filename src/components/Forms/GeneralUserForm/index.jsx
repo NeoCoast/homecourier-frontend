@@ -16,7 +16,7 @@ const GeneralUserForm = ({ message, errorMessage }) => (
       <FormField
         name="username"
         htmlFor="username"
-        label={message('Nombre de Usuario')}
+        label={message('Nombre de usuario')}
         fill
         required
       >
