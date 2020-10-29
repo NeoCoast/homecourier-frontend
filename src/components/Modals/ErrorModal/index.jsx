@@ -10,7 +10,7 @@ const ErrorModal = ({ errorMessage, show, setShow }) => (
   <Layer onEsc={() => setShow(false)} onClickOutside={() => setShow(false)} responsive={false} margin="xsmall">
     <Box direction="row" align="start">
       <Heading level="2" margin="medium">
-        ¡Lo sentimos! Ha ocurrido error.
+        ¡Lo sentimos! Ha ocurrido un error.
       </Heading>
       <Button onClick={() => setShow(false)} margin="medium" icon={(<Close />)} hoverIndicator="accent-2" id="close-err-modal" />
     </Box>
