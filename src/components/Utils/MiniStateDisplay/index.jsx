@@ -5,7 +5,7 @@ import {
 } from 'grommet';
 import PropTypes from 'prop-types';
 import {
-  Home, Task, Package, StatusCritical, StatusCriticalSmall, Validate
+  Home, Task, Package, StatusCritical, StatusCriticalSmall, Validate,
 } from 'grommet-icons';
 
 // Props:

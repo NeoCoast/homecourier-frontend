@@ -93,7 +93,7 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
           )}
         {userData.documentNumber
           && !(alreadyApplied && order.status === 'created')
-          && order.status !== 'finished' 
+          && order.status !== 'finished'
           && order.status !== 'in_process'
           && (
             <Button
@@ -105,9 +105,9 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
               }}
             />
           )}
-          {!userData.documentNumber
+        {!userData.documentNumber
           && !(alreadyApplied && order.status === 'created')
-          && order.status !== 'finished' 
+          && order.status !== 'finished'
           && order.status !== 'in_process'
           && (
             <Button

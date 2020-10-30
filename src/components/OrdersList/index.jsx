@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { Box, InfiniteScroll, Heading, ResponsiveContext } from 'grommet';
+import {
+  Box, InfiniteScroll, ResponsiveContext,
+} from 'grommet';
 import PropTypes from 'prop-types';
 import ordersService from 'Api/orders.service';
 import { useSelector } from 'react-redux';
@@ -94,11 +96,11 @@ const OrdersList = ({
 
   return (
     <Box overflow="auto" flex={false}>
-      
+
       <InfiniteScroll
 
         direction="column"
-        pad={{ horizontal: viewportSize === 'small' ? 'small' : '20vw', vertical: 'medium' }}
+        pad={{ horizontal: viewportSize === 'small' ? 'small' : 'medium', vertical: 'medium' }}
         overflow="auto"
         fill
         items={orders}

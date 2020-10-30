@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Card, CardHeader, CardFooter, CardBody, Heading, Button, Box, Text,
+  Card, CardHeader, CardFooter, CardBody, Heading, Button, Box, Paragraph,
 } from 'grommet';
 import { Add } from 'grommet-icons';
 import PropTypes from 'prop-types';
@@ -23,7 +23,7 @@ const OrderCard = ({
       margin={{ horizontal: 'small', bottom: 'large' }}
     >
       <CardHeader pad={{ horizontal: 'large', top: 'medium', bottom: 'medium' }}>
-        <Heading level="4" truncate="true" margin={{ horizontal: 'small'}}>
+        <Heading level="4" truncate="true" margin={{ horizontal: 'small' }}>
           {order.title}
         </Heading>
       </CardHeader>
@@ -32,7 +32,7 @@ const OrderCard = ({
           <Box direction="row-responsive" gap="small" justify="between">
             <Box fill>
               {userData.documentNumber && <UserProfileInfo user={order.helpee} />}
-              {((order.volunteers ? (order.volunteers.map((x) => x.id).includes(userData.id) && order.status != 'created') : false) || userData.id === order.helpee.id)
+              {((order.volunteers ? (order.volunteers.map((x) => x.id).includes(userData.id) && order.status !== 'created') : false) || userData.id === order.helpee.id)
               && (
                 <MiniStatusDisplay activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]} cancelled={order.status === 'cancelled'} />
               )}
@@ -41,9 +41,9 @@ const OrderCard = ({
               <Heading level="5" margin={{ top: 'small', bottom: 'xsmall' }}>
                 Descripción
               </Heading>
-              <Text truncate margin="xsmall" size="small">
+              <Paragraph style={{height: 100, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "pre"}} margin="xsmall" size="small">
                 {order.description}
-              </Text>
+              </Paragraph>
             </Box>
           </Box>
           <ChipContainer items={order.categories} label="description" />
