@@ -25,7 +25,11 @@ const OrdersList = ({
       setSuccessModal(true);
     } catch (error) {
       setLoading(false);
-      setMessage('Hubo un error.');
+      if (error.message.match(/406/)) {
+        setMessage('Otro voluntario ya fue aceptado.');
+      } else {
+        setMessage('Hubo un error.');
+      }
       setErrorModal(true);
     }
   };
