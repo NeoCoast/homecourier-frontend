@@ -42,6 +42,10 @@ const OrdersList = ({
         status,
       });
       setLoading(false);
+      if (status === 'in_process') {
+        setMessage('¡Ha iniciado el pedido!');
+        setSuccessModal(true);
+      }
       if (status === 'finished') {
         setShowRating(true);
       }
