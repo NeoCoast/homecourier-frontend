@@ -102,6 +102,13 @@ const Rating = (props) => {
                 gap={gapSize}
                 margin="xsmall"
                 responsive={false}
+                style={
+                  {
+                    minWidth: '300px',
+                    maxHeigh: '90%',
+                    padding: '10px',
+                  }
+                }
               >
                 { starsElement }
               </Box>

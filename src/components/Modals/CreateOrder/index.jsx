@@ -93,6 +93,13 @@ const CreateOrder = ({ closeModal }) => {
       onEsc={() => closeModal()}
       onClickOutside={() => closeModal()}
       fill="horizontal"
+      style={
+        {
+          minWidth: '300px',
+          maxHeigh: '90%',
+          padding: '10px',
+        }
+      }
     >
       <Box
         align="center"
