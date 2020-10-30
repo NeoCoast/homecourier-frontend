@@ -1,7 +1,7 @@
 import React from 'react';
 import faker from 'faker';
 import {
-  fireEvent, waitFor, cleanup, screen,
+  fireEvent, waitFor, screen,
 } from '@testing-library/react';
 import { MONTHS } from 'Data/utils';
 import Register from 'Containers/Register';
@@ -13,7 +13,6 @@ jest.mock('Api/helpee.service');
 describe('Register container', () => {
   afterEach(() => {
     jest.resetAllMocks();
-    cleanup();
   });
 
   test('has a create user button', () => {
