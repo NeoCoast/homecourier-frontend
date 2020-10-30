@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Box, Button, TextArea, Heading, Layer, TextInput,
+  Box, Button, TextArea, Heading, Layer, TextInput, Form, FormField, Text, ResponsiveContext,
 } from 'grommet';
 import Select from 'react-select';
 import { useSelector } from 'react-redux';
@@ -10,7 +10,7 @@ import ordersService from 'Api/orders.service';
 import categoriesService from 'Api/categories.service';
 import Spinner from 'Components/Utils/Spinner';
 import ErrorModal from 'Components/Modals/ErrorModal';
-import 'react-toastify/dist/ReactToastify.css';
+import { validateTitle, validateSelect } from 'Helpers/validator.helper';
 
 const CreateOrder = ({ closeModal }) => {
   const [title, setTitle] = useState('');
@@ -36,62 +36,32 @@ const CreateOrder = ({ closeModal }) => {
       });
     } catch (error) {
       setInvalid(true);
-      setErrorMessage('Ocurrío un error intentando comunicarse con el servidor');
+      setErrorMessage('Ha ocurrido un error intentando comunicarse con el servidor');
     }
     setOptions(opts);
   };
 
+  const errorMsg = (msgError) => (
+    <Text size="small" color="red">
+      {msgError}
+    </Text>
+  );
+
   const newOrder = async () => {
     let errorFlag = false;
-    let msgError = '';
-    if (!title) {
-      msgError += 'Título es obligatorio';
-      errorFlag = true;
-    } else if (title.length < 5) {
-      msgError += 'Título debe tener al menos 5 carácteres';
-      errorFlag = true;
-    }
-    if (categories.length === 0) {
-      if (msgError) {
-        msgError += '\nDebe seleccionar al menos una categoría';
-      } else {
-        msgError = 'Debe seleccionar al menos una categoría';
-      }
-      errorFlag = true;
-    }
-    if (!description) {
-      if (msgError) {
-        msgError += '\nDescripción es obligatoria';
-      } else {
-        msgError = 'Descripción es obligatoria';
-      }
-      errorFlag = true;
-    } else if (description.length < 5) {
-      if (msgError) {
-        msgError += '\nDescripción debe tener al menos 5 carácteres';
-      } else {
-        msgError = 'Descripción debe tener al menos 5 carácteres';
-      }
-      errorFlag = true;
-    }
-    if (!errorFlag) {
-      try {
-        setLoading(true);
-        await ordersService.create({
-          title,
-          helpeeId,
-          categories,
-          description,
-        });
-      } catch (error) {
-        setLoading(false);
-        setInvalid(true);
-        setErrorMessage('Ocurrío un error intentando comunicarse con el servidor');
-        errorFlag = true;
-      }
-    } else {
+    try {
+      setLoading(true);
+      await ordersService.create({
+        title,
+        helpeeId,
+        categories,
+        description,
+      });
+    } catch (error) {
+      setLoading(false);
       setInvalid(true);
-      setErrorMessage(msgError);
+      setErrorMessage('Ocurrió un error intentando comunicarse con el servidor');
+      errorFlag = true;
     }
     if (!errorFlag) {
       setLoading(false);
@@ -113,51 +83,86 @@ const CreateOrder = ({ closeModal }) => {
     } else {
       getCategories();
     }
-  }, []);
+  }, [userLoggedIn]);
 
   return (
-    <Layer>
+    <Layer
+      position="center"
+      margin="medium"
+      responsive={false}
+      onEsc={() => closeModal()}
+      onClickOutside={() => closeModal()}
+      fill="horizontal"
+      style={
+        {
+          minWidth: '300px',
+          maxHeigh: '90%',
+          padding: '10px',
+        }
+      }
+    >
       <Box
         align="center"
-        elevation="medium"
-        pad="large"
-        gap="medium"
         round="5px"
         direction="column"
         background="white"
+        pad="small"
+        gap="small"
+        responsive={false}
       >
-        <Heading level="2">Crear un pedido</Heading>
-        <Box id="boxTitle" fill="horizontal">
-          <Heading level="3">Título</Heading>
-          <TextInput id="title" placeholder="Ingrese el título" value={title} onChange={(event) => setTitle(event.target.value)} />
-        </Box>
-        <Box id="boxCategories" fill="horizontal">
-          <Heading level="3">Categorías</Heading>
-          <Select
-            isMulti
-            placeholder="Seleccionar..."
-            id="categories"
-            options={options}
-            noOptionsMessage={() => 'No hay más opciones para seleccionar'}
-            onChange={handleChange}
-            width="fill"
-          />
-        </Box>
-        <Box id="boxDescription" fill="horizontal">
-          <Heading level="3">Descripción</Heading>
-          <TextArea
-            id="description"
-            placeholder="Ingrese la descripción"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-            required
-            width="100%"
-          />
-        </Box>
-        <Box direction="row-responsive" gap="medium" justify="end">
-          <Button label="Cancelar" onClick={closeModal} />
-          <Button primary label="Crear" onClick={newOrder} />
-        </Box>
+        <Heading level={2} margin="none">Crear un pedido</Heading>
+        <Form onSubmit={newOrder}>
+          <Heading level={3} margin="none">Título</Heading>
+          <FormField
+            name="title"
+            validate={(value) => validateTitle(value, errorMsg, 'El título es requerido', 'Titulo debe tener al menos 5 caracteres')}
+          >
+            <Box id="boxTitle" fill="horizontal">
+              <TextInput
+                id="title"
+                name="title"
+                placeholder="Ingrese el título"
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
+              />
+            </Box>
+          </FormField>
+          <Heading level={3} margin="none">Categorías</Heading>
+          <FormField name="categories" validate={() => validateSelect(categories, errorMsg, 'Debe seleccionar al menos una categoría')}>
+            <Box id="boxCategories" fill="horizontal">
+              <Select
+                placeholder="Seleccione una.."
+                isMulti
+                id="categories"
+                name="categories"
+                options={options}
+                onChange={handleChange}
+                width="fill"
+              />
+            </Box>
+          </FormField>
+          <Heading level={3} margin="none">Descripción</Heading>
+          <FormField
+            name="description"
+            validate={(value) => validateTitle(value, errorMsg, 'La descripción es requerida', 'La descripción debe tener al menos 5 caracteres')}
+          >
+            <Box height={React.useContext(ResponsiveContext) === 'small' ? 'xsmall' : 'small'} responsive={false} id="boxDescription">
+              <TextArea
+                id="description"
+                name="description"
+                fill
+                resize={false}
+                placeholder="Ingrese la descripción"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+                width="100%"
+              />
+            </Box>
+          </FormField>
+          <Box direction="row-responsive" align="center">
+            <Button primary fill type="submit" label="Crear" />
+          </Box>
+        </Form>
       </Box>
       {invalid
       && (

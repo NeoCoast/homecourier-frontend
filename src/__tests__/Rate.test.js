@@ -2,31 +2,50 @@
 import React from 'react';
 import faker from 'faker';
 import {
-  fireEvent, render, screen, waitFor, cleanup,
+  fireEvent, render, screen, waitFor,
 } from '@testing-library/react';
 import RateOrder from 'Containers/RateOrder';
-import { useSelector } from 'react-redux';
+import { combineReducers } from '@reduxjs/toolkit';
+import { Router } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import logUser from 'Reducers/logUser';
+import ratingService from 'Api/rating.service';
 
-jest.mock('react-redux', () => ({
-  useDispatch: jest.fn(),
-  useSelector: jest.fn(),
-  useHistory: () => ({
-    push: jest.fn(),
-  }),
+function renderWithProviders(ui, reduxState) {
+  const initialState = {
+    logUser: {
+      data: { documentNumber: '232323' },
+      loggedIn: false,
+    },
+  };
+  const rootReducer = combineReducers({
+    logUser,
+  });
+  const history = createBrowserHistory();
+  const store = createStore(rootReducer, reduxState || initialState);
+  return render(
+    <Router history={history}>
+      <Provider store={store}>{ui}</Provider>
+    </Router>
+  );
+}
+
+jest.mock('Api/rating.service', () => ({
+  rateVolunteer: jest.fn(),
+  rateHelpee: jest.fn(),
 }));
 
 describe('Rating', () => {
-  beforeEach(() => {
-    useSelector.mockImplementation((selector) => selector({
-      logUser: {
-        data: { documentNumber: '232323', name: faker.name.firstName(), lastName: faker.name.lastName() },
-        loggedIn: false,
-      },
-    }));
-    cleanup();
-  });
+  const setShow = jest.fn();
 
-  const setShow = () => false;
+  const state = {
+    logUser: {
+      data: { documentNumber: '232323' },
+      loggedIn: true,
+    },
+  };
 
   const props = {
     orderId: 3,
@@ -44,45 +63,19 @@ describe('Rating', () => {
     successMessage: faker.random.words(),
   };
 
-  test('Shows Icons', async () => {
-    render(<RateOrder orderId={props.orderId} stars={props.stars} show={props.show} setShow={setShow} />);
-    const items = await screen.findAllByLabelText(/Fireball/i);
-    expect(items).toHaveLength(props.stars);
-  });
-
-  test('Rates user', async () => {
-    const { getByText } = render(<RateOrder orderId={props.orderId} buttonLabel={props.buttonLabel} show={props.show} setShow={setShow} />);
-
-    fireEvent.click(getByText(props.buttonLabel));
-    await waitFor(() => {
-      expect(getByText(/Lo Sentimos! Ha ocurrido error./i)).toBeInTheDocument();
-    });
-  });
-
-  test('Changes placeholder', async () => {
-    const { getByPlaceholderText } = render(<RateOrder orderId={props.orderId} description={props.description} show={props.show} setShow={setShow} />);
-    expect(getByPlaceholderText(props.description)).toBeInTheDocument();
-  });
-
-  test('Clicks on Star', async () => {
-    const dom = render(<RateOrder orderId={props.orderId} stars={props.stars} show={props.show} setShow={setShow} />);
+  test('Rates Helpee', async () => {
+    ratingService.rateHelpee.mockImplementation(() => ({
+      status: 200,
+    }));
+    const dom = await renderWithProviders(<RateOrder orderId={props.orderId} stars={props.stars} show={props.show} setShow={setShow} />, state);
     const items = await screen.findAllByLabelText(/Fireball/i);
     fireEvent.click(items[props.stars - 1]);
     await waitFor(() => {
       expect(dom.findByLabelText(/StatusGoodSmall/i));
     });
-  });
-
-  test('Recognizes volunteer', async () => {
-    const { getAllByText } = render(<RateOrder orderId={props.orderId} show={props.show} setShow={setShow} />);
-    expect(getAllByText(/Califique al usuario/i)).toHaveLength(4);
-  });
-
-  test('Submits with no rating', async () => {
-    const dom = render(<RateOrder orderId={props.orderId} buttonLabel={props.buttonLabel} stars={props.stars} show={props.show} setShow={setShow} />);
-    fireEvent.click(dom.getByText(props.buttonLabel));
+    fireEvent.click(dom.getByText(/Calificar/i));
     await waitFor(() => {
-      expect(dom.getByText(/Lo Sentimos! Ha ocurrido error./i)).toBeInTheDocument();
+      expect(screen.findAllByLabelText(/¡Éxito!/i));
     });
   });
 });

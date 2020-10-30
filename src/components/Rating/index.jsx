@@ -2,7 +2,7 @@
 /* eslint-disable no-plusplus */
 import React, { useState, useEffect } from 'react';
 import {
-  Box, Layer, Button, TextArea, Heading, Stack, FormField, Form, Text, ResponsiveContext,
+  Box, Layer, Button, TextArea, Heading, Stack, ResponsiveContext, Form, FormField, Text,
 } from 'grommet';
 import { StatusGoodSmall, Fireball } from 'grommet-icons';
 import Spinner from 'Components/Utils/Spinner';
@@ -23,6 +23,7 @@ const Rating = (props) => {
     show,
   } = props;
 
+  // const [show, setShow] = useState(false);
   const starsElement = [];
   const [active, setActive] = useState(-1);
   const [feedBack, setFeedBack] = useState('');
@@ -31,45 +32,40 @@ const Rating = (props) => {
   const gapSize = React.useContext(ResponsiveContext);
   const [iconSize, setIconSize] = useState('large');
   const [headingSize, setHeadingSize] = useState(2);
-  const errorMessage = (msg) => (
+
+  const errorMessage = () => (
     <Text size="small" color="red">
-      {msg}
+      {errorMessageComment}
     </Text>
   );
 
-  const validateComment = (value) => {
-    if ((active < stars / 2) && !value) {
-      return { status: 'error', message: errorMessage(errorMessageComment) };
+  useEffect(() => {
+    if (gapSize === 'small') {
+      setIconSize('medium');
+      setHeadingSize(5);
+    } else {
+      setIconSize('large');
+      setHeadingSize(2);
     }
-    return { status: 'info' };
-  };
+  }, [gapSize]);
 
   const handleSubmit = async () => {
-    if (active < 0) {
-      setInvalid(true);
-      setError(errorMessageRating);
-    } else {
-      setLoading(true);
-      const info = {
-        score: active + 1,
-        comment: feedBack,
-      };
-      try {
-        await onSubmit(info);
-        setLoading(false);
-        setActive(-1);
-        setShow(false);
-        setSuccess(true);
-      } catch (failure) {
-        setLoading(false);
-        setError(failure);
-        setInvalid(true);
-        console.log(failure);
-      }
+    setLoading(true);
+    const info = {
+      score: active + 1,
+      comment: feedBack,
+    };
+    try {
+      await onSubmit(info);
+      setLoading(false);
+      setActive(-1);
+      setShow(false);
+      setSuccess(true);
+    } catch (failure) {
+      setLoading(false);
+      console.log(failure);
     }
   };
-
-  const deviceSize = React.useContext(ResponsiveContext);
 
   for (let i = 0; i < stars; i++) {
     starsElement.push(
@@ -80,12 +76,12 @@ const Rating = (props) => {
       >
         {active >= i && (
           <StatusGoodSmall
-            size={deviceSize === 'small' ? 'medium' : 'large'}
+            size={iconSize}
             color="#f2da81"
           />
         )}
         <Fireball
-          size={deviceSize === 'small' ? 'medium' : 'large'}
+          size={iconSize}
           color="black"
         />
       </Stack>
@@ -95,64 +91,55 @@ const Rating = (props) => {
     <Box responsive={false}>
       {loading && <Spinner />}
       {success && <SuccessModal message={successMessage} setShow={setSuccess} show={success} />}
-      { show && !invalid
-        && (
-          <Layer
-            margin="large"
-            position="center"
-            modal
-            responsive={false}
-            style={
-              {
-                minWidth: '300px',
-                maxHeigh: '90%',
-                padding: '10px',
-              }
-            }
-          >
-            <Form
-              onSubmit={handleSubmit}
-            >
-              <Heading margin="medium" style={{ fontSize: deviceSize === 'small' ? '1.3rem' : '2rem' }} textAlign="center">{title}</Heading>
+      { show
+          && (
+            <Layer margin="medium" position="center" modal responsive={false}>
+              <Heading margin="small" level={headingSize} alignSelf="center">{ title }</Heading>
               <Box
-                fill="horizontal"
                 justify="center"
                 alignSelf="center"
                 direction="row"
-                gap="medium"
+                gap={gapSize}
+                margin="xsmall"
+                responsive={false}
+                style={
+                  {
+                    minWidth: '300px',
+                    maxHeigh: '90%',
+                    padding: '10px',
+                  }
+                }
               >
-                {starsElement}
+                { starsElement }
               </Box>
-              <Box align="center" pad="medium">
-                <FormField
-                  size="medium"
-                  label="Comentario"
-                  htmlFor="Comment"
-                  name="Comment"
-                  validate={(value) => validateComment(value)}
-                  fill
-                >
-                  <TextArea
-                    size="medium"
-                    id="Comment"
-                    name="Comment"
-                    resize={false}
-                    placeholder={description}
-                    onChange={(event) => setFeedBack(event.target.value)}
+              <Form onSubmit={handleSubmit}>
+                <Box pad="small">
+                  <FormField name="Comment" validate={(value) => validateComment(value, (active >= Math.floor(stars / 2)), errorMessage)}>
+                    <Box align="center" height="small">
+                      <TextArea
+                        name="Comment"
+                        id="Comment"
+                        size="medium"
+                        resize={false}
+                        fill
+                        placeholder={description}
+                        onChange={(event) => setFeedBack(event.target.value)}
+                      />
+                    </Box>
+                  </FormField>
+                </Box>
+                <Box pad="small">
+                  <Button
+                    primary
+                    disabled={active < 0}
+                    fill="horizontal"
+                    label={buttonLabel}
+                    type="submit"
                   />
-                </FormField>
-              </Box>
-              <Box align="center" pad="medium">
-                <Button
-                  fill="horizontal"
-                  primary
-                  type="submit"
-                  label={buttonLabel}
-                />
-              </Box>
-            </Form>
-          </Layer>
-        )}
+                </Box>
+              </Form>
+            </Layer>
+          )}
     </Box>
   );
 };
@@ -172,11 +159,10 @@ Rating.propTypes = {
 Rating.defaultProps = {
   stars: 5,
   title: 'Califique al voluntario',
-  description: 'Por favor, haga un comentario sobre su experiencia.',
+  description: 'Por favor, haga un comentario sobre su experiencia',
   buttonLabel: 'Calificar',
-  errorMessageRating: 'Debe calificar al voluntario antes de continuar.',
-  errorMessageComment: 'Por favor, deje un comentario de lo que no fue de su agrado.',
-  successMessage: 'Ha calificado con éxito. Gracias!',
+  errorMessageComment: 'Por favor, de un comentario sobre que no fue de su agrado en su experiencia',
+  successMessage: 'Ha calificado con éxito. ¡Gracias!',
 };
 
 export default Rating;
