@@ -5,7 +5,7 @@ import {
 } from 'grommet';
 import { MONTHS } from 'Data/utils';
 
-const BirthDatePicker = ({ validateDay, validateYear }) => (
+const BirthDatePicker = ({ validateDay, validateYear, isMinor }) => (
   <Box fill>
     <Text size="small" margin={{ top: '5px', bottom: '5px' }}>
       Fecha de nacimiento:
@@ -39,12 +39,14 @@ const BirthDatePicker = ({ validateDay, validateYear }) => (
         />
       </FormField>
     </Grid>
+    {isMinor && <Text color="accent-2" size="small"> Debe ser mayor a 18 </Text>}
   </Box>
 );
 
 BirthDatePicker.propTypes = {
   validateDay: PropTypes.func.isRequired,
   validateYear: PropTypes.func.isRequired,
+  isMinor: PropTypes.bool.isRequired,
 };
 
 export default BirthDatePicker;

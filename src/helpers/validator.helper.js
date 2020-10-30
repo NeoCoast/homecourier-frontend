@@ -19,6 +19,52 @@ export const validatePassword = (value, errorMessage) => {
   return { status: 'info' };
 };
 
+export const validateComment = (value, disable, errorMessage) => {
+  if (!value && !disable) {
+    return {
+      status: 'error',
+      message: errorMessage(),
+    };
+  }
+  return { status: 'info' };
+};
+
+export const validateTitle = (value, errorMessage, msg, msgShort) => {
+  if (!value) {
+    return {
+      status: 'error',
+      message: errorMessage(msg),
+    };
+  }
+  if (value.length < 5) {
+    return {
+      status: 'error',
+      message: errorMessage(msgShort),
+    };
+  }
+  return { status: 'info' };
+};
+
+export const validateInput = (value, errorMessage, msg) => {
+  if (!value) {
+    return {
+      status: 'error',
+      message: errorMessage(msg),
+    };
+  }
+  return { status: 'info' };
+};
+
+export const validateSelect = (value, errorMessage, msg) => {
+  if (value.length === 0) {
+    return {
+      status: 'error',
+      message: errorMessage(msg),
+    };
+  }
+  return { status: 'info' };
+};
+
 export const validateRepeatPassword = (value, formValues, errorMessage) => {
   if (value !== formValues.password) {
     return { status: 'error', message: errorMessage('Las contraseñas no coinciden') };

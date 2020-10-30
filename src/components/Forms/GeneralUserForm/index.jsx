@@ -10,7 +10,7 @@ import {
   validateYear,
 } from 'Helpers/validator.helper';
 
-const GeneralUserForm = ({ message, errorMessage }) => (
+const GeneralUserForm = ({ message, errorMessage, isMinor }) => (
   <Box>
     <Box direction="row-responsive" gap="small" fill="horizontal" justify="stretch" alignContent="around">
       <FormField
@@ -124,6 +124,7 @@ const GeneralUserForm = ({ message, errorMessage }) => (
       <BirthDatePicker
         validateDay={(value) => validateDay(value, errorMessage)}
         validateYear={(value) => validateYear(value, errorMessage)}
+        isMinor={isMinor}
       />
     </Box>
   </Box>
@@ -132,6 +133,7 @@ const GeneralUserForm = ({ message, errorMessage }) => (
 GeneralUserForm.propTypes = {
   message: PropTypes.func.isRequired,
   errorMessage: PropTypes.func.isRequired,
+  isMinor: PropTypes.bool.isRequired,
 };
 
 export default GeneralUserForm;
