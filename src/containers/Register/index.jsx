@@ -117,6 +117,7 @@ const Register = ({ volunteer }) => {
 
         <Box direction="row" gap="small">
           <Avatar
+            id="profilePicture"
             data-tip
             data-for="pic-tooltip"
             size="xlarge"
@@ -130,6 +131,7 @@ const Register = ({ volunteer }) => {
         </ReactTooltip>
 
         <Form
+          aria-label="form"
           onSubmit={submit}
           messages={{
             required: 'Requerido',

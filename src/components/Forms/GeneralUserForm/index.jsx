@@ -13,8 +13,18 @@ import {
 const GeneralUserForm = ({ message, errorMessage, isMinor }) => (
   <Box>
     <Box direction="row-responsive" gap="small" fill="horizontal" justify="stretch" alignContent="around">
-      <FormField name="username" htmlfor="username" label={message('Nombre de usuario')} fill required>
-        <TextInput name="username" id="username" />
+      <FormField
+        name="username"
+        htmlFor="username"
+        label={message('Nombre de usuario')}
+        fill
+        required
+      >
+        <TextInput
+          aria-label="username"
+          name="username"
+          id="username"
+        />
       </FormField>
 
       <FormField
@@ -24,17 +34,41 @@ const GeneralUserForm = ({ message, errorMessage, isMinor }) => (
         fill
         validate={(value) => validateEmail(value, errorMessage)}
       >
-        <TextInput name="email" id="email" />
+        <TextInput
+          aria-label="email"
+          name="email"
+          id="email"
+        />
       </FormField>
     </Box>
 
     <Box direction="row-responsive" gap="small" fill="horizontal" justify="stretch" alignContent="around">
-      <FormField name="name" htmlfor="name" label={message('Nombre')} fill required>
-        <TextInput id="name" name="name" />
+      <FormField
+        name="name"
+        htmlfor="name"
+        label={message('Nombre')}
+        fill
+        required
+      >
+        <TextInput
+          aria-label="name"
+          name="name"
+          id="name"
+        />
       </FormField>
 
-      <FormField name="lastname" htmlfor="lastname" label={message('Apellido')} fill required>
-        <TextInput id="lastname" name="lastname" />
+      <FormField
+        name="lastname"
+        htmlfor="lastname"
+        label={message('Apellido')}
+        fill
+        required
+      >
+        <TextInput
+          aria-label="lastname"
+          name="lastname"
+          id="lastname"
+        />
       </FormField>
     </Box>
 
@@ -47,7 +81,12 @@ const GeneralUserForm = ({ message, errorMessage, isMinor }) => (
         fill
         validate={(value) => validatePassword(value, errorMessage)}
       >
-        <TextInput name="password" id="password" type="password" />
+        <TextInput
+          aria-label="password"
+          type="password"
+          name="password"
+          id="password"
+        />
       </FormField>
 
       <FormField
@@ -58,13 +97,28 @@ const GeneralUserForm = ({ message, errorMessage, isMinor }) => (
         required
         validate={(value, formValues) => validateRepeatPassword(value, formValues, errorMessage)}
       >
-        <TextInput name="repeatPassword" id="repeatPassword" type="password" />
+        <TextInput
+          aria-label="repeatPassword"
+          type="password"
+          name="repeatPassword"
+          id="repeatPassword"
+        />
       </FormField>
     </Box>
 
     <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
-      <FormField name="address" htmlfor="address" label={message('Dirección')} fill required>
-        <TextInput name="address" id="address" />
+      <FormField
+        name="address"
+        htmlfor="address"
+        label={message('Dirección')}
+        fill
+        required
+      >
+        <TextInput
+          aria-label="address"
+          name="address"
+          id="address"
+        />
       </FormField>
 
       <BirthDatePicker

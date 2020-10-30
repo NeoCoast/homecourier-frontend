@@ -112,44 +112,62 @@ const CreateOrder = ({ closeModal }) => {
       >
         <Heading level={2} margin="none">Crear un pedido</Heading>
         <Form onSubmit={newOrder}>
-          <Heading level={3} margin="none">Título</Heading>
+          <Heading htmlFor="title" level={3} margin="none">Título</Heading>
           <FormField
             name="title"
-            validate={(value) => validateTitle(value, errorMsg, 'El título es requerido', 'Titulo debe tener al menos 5 caracteres')}
+            validate={(value) => validateTitle(
+              value,
+              errorMsg,
+              'El título es requerido', 'Titulo debe tener al menos 5 caracteres'
+            )}
           >
             <Box id="boxTitle" fill="horizontal">
               <TextInput
                 id="title"
                 name="title"
+                aria-label="title"
                 placeholder="Ingrese el título"
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
               />
             </Box>
           </FormField>
-          <Heading level={3} margin="none">Categorías</Heading>
-          <FormField name="categories" validate={() => validateSelect(categories, errorMsg, 'Debe seleccionar al menos una categoría')}>
+          <Heading htmlFor="categories" level={3} margin="none">Categorías</Heading>
+          <FormField
+            name="categories"
+            validate={() => validateSelect(
+              categories,
+              errorMsg,
+              'Debe seleccionar al menos una categoría'
+            )}
+          >
             <Box id="boxCategories" fill="horizontal">
               <Select
                 placeholder="Seleccione una.."
                 isMulti
                 id="categories"
                 name="categories"
+                aria-label="categories"
                 options={options}
                 onChange={handleChange}
                 width="fill"
               />
             </Box>
           </FormField>
-          <Heading level={3} margin="none">Descripción</Heading>
+          <Heading htmlFor="description" level={3} margin="none">Descripción</Heading>
           <FormField
             name="description"
-            validate={(value) => validateTitle(value, errorMsg, 'La descripción es requerida', 'La descripción debe tener al menos 5 caracteres')}
+            validate={(value) => validateTitle(
+              value,
+              errorMsg,
+              'La descripción es requerida', 'La descripción debe tener al menos 5 caracteres'
+            )}
           >
             <Box height={React.useContext(ResponsiveContext) === 'small' ? 'xsmall' : 'small'} responsive={false} id="boxDescription">
               <TextArea
                 id="description"
                 name="description"
+                aria-label="description"
                 fill
                 resize={false}
                 placeholder="Ingrese la descripción"

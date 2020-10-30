@@ -12,10 +12,16 @@ const BirthDatePicker = ({ validateDay, validateYear, isMinor }) => (
     </Text>
     <Grid rows={['full']} columns={['auto', '8rem', 'auto']} fill gap="small">
       <FormField name="birthDay" validate={validateDay} required>
-        <TextInput placeholder="Día" name="birthDay" id="birthDay" />
+        <TextInput
+          aria-label="birthDay"
+          placeholder="Día"
+          name="birthDay"
+          id="birthDay"
+        />
       </FormField>
       <FormField name="birthMonth" required>
         <Select
+          aria-label="birthMonth"
           placeholder="Mes"
           options={MONTHS}
           labelKey="displayValue"
@@ -25,7 +31,12 @@ const BirthDatePicker = ({ validateDay, validateYear, isMinor }) => (
         />
       </FormField>
       <FormField name="birthYear" validate={validateYear} required>
-        <TextInput placeholder="Año" name="birthYear" id="birthYear" />
+        <TextInput
+          aria-label="birthYear"
+          placeholder="Año"
+          name="birthYear"
+          id="birthYear"
+        />
       </FormField>
     </Grid>
     {isMinor && <Text color="accent-2" size="small"> Debe ser mayor a 18 </Text>}
