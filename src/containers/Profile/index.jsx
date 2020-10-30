@@ -13,5 +13,4 @@ const Profile = () => {
     </Box>
   );
 };
-
 export default Profile;
