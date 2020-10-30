@@ -10,7 +10,7 @@ import ErrorModal from 'Components/Modals/ErrorModal';
 import UploadProfileModal from 'Components/Modals/UploadProfileModal';
 import Add from 'Assets/add-image.svg';
 import VolunteerForm from 'Components/Forms/VolunteerForm';
-import { dataURItoBlob } from 'Helpers/utils.helper';
+import { dataURItoBlob, isMinor } from 'Helpers/utils.helper';
 import Spinner from 'Components/Utils/Spinner';
 import ReactTooltip from 'react-tooltip';
 import RegisterConfirm from './ConfirmPage';
@@ -25,6 +25,7 @@ const Register = ({ volunteer }) => {
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState(null);
   const [image, setImage] = useState(null);
+  const [minor, setMinor] = useState(false);
 
   const submitService = volunteer ? volunteerService : helpeeService;
   const headingMessage = volunteer ? ', gracias por querer ayudar' : ' a HomeCourier';
@@ -41,6 +42,10 @@ const Register = ({ volunteer }) => {
     const values = { ...formValues.value };
 
     values.birthDate = `${values.birthDay}/${values.birthMonth.month}/${values.birthYear}`;
+    if (isMinor(values.birthDate)) {
+      setMinor(true);
+      return;
+    }
     delete values.birthDay;
     delete values.birthMonth;
     delete values.birthYear;
@@ -130,7 +135,7 @@ const Register = ({ volunteer }) => {
             required: 'Requerido',
           }}
         >
-          <GeneralUserForm message={message} errorMessage={errorMessage} />
+          <GeneralUserForm message={message} errorMessage={errorMessage} isMinor={minor} />
           {volunteer && (
             <VolunteerForm
               message={message}
