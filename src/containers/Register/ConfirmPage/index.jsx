@@ -11,7 +11,7 @@ const RegisterConfirm = ({ username }) => (
     <Box></Box>
     <Card alignSelf="center" background="white" pad="medium">
       <Heading level="2" alignSelf="center" margin="0">
-        Bienvenido, {username}!
+        ¡Bienvenido, {username}!
       </Heading>
       <Box
         direction="row-responsive"
@@ -25,7 +25,7 @@ const RegisterConfirm = ({ username }) => (
         </Box>
         <Paragraph alignSelf="center">
           Su solicitud de registro se ha enviado correctamente, le hemos enviado un mail de
-          confirmacion a su casilla de correo.
+          confirmación a su casilla de correo.
         </Paragraph>
       </Box>
       <Box alignSelf="end">

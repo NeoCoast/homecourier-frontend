@@ -53,6 +53,7 @@ const OrdersList = ({
         setMessage('Se ha cancelado la orden correctamente.');
         setSuccessModal(true);
       }
+      modalClosed(true);
     } catch (error) {
       setLoading(false);
       setMessage('Hubo un error.');
