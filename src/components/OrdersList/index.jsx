@@ -21,11 +21,15 @@ const OrdersList = ({
         orderId,
       });
       setLoading(false);
-      setMessage('Se ha postulado la orden! Gracias por ayudar!');
+      setMessage('¡Se ha postulado para realizar la orden!');
       setSuccessModal(true);
     } catch (error) {
       setLoading(false);
-      setMessage('Hubo un error.');
+      if (error.message.match(/406/)) {
+        setMessage('Otro voluntario ya fue aceptado.');
+      } else {
+        setMessage('Hubo un error.');
+      }
       setErrorModal(true);
     }
   };
@@ -40,6 +44,10 @@ const OrdersList = ({
       setLoading(false);
       if (status === 'finished') {
         setShowRating(true);
+      }
+      if (status === 'cancelled') {
+        setMessage('Se ha cancelado la orden correctamente.');
+        setSuccessModal(true);
       }
     } catch (error) {
       setLoading(false);

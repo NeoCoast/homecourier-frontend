@@ -48,7 +48,7 @@ describe('Notification Menu Empty', () => {
   test('No notifications', () => {
     const { getAllByText } = renderWithProviders(<NotificationMenu />);
     fireEvent.click(document.getElementById('noty-stack'));
-    expect(getAllByText(/No hay notificaciones/i)).toHaveLength(2);
+    expect(getAllByText(/No hay notificaciones/i)).toHaveLength(1);
   });
 });
 const state = {
@@ -72,7 +72,7 @@ describe('Notification Menu Only New', () => {
   test('No seen notifications', () => {
     const { getAllByText } = renderWithProviders(<NotificationMenu />, state);
     fireEvent.click(document.getElementById('noty-stack'));
-    expect(getAllByText(/No hay notificaciones/i)).toHaveLength(1);
+    expect(getAllByText(/Una notificacion/i)).toHaveLength(1);
   });
 
   test('New notifications', () => {
