@@ -52,7 +52,7 @@ const Rating = (props) => {
   const handleSubmit = async () => {
     setLoading(true);
     const info = {
-      score: active,
+      score: active + 1,
       comment: feedBack,
     };
     try {

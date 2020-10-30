@@ -10,7 +10,7 @@ import ordersService from 'Api/orders.service';
 import categoriesService from 'Api/categories.service';
 import Spinner from 'Components/Utils/Spinner';
 import ErrorModal from 'Components/Modals/ErrorModal';
-import { validateTitle, validateInput } from 'Helpers/validator.helper';
+import { validateTitle, validateSelect } from 'Helpers/validator.helper';
 
 const CreateOrder = ({ closeModal }) => {
   const [title, setTitle] = useState('');
@@ -23,8 +23,6 @@ const CreateOrder = ({ closeModal }) => {
   const userLoggedIn = useSelector((state) => state.logUser.loggedIn);
   const helpeeId = useSelector((state) => state.logUser.data.id);
   const history = useHistory();
-  const size = React.useContext(ResponsiveContext);
-  let descSize = size === 'small' ? 'xsmall' : 'small';
 
   const getCategories = async () => {
     const opts = [];
@@ -38,7 +36,7 @@ const CreateOrder = ({ closeModal }) => {
       });
     } catch (error) {
       setInvalid(true);
-      setErrorMessage('Oops! Ha ocurrido un error intentando comunicarse con el servidor');
+      setErrorMessage('Ha ocurrido un error intentando comunicarse con el servidor');
     }
     setOptions(opts);
   };
@@ -62,7 +60,7 @@ const CreateOrder = ({ closeModal }) => {
     } catch (error) {
       setLoading(false);
       setInvalid(true);
-      setErrorMessage('Ocurrío un error intentando comunicarse con el servidor');
+      setErrorMessage('Ocurrió un error intentando comunicarse con el servidor');
       errorFlag = true;
     }
     if (!errorFlag) {
@@ -85,9 +83,7 @@ const CreateOrder = ({ closeModal }) => {
     } else {
       getCategories();
     }
-    if (size === 'small') descSize = 'xsmall';
-    else descSize = 'small';
-  }, [userLoggedIn, size]);
+  }, [userLoggedIn]);
 
   return (
     <Layer
@@ -125,9 +121,17 @@ const CreateOrder = ({ closeModal }) => {
             </Box>
           </FormField>
           <Heading level={3} margin="none">Categorías</Heading>
-          <FormField name="categories" validate={(value) => validateInput(value, errorMsg, 'Debe seleccionar al menos una categoría')}>
+          <FormField name="categories" validate={() => validateSelect(categories, errorMsg, 'Debe seleccionar al menos una categoría')}>
             <Box id="boxCategories" fill="horizontal">
-              <Select isMulti id="categories" name="categories" options={options} onChange={handleChange} width="fill" />
+              <Select
+                placeholder="Seleccione una.."
+                isMulti
+                id="categories"
+                name="categories"
+                options={options}
+                onChange={handleChange}
+                width="fill"
+              />
             </Box>
           </FormField>
           <Heading level={3} margin="none">Descripción</Heading>
@@ -135,7 +139,7 @@ const CreateOrder = ({ closeModal }) => {
             name="description"
             validate={(value) => validateTitle(value, errorMsg, 'La descripción es requerida', 'La descripción debe tener al menos 5 caracteres')}
           >
-            <Box height={descSize} responsive={false} id="boxDescription">
+            <Box height={React.useContext(ResponsiveContext) === 'small' ? 'xsmall' : 'small'} responsive={false} id="boxDescription">
               <TextArea
                 id="description"
                 name="description"
