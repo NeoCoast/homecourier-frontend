@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-plusplus */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box, Layer, Button, TextArea, Heading, Stack, FormField, Form, Text, ResponsiveContext,
 } from 'grommet';
 import { StatusGoodSmall, Fireball } from 'grommet-icons';
 import Spinner from 'Components/Utils/Spinner';
 import PropTypes from 'prop-types';
-import ErrorModal from 'Components/Modals/ErrorModal';
 import SuccessModal from 'Components/Modals/SuccessModal';
+import { validateComment } from 'Helpers/validator.helper';
 
 const Rating = (props) => {
   const {
@@ -18,7 +18,6 @@ const Rating = (props) => {
     buttonLabel,
     onSubmit,
     errorMessageComment,
-    errorMessageRating,
     successMessage,
     setShow,
     show,
@@ -28,10 +27,10 @@ const Rating = (props) => {
   const [active, setActive] = useState(-1);
   const [feedBack, setFeedBack] = useState('');
   const [loading, setLoading] = useState(false);
-  const [invalid, setInvalid] = useState(false);
-  const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-
+  const gapSize = React.useContext(ResponsiveContext);
+  const [iconSize, setIconSize] = useState('large');
+  const [headingSize, setHeadingSize] = useState(2);
   const errorMessage = (msg) => (
     <Text size="small" color="red">
       {msg}
@@ -93,9 +92,8 @@ const Rating = (props) => {
     );
   }
   return (
-    <Box>
+    <Box responsive={false}>
       {loading && <Spinner />}
-      {invalid && <ErrorModal errorMessage={error} setShow={setInvalid} show={invalid} />}
       {success && <SuccessModal message={successMessage} setShow={setSuccess} show={success} />}
       { show && !invalid
         && (
@@ -165,7 +163,6 @@ Rating.propTypes = {
   description: PropTypes.string,
   buttonLabel: PropTypes.string,
   errorMessageComment: PropTypes.string,
-  errorMessageRating: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   successMessage: PropTypes.string,
   show: PropTypes.bool.isRequired,
