@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
-  Layer, Heading, Paragraph, Box, Button,
+  Layer, Heading, Paragraph, Box, Button, ResponsiveContext,
 } from 'grommet';
 import { Package, Task, Home } from 'grommet-icons';
 import { Close } from 'grommet-icons';
@@ -15,6 +15,7 @@ import { useState, useEffect } from 'react';
 
 const ViewOrderModal = ({ order, onClose, onConfirm }) => {
   const userData = useSelector((state) => state.logUser.data);
+  const viewPortSize = useContext(ResponsiveContext);
   const [alreadyApplied, setAlreadyApplied] = useState(false);
   const icons = [
     <Package size="large" color="black" />,
@@ -34,9 +35,16 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
   }, []);
 
   return (
-    <Layer responsive={false} onEsc={onClose} onClickOutside={onClose} margin="xlarge" round="large">
-      <Box direction="row" justify="between" fill="horizontal">
-        <Heading level="3" truncate="true" margin={{ horizontal: 'large' }}>
+    <Layer
+      responsive={false}
+      onEsc={onClose}
+      onClickOutside={onClose}
+      margin="small"
+      round="large"
+      full={viewPortSize === 'small' ? 'horizontal' : false}
+    >
+      <Box direction="row" justify="between" fill="horizontal" style={{ maxHeight: '66px' }}>
+        <Heading level="3" margin={{ horizontal: 'large' }}>
           {order.title}
         </Heading>
         <Button
@@ -74,8 +82,11 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
             icons={icons}
           />
         )}
-        {order.helpee.id === userData.id && order.status === 'created' && (
-          <VolunteerApplicationList orderId={order.id} onClose={onClose} />
+
+        {order.helpee.id === userData.id && order.status === 'created' && viewPortSize !== 'small' && (
+          <Box style={{ minWidth: '400px' }}>
+            <VolunteerApplicationList orderId={order.id} onClose={onClose} />
+          </Box>
         )}
       </Box>
       <Box direction="row" gap="small" fill justify="end" pad="medium">
