@@ -61,7 +61,10 @@ const MyOrders = () => {
       {createOrderModal && <CreateOrder closeModal={closeModal} />}
       {orders.length === 0 && !loading && (
         <Heading level="2" textAlign="center">
-          Lo sentimos! No hay pedidos en el sistema.
+          {userInfo.documentNumber
+            && 'Usted no se ha postulado a ningún pedido aún'}
+          {!userInfo.documentNumber
+            && 'Usted no ha cargado ningún pedido aún'}
         </Heading>
       )}
       {orders.length > 0 && <OrdersList orders={orders} setLoading={setLoading} modalClosed={setViewOrderModal} />}
