@@ -101,7 +101,7 @@ const CreateOrder = ({ closeModal }) => {
       }
     >
       <Box
-        align="center"
+        align="stretch"
         round="5px"
         direction="column"
         background="white"
@@ -109,6 +109,7 @@ const CreateOrder = ({ closeModal }) => {
         gap="small"
         responsive={false}
         overflow="auto"
+        width="medium"
       >
         <Heading level={2} margin="none">Crear un pedido</Heading>
         <Form onSubmit={newOrder}>
