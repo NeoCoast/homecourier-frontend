@@ -41,7 +41,13 @@ const OrderCard = ({
               <Heading level="5" margin={{ top: 'small', bottom: 'xsmall' }}>
                 Descripción
               </Heading>
-              <Paragraph style={{height: 100, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "pre"}} margin="xsmall" size="small">
+              <Paragraph
+                style={{
+                  height: 100, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'pre',
+                }}
+                margin="xsmall"
+                size="small"
+              >
                 {order.description}
               </Paragraph>
             </Box>

@@ -89,7 +89,7 @@ RateOrder.defaultProps = {
   stars: 5,
   description: 'Por favor, haga un comentario sobre su experiencia.',
   buttonLabel: 'Calificar',
-  errorMessageComment: 'Por favor, de un comentario sobre que no fue de su agrado en su experiencia',
+  errorMessageComment: 'Por favor, dé un comentario sobre qué no fue de su agrado.',
   successMessage: 'Ha calificado con éxito. ¡Gracias!',
   username: '',
 };
