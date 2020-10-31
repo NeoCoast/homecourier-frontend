@@ -32,7 +32,8 @@ const NotificationMenu = () => {
   const getNotSeenNotifications = async (page = 0) => {
     const res = await notificationsService.getNotSeenNotifications(page);
     if (!(res.data.notifications.length === 0)) {
-      setAllNotifications(allNotifications.concat(res.data.notifications));
+      setAllNotifications(allNotifications.concat(res.data.notifications)
+        .filter((notif, index, a) => a.findIndex((t) => (t.id === notif.id)) === index));
     }
   };
 
@@ -74,10 +75,9 @@ const NotificationMenu = () => {
         const notiAux = noti;
         notiAux.status = 'seen';
       });
-      setAllNotifications(allNotifications);
       setNotSeenNotifications(allNotifications.filter((x) => x.status === 'not_seen'));
+      setSeenNotifications(allNotifications.filter((x) => x.status === 'seen'));
       if (response.status === 200) await dispatch(loadAll(allNotifications));
-      setSeenNotifications(seenNotifications.concat(notSeenNotifications));
       setNotSeenPage(0);
       getNotSeenNotifications();
     } catch (error) {
@@ -135,14 +135,14 @@ const NotificationMenu = () => {
                     {NotificationComponent}
                   </List>
                 )}
-              {/* {seenNotifications.length > 0
+              {seenNotifications.length > 0
                 && (
                   <List
                     data={seenNotifications}
                   >
                     {NotificationComponent}
                   </List>
-                )} */}
+                )}
             </Box>
             {!viewHistory && !loading && <Anchor onClick={() => openHistory()}>Ver todas</Anchor>}
             {loading && <Box fill="horizontal" justify="center" align="center"><RingLoader loading size={80} color="#54a3ff" /></Box>}

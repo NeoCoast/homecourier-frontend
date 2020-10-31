@@ -33,15 +33,21 @@ const OrderCard = ({
             <Box fill>
               {userData.documentNumber && <UserProfileInfo user={order.helpee} />}
               {((order.volunteers ? (order.volunteers.map((x) => x.id).includes(userData.id) && order.status !== 'created') : false) || userData.id === order.helpee.id)
-              && (
-                <MiniStatusDisplay activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]} cancelled={order.status === 'cancelled'} />
-              )}
+                && (
+                  <MiniStatusDisplay activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]} cancelled={order.status === 'cancelled'} />
+                )}
             </Box>
             <Box width="medium">
               <Heading level="5" margin={{ top: 'small', bottom: 'xsmall' }}>
                 Descripción
               </Heading>
-              <Paragraph style={{height: 100, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "pre"}} margin="xsmall" size="small">
+              <Paragraph
+                style={{
+                  height: 100, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'pre',
+                }}
+                margin="xsmall"
+                size="small"
+              >
                 {order.description}
               </Paragraph>
             </Box>
