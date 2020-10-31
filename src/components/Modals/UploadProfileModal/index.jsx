@@ -37,7 +37,7 @@ const UploadProfileModal = ({
 
   return (
     <Layer responsive={false} margin="small">
-      <Box margin="medium" gap="small" justify="center" align="center">
+      <Box overflow="auto" margin="medium" gap="small" justify="center" align="center">
         <Heading level="3">Agregue una foto de perfil</Heading>
         <Avatar
           width={320}
@@ -50,7 +50,7 @@ const UploadProfileModal = ({
           onFileLoad={onImageUpload}
         />
         {error && <Text color="status-critical"> {error} </Text>}
-        <Box direction="row" gap="medium">
+        <Box pad="small" gap="medium" direction="row-responsive" align="center">
           <Button secondary label="Cancelar" onClick={onCloseCancel} />
           <Button primary label="Guardar" onClick={() => (error ? null : setShow(false))} />
         </Box>

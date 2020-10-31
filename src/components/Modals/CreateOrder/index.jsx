@@ -119,7 +119,7 @@ const CreateOrder = ({ closeModal }) => {
             validate={(value) => validateTitle(
               value,
               errorMsg,
-              'El título es requerido', 'Titulo debe tener al menos 5 caracteres'
+              'El título es requerido', 'Título debe tener al menos 5 caracteres'
             )}
           >
             <Box id="boxTitle" fill="horizontal">
