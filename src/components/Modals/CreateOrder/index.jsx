@@ -109,7 +109,7 @@ const CreateOrder = ({ closeModal }) => {
         gap="small"
         responsive={false}
         overflow="auto"
-        width="medium"
+        width={React.useContext(ResponsiveContext) === 'small' ? 'medium' : '500px'}
       >
         <Heading level={2} margin="none">Crear un pedido</Heading>
         <Form onSubmit={newOrder}>
