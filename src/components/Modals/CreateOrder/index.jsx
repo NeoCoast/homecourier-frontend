@@ -92,10 +92,9 @@ const CreateOrder = ({ closeModal }) => {
       responsive={false}
       onEsc={() => closeModal()}
       onClickOutside={() => closeModal()}
-      fill="horizontal"
       style={
         {
-          minWidth: '300px',
+          minWidth: '280px',
           maxHeigh: '90%',
           padding: '10px',
         }
@@ -109,6 +108,7 @@ const CreateOrder = ({ closeModal }) => {
         pad="small"
         gap="small"
         responsive={false}
+        overflow="auto"
       >
         <Heading level={2} margin="none">Crear un pedido</Heading>
         <Form onSubmit={newOrder}>
@@ -178,7 +178,13 @@ const CreateOrder = ({ closeModal }) => {
             </Box>
           </FormField>
           <Box direction="row-responsive" align="center">
-            <Button primary fill type="submit" label="Crear" />
+            <Button
+              size="small"
+              primary
+              fill
+              type="submit"
+              label="Crear"
+            />
           </Box>
         </Form>
       </Box>

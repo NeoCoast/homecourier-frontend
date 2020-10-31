@@ -94,50 +94,52 @@ const Rating = (props) => {
       { show
           && (
             <Layer margin="medium" position="center" modal responsive={false}>
-              <Heading margin="small" level={headingSize} alignSelf="center">{ title }</Heading>
-              <Box
-                justify="center"
-                alignSelf="center"
-                direction="row"
-                gap={gapSize}
-                margin="xsmall"
-                responsive={false}
-                style={
-                  {
-                    minWidth: '300px',
-                    maxHeigh: '90%',
-                    padding: '10px',
+              <Box overflow="auto">
+                <Heading margin="small" level={headingSize} alignSelf="center">{ title }</Heading>
+                <Box
+                  justify="center"
+                  alignSelf="center"
+                  direction="row"
+                  gap={gapSize}
+                  margin="xsmall"
+                  responsive={false}
+                  style={
+                    {
+                      minWidth: '300px',
+                      maxHeigh: '90%',
+                      padding: '10px',
+                    }
                   }
-                }
-              >
-                { starsElement }
+                >
+                  { starsElement }
+                </Box>
+                <Form onSubmit={handleSubmit}>
+                  <Box pad="small">
+                    <FormField name="Comment" validate={(value) => validateComment(value, (active >= Math.floor(stars / 2)), errorMessage)}>
+                      <Box align="center" height="small">
+                        <TextArea
+                          name="Comment"
+                          id="Comment"
+                          size="medium"
+                          resize={false}
+                          fill
+                          placeholder={description}
+                          onChange={(event) => setFeedBack(event.target.value)}
+                        />
+                      </Box>
+                    </FormField>
+                  </Box>
+                  <Box pad="small">
+                    <Button
+                      primary
+                      disabled={active < 0}
+                      fill="horizontal"
+                      label={buttonLabel}
+                      type="submit"
+                    />
+                  </Box>
+                </Form>
               </Box>
-              <Form onSubmit={handleSubmit}>
-                <Box pad="small">
-                  <FormField name="Comment" validate={(value) => validateComment(value, (active >= Math.floor(stars / 2)), errorMessage)}>
-                    <Box align="center" height="small">
-                      <TextArea
-                        name="Comment"
-                        id="Comment"
-                        size="medium"
-                        resize={false}
-                        fill
-                        placeholder={description}
-                        onChange={(event) => setFeedBack(event.target.value)}
-                      />
-                    </Box>
-                  </FormField>
-                </Box>
-                <Box pad="small">
-                  <Button
-                    primary
-                    disabled={active < 0}
-                    fill="horizontal"
-                    label={buttonLabel}
-                    type="submit"
-                  />
-                </Box>
-              </Form>
             </Layer>
           )}
     </Box>
