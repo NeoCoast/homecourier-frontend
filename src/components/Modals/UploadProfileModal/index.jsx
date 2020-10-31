@@ -37,20 +37,22 @@ const UploadProfileModal = ({
 
   return (
     <Layer responsive={false} margin="small">
-      <Box overflow="auto" margin="medium" gap="small" justify="center" align="center">
-        <Heading level="3">Agregue una foto de perfil</Heading>
-        <Avatar
-          width={320}
-          height={298}
-          onCrop={onCrop}
-          onClose={() => setPreview(null)}
-          onBeforeFileLoad={(elem) => validate(elem)}
-          label="Agregue una foto"
-          src={image}
-          onFileLoad={onImageUpload}
-        />
+      <Box overflow="auto" pad="medium" gap="small" justify="center" align="center">
+        <Heading level="3" margin="none">Agregue una foto de perfil</Heading>
+        <Box overflow="auto">
+          <Avatar
+            width={320}
+            height={298}
+            onCrop={onCrop}
+            onClose={() => setPreview(null)}
+            onBeforeFileLoad={(elem) => validate(elem)}
+            label="Agregue una foto"
+            src={image}
+            onFileLoad={onImageUpload}
+          />
+        </Box>
         {error && <Text color="status-critical"> {error} </Text>}
-        <Box pad="small" gap="medium" direction="row-responsive" align="center">
+        <Box direction="row" gap="medium" align="start">
           <Button secondary label="Cancelar" onClick={onCloseCancel} />
           <Button primary label="Guardar" onClick={() => (error ? null : setShow(false))} />
         </Box>
