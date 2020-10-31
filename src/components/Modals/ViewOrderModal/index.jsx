@@ -62,7 +62,7 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
             />
           </Box>
         </CardHeader>
-        <CardBody>
+        <CardBody overflow="auto">
           <Box
             direction="row"
             gap="small"
