@@ -2,10 +2,11 @@ import { Avatar, Box, Text } from 'grommet';
 import React from 'react';
 import PropTypes from 'prop-types';
 import CalificationGradient from 'Components/Utils/CalificationGradient';
+import ProfilePicture from 'Assets/profile-picture.png';
 
 const UserProfileInfo = ({ user }) => (
   <Box direction="row" gap="small" fill="horizontal">
-    <Avatar src={`https://robohash.org/${user.username}`} border="all" />
+    <Avatar src={user.avatar ? `${process.env.API_URL}${user.avatar}` : ProfilePicture} border="all" />
 
     <Box
       style={{
