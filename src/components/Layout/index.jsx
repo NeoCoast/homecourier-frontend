@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
   const [rate, setRate] = useState(false);
 
   useEffect(() => {
-    setRate((userInfo.data) && (userInfo.data.pendingRate));
+    setRate((userInfo.data) && (userInfo.data.pendings.length !== 0));
   }, [userInfo]);
 
   return (
@@ -36,7 +36,14 @@ const Layout = ({ children }) => {
         </Header>
         <Main gridArea="main" background={`url(${Background})`}>
           {children}
-          {rate && <RateOrder orderId={userInfo.data.pendingRateId} setShow={setRate} show={rate} />}
+          {rate && (
+            <RateOrder
+              username={userInfo.data.pendings[0].user_name}
+              orderId={userInfo.data.pendings[0].order_id}
+              setShow={setRate}
+              show={rate}
+            />
+          )}
         </Main>
       </Grid>
     </Grommet>
