@@ -23,7 +23,6 @@ const NotificationMenu = () => {
   const [notSeenPage, setNotSeenPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
-
   const getNotifications = async (page = 0) => {
     const res = await notificationsService.getNotifications(page);
     setNotificationHistory([...notificationHistory, ...res.data.notifications]);
@@ -35,10 +34,10 @@ const NotificationMenu = () => {
     if (!(res.data.notifications.length === 0)) {
       setAllNotifications(allNotifications.concat(res.data.notifications));
     }
-  }
+  };
 
   useEffect(() => {
-    getNotSeenNotifications(notSeenPage)
+    getNotSeenNotifications(notSeenPage);
   }, [notSeenPage]);
 
   useEffect(() => {
@@ -71,8 +70,9 @@ const NotificationMenu = () => {
     const seenNotisId = notSeenNotifications.map((x) => x.id);
     try {
       const response = await notificationsService.setSeenNotifications(seenNotisId);
-      notSeenNotifications.map((noti) => {
-        noti.status = 'seen';
+      notSeenNotifications.forEach((noti) => {
+        const notiAux = noti;
+        notiAux.status = 'seen';
       });
       setAllNotifications(allNotifications);
       setNotSeenNotifications(allNotifications.filter((x) => x.status === 'not_seen'));
