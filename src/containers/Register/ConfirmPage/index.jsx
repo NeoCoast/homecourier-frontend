@@ -10,7 +10,7 @@ const RegisterConfirm = ({ username }) => (
   <Grid columns={['auto', ['auto', 'large'], 'auto']} fill gap="small">
     <Box></Box>
     <Card alignSelf="center" background="white" pad="medium">
-      <Heading level="2" alignSelf="center" margin="none" truncate style={{ maxWidth: '720px' }}>
+      <Heading level="2" alignSelf="center" margin="none" truncate style={{ maxWidth: '100%' }}>
         ¡Bienvenido, {username}!
       </Heading>
       <Box
