@@ -123,26 +123,32 @@ const NotificationMenu = () => {
             <Heading level="4" margin="none">Notificaciones</Heading>
             {notSeenNotifications.length === 0 && seenNotifications.length === 0
               && <Text size="small">No hay notificaciones nuevas para mostrar.</Text>}
-            <Box fill="horizontal" overflow="auto" style={{ maxHeight: '45vh' }}>
-              {notSeenNotifications.length > 0
-                && (
-                  <List
-                    data={notSeenNotifications}
-                    onMore={async () => {
-                      setNotSeenPage(notSeenPage + 1);
-                    }}
-                  >
-                    {NotificationComponent}
-                  </List>
-                )}
-              {seenNotifications.length > 0
-                && (
-                  <List
-                    data={seenNotifications}
-                  >
-                    {NotificationComponent}
-                  </List>
-                )}
+            <Box fill="horizontal" overflow="auto" style={{ maxHeight: viewHistory ? '45vh' : '70vh' }}>
+              {!!notSeenNotifications.length && <Heading level="6" margin="none">Nuevas</Heading>}
+              <Box fill="horizontal" overflow="auto">
+                {notSeenNotifications.length > 0
+                  && (
+                    <List
+                      data={notSeenNotifications}
+                      onMore={async () => {
+                        setNotSeenPage(notSeenPage + 1);
+                      }}
+                    >
+                      {NotificationComponent}
+                    </List>
+                  )}
+              </Box>
+              {!!seenNotifications.length && <Heading level="6" margin="none">Vistas</Heading>}
+              <Box fill="horizontal" overflow="auto">
+                {seenNotifications.length > 0
+                  && (
+                    <List
+                      data={seenNotifications}
+                    >
+                      {NotificationComponent}
+                    </List>
+                  )}
+              </Box>
             </Box>
             {!viewHistory && !loading && <Anchor onClick={() => openHistory()}>Ver todas</Anchor>}
             {loading && <Box fill="horizontal" justify="center" align="center"><RingLoader loading size={80} color="#54a3ff" /></Box>}
