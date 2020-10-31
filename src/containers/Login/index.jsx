@@ -92,12 +92,12 @@ const Login = () => {
         background="white"
       >
         <Heading level="2">Inicie sesión</Heading>
-        <Form onSubmit={submitLogin}>
-          <FormField name="email" validate={(value) => validateEmail(value, errorMessage)}>
-            <TextInput id="email" name="email" placeholder="Correo electrónico" required />
+        <Form onSubmit={submitLogin} messages={{ required: 'Requerido' }}>
+          <FormField name="email" validate={(value) => validateEmail(value, errorMessage)} required>
+            <TextInput id="email" aria-label="email" name="email" placeholder="Correo electrónico" />
           </FormField>
-          <FormField name="password">
-            <TextInput id="password" name="password" placeholder="Contraseña" type="password" required />
+          <FormField name="password" required>
+            <TextInput id="password" aria-label="password" name="password" placeholder="Contraseña" type="password" />
           </FormField>
           <Button primary disabled={loading} label="Ingresar" fill="horizontal" type="submit" />
         </Form>

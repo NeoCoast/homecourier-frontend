@@ -21,6 +21,7 @@ const Rating = (props) => {
     successMessage,
     setShow,
     show,
+    username,
   } = props;
 
   // const [show, setShow] = useState(false);
@@ -95,7 +96,17 @@ const Rating = (props) => {
           && (
             <Layer margin="medium" position="center" modal responsive={false}>
               <Box overflow="auto">
-                <Heading margin="small" level={headingSize} alignSelf="center">{ title }</Heading>
+                <Heading
+                  margin={{
+                    top: 'small', bottom: 'none', left: 'small', right: 'small',
+                  }}
+                  level={headingSize}
+                  alignSelf="center"
+                >{ title }
+                </Heading>
+                <Box align="center">
+                  <Heading margin="none" level={headingSize}>{username}</Heading>
+                </Box>
                 <Box
                   justify="center"
                   alignSelf="center"
@@ -156,6 +167,7 @@ Rating.propTypes = {
   successMessage: PropTypes.string,
   show: PropTypes.bool.isRequired,
   setShow: PropTypes.func.isRequired,
+  username: PropTypes.string,
 };
 
 Rating.defaultProps = {
@@ -163,8 +175,9 @@ Rating.defaultProps = {
   title: 'Califique al voluntario',
   description: 'Por favor, haga un comentario sobre su experiencia',
   buttonLabel: 'Calificar',
-  errorMessageComment: 'Por favor, de un comentario sobre que no fue de su agrado en su experiencia',
+  errorMessageComment: 'Por favor, dé un comentario sobre qué no fue de su agrado.',
   successMessage: 'Ha calificado con éxito. ¡Gracias!',
+  username: '',
 };
 
 export default Rating;
