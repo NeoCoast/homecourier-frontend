@@ -16,6 +16,7 @@ const RateOrder = (props) => {
     successMessage,
     show,
     setShow,
+    username,
   } = props;
   const dispatch = useDispatch();
   const isHelpee = undefined === useSelector((state) => state.logUser.data.documentNumber);
@@ -50,6 +51,7 @@ const RateOrder = (props) => {
           errorMessageComment={errorMessageComment}
           errorMessageRating="Debe calificar al voluntario antes de continuar."
           successMessage={successMessage}
+          username={username}
         />
       )} {console.log('errorMessageComment: ', errorMessageComment)}
       {!isHelpee && (
@@ -64,6 +66,7 @@ const RateOrder = (props) => {
           errorMessageComment={errorMessageComment}
           errorMessageRating="Debe calificar al usuario antes de continuar."
           successMessage={successMessage}
+          username={username}
         />
       )}
     </Box>
@@ -79,14 +82,16 @@ RateOrder.propTypes = {
   buttonLabel: PropTypes.string,
   errorMessageComment: PropTypes.string,
   successMessage: PropTypes.string,
+  username: PropTypes.string,
 };
 
 RateOrder.defaultProps = {
   stars: 5,
   description: 'Por favor, haga un comentario sobre su experiencia.',
   buttonLabel: 'Calificar',
-  errorMessageComment: 'Por favor, de un comentario sobre que no fue de su agrado en su experiencia',
+  errorMessageComment: 'Por favor, dé un comentario sobre qué no fue de su agrado.',
   successMessage: 'Ha calificado con éxito. ¡Gracias!',
+  username: '',
 };
 
 export default RateOrder;
