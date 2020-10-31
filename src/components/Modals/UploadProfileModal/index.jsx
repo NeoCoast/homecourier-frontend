@@ -39,7 +39,7 @@ const UploadProfileModal = ({
     <Layer responsive={false} margin="small">
       <Box overflow="auto" pad="medium" gap="small" justify="center" align="center">
         <Heading level="3" margin="none">Agregue una foto de perfil</Heading>
-        <Box overflow="auto">
+        <Box overflow="auto" style={{ maxWidth: '100%' }}>
           <Avatar
             width={320}
             height={298}
