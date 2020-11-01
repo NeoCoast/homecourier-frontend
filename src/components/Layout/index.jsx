@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
   const [rate, setRate] = useState(false);
 
   useEffect(() => {
-    setRate((userInfo.data) && (userInfo.data.pendings.length !== 0));
+    setRate((userInfo.data) && (userInfo.data.pendings) && (userInfo.data.pendings.length !== 0));
   }, [userInfo]);
 
   return (
