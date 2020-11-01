@@ -38,12 +38,9 @@ const NotificationMenu = () => {
   };
 
   useEffect(() => {
-    getNotSeenNotifications(notSeenPage);
-  }, [notSeenPage]);
-
-  useEffect(() => {
     if (notSeenNotifications.length === 0) {
       setNotSeenPage(0);
+      getNotSeenNotifications(notSeenPage);
     }
   }, [notSeenNotifications]);
 
@@ -53,6 +50,7 @@ const NotificationMenu = () => {
 
   useEffect(() => {
     setNotSeenNotifications(allNotifications.filter((x) => x.status === 'not_seen'));
+    setSeenNotifications(allNotifications.filter((x) => x.status === 'seen'));
   }, [allNotifications]);
 
   const openHistory = async () => {
@@ -92,6 +90,7 @@ const NotificationMenu = () => {
   const closeNotiDrop = () => {
     setOpenDrop(false);
     setSeen();
+    closeHistory();
   };
 
   return (
@@ -123,27 +122,30 @@ const NotificationMenu = () => {
             <Heading level="4" margin="none">Notificaciones</Heading>
             {notSeenNotifications.length === 0 && seenNotifications.length === 0
               && <Text size="small">No hay notificaciones nuevas para mostrar.</Text>}
-            <Box fill="horizontal" overflow="auto" style={{ maxHeight: viewHistory ? '45vh' : '70vh' }}>
+            <Box fill="horizontal" overflow="auto" style={{ maxHeight: viewHistory ? '50vh' : '70vh' }}>
               {!!notSeenNotifications.length && <Heading level="6" margin="none">Nuevas</Heading>}
-              <Box fill="horizontal" overflow="auto">
+              <Box fill="horizontal" overflow="auto" style={{ minHeight: notSeenNotifications.length ? '18vh' : '0' }}>
                 {notSeenNotifications.length > 0
                   && (
                     <List
                       data={notSeenNotifications}
                       onMore={async () => {
+                        await getNotSeenNotifications(notSeenPage + 1);
                         setNotSeenPage(notSeenPage + 1);
                       }}
+                      border={{ color: '#eeeeee', side: 'horizontal' }}
                     >
                       {NotificationComponent}
                     </List>
                   )}
               </Box>
               {!!seenNotifications.length && <Heading level="6" margin="none">Vistas</Heading>}
-              <Box fill="horizontal" overflow="auto">
+              <Box fill="horizontal" overflow="auto" style={{ minHeight: seenNotifications.length ? '18vh' : '0' }}>
                 {seenNotifications.length > 0
                   && (
                     <List
                       data={seenNotifications}
+                      border={{ color: '#eeeeee', side: 'horizontal' }}
                     >
                       {NotificationComponent}
                     </List>
@@ -159,13 +161,14 @@ const NotificationMenu = () => {
                     <Heading level="5" margin="none">Histórico</Heading>
                     <Anchor onClick={closeHistory}>Esconder</Anchor>
                   </Box>
-                  <Box fill="horizontal" overflow="auto" height="45vh">
+                  <Box fill="horizontal" overflow="auto" height="40vh">
                     <List
                       data={notificationHistory}
                       onMore={() => {
                         getNotifications(pageNumber);
                         setPageNumber(pageNumber + 1);
                       }}
+                      border={{ color: '#eeeeee', side: 'horizontal' }}
                     >
                       {NotificationComponent}
                     </List>
