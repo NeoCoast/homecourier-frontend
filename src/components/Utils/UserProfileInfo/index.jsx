@@ -13,7 +13,7 @@ const UserProfileInfo = ({ user }) => (
         flex: '1 1 0',
       }}
     >
-      <Text truncate>{`${user.name.toUpperCase()} ${user.lastname.toUpperCase()}`}</Text>
+      <Text truncate style={{ maxWidth: '200px' }}>{`${user.name.toUpperCase()} ${user.lastname.toUpperCase()}`}</Text>
       <CalificationGradient
         percent={user.rating !== null ? ((Number(user.rating) * 100) / 5) : 0}
         maxRating={5}

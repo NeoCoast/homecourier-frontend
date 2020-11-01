@@ -23,7 +23,7 @@ const OrderCard = ({
       margin={{ horizontal: 'small', bottom: 'large' }}
     >
       <CardHeader pad={{ horizontal: 'large', top: 'medium', bottom: 'medium' }}>
-        <Heading level="4" truncate="true" margin={{ horizontal: 'small' }}>
+        <Heading level="4" truncate margin={{ horizontal: 'small' }}>
           {order.title}
         </Heading>
       </CardHeader>
