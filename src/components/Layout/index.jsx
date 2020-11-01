@@ -38,8 +38,8 @@ const Layout = ({ children }) => {
           {children}
           {rate && (
             <RateOrder
-              username={userInfo.data.pendings[0].user_name}
-              orderId={userInfo.data.pendings[0].order_id}
+              username={userInfo.data.pendings[0].userName}
+              orderId={userInfo.data.pendings[0].orderId}
               setShow={setRate}
               show={rate}
             />
