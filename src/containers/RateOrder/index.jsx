@@ -32,8 +32,7 @@ const RateOrder = (props) => {
     }
 
     const userData = JSON.parse(JSON.stringify(user));
-    userData.pendingRateId = null;
-    userData.pendingRate = false;
+    userData.pendings.splice(0, 1);
     await dispatch(login(userData));
   };
 

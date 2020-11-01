@@ -47,10 +47,10 @@ const Login = () => {
       : await helpeesService.info(user.id);
     const userInfo = response.data;
     userInfo.token = user.token;
-    const rating = user.documentNumber ? await volunteersService.pendingRating(userInfo.id)
+    const rating = user.documentNumber
+      ? await volunteersService.pendingRating(userInfo.id)
       : await helpeesService.pendingRating(userInfo.id);
-    userInfo.pendingRateId = rating.orderId;
-    userInfo.pendingRate = rating.pending;
+    userInfo.pendings = rating.pendings;
     await dispatch(login(userInfo));
   };
 

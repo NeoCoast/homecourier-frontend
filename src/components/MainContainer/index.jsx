@@ -31,8 +31,7 @@ const MainContainer = ({ children }) => {
 
   const updateRating = async (data) => {
     const userCopy = JSON.parse(JSON.stringify(userData));
-    userCopy.pendingRateId = data.order_id;
-    userCopy.pendingRate = true;
+    userCopy.pendings = [...userCopy.pendings, { userId: data.user_id, orderId: data.order_id, userName: data.user_name }];
     await dispatch(login(userCopy));
   };
 
