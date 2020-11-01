@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Paragraph } from 'grommet';
@@ -6,7 +7,7 @@ const MultilineText = ({ text }) => {
   return (
     <Box overflow="auto">
       {
-        splittedText.map((item) => <Paragraph>{item}</Paragraph>)
+        splittedText.map((item, index) => <Paragraph key={index}>{item}</Paragraph>)
       }
     </Box>
   );
