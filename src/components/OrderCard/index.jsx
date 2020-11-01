@@ -26,6 +26,7 @@ const OrderCard = ({
       <CardHeader pad={{ horizontal: 'large', top: 'medium', bottom: 'medium' }}>
         <Heading level="4" margin={{ horizontal: 'small' }}>
           <ClampLines
+            className="ellipsis-class"
             text={`${order.title}`}
             lines={1}
             buttons
