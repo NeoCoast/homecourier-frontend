@@ -8,6 +8,7 @@ import UserProfileInfo from 'Components/Utils/UserProfileInfo';
 import ChipContainer from 'Components/Utils/ChipContainer';
 import MiniStatusDisplay from 'Components/Utils/MiniStateDisplay';
 import { useSelector } from 'react-redux';
+import ClampLines from 'react-clamp-lines';
 import { ORDER_STATUS_PHASE_NUMBER } from 'Data/constants';
 
 const OrderCard = ({
@@ -24,7 +25,13 @@ const OrderCard = ({
     >
       <CardHeader pad={{ horizontal: 'large', top: 'medium', bottom: 'medium' }}>
         <Heading level="4" truncate margin={{ horizontal: 'small' }}>
-          {order.title}
+          <ClampLines
+            text={`${order.title}`}
+            lines={1}
+            buttons
+            moreText="Ver más"
+            lessText="Ver menos"
+          />
         </Heading>
       </CardHeader>
       <CardBody pad={{ horizontal: 'large' }}>
