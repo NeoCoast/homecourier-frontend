@@ -133,7 +133,7 @@ const NotificationMenu = () => {
                         await getNotSeenNotifications(notSeenPage + 1);
                         setNotSeenPage(notSeenPage + 1);
                       }}
-                      border={{ color: '#eeeeee', side: 'horizontal' }}
+                      border={{ color: '#ffffff', side: 'horizontal' }}
                     >
                       {NotificationComponent}
                     </List>
@@ -145,7 +145,7 @@ const NotificationMenu = () => {
                   && (
                     <List
                       data={seenNotifications}
-                      border={{ color: '#eeeeee', side: 'horizontal' }}
+                      border={{ color: '#ffffff', side: 'horizontal' }}
                     >
                       {NotificationComponent}
                     </List>
@@ -168,7 +168,7 @@ const NotificationMenu = () => {
                         getNotifications(pageNumber);
                         setPageNumber(pageNumber + 1);
                       }}
-                      border={{ color: '#eeeeee', side: 'horizontal' }}
+                      border={{ color: '#ffffff', side: 'horizontal' }}
                     >
                       {NotificationComponent}
                     </List>
