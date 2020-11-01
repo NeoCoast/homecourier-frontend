@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Text } from 'grommet';
+import ClampLines from 'react-clamp-lines';
 import { dateToPrint } from 'Helpers/utils.helper';
 
 const Notification = (item) => (
@@ -8,7 +9,13 @@ const Notification = (item) => (
       {item.status === 'not_seen' && <Box round background="brand" style={{ height: '10px', width: '10px' }} id="new-box"></Box>}
       <Box style={{ maxWidth: '400px' }}>
         <Text truncate style={{ fontWeight: 'bold' }}>{item.title}</Text>
-        <Text truncate>{item.body}</Text>
+        <ClampLines
+          text={`${item.body}!`}
+          lines={1}
+          buttons
+          moreText="Ver más"
+          lessText="Ver menos"
+        />
       </Box>
     </Box>
     <Box>

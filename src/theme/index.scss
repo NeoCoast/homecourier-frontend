@@ -1,2 +1,18 @@
 @import './mixins';
 @import './variables';
+
+.ellipsis-class {
+  span {
+    display: block;
+    word-wrap: break-word;
+  }
+}
+
+.clamp-lines__button {
+  background: none;
+  border: 0;
+  color: #54A3FF;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}

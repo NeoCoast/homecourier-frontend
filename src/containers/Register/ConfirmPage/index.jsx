@@ -4,14 +4,21 @@ import {
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ClampLines from 'react-clamp-lines';
 import newEmail from 'Assets/new_email.gif';
 
 const RegisterConfirm = ({ username }) => (
   <Grid columns={['auto', ['auto', 'large'], 'auto']} fill gap="small">
     <Box></Box>
     <Card alignSelf="center" background="white" pad="medium">
-      <Heading level="2" alignSelf="center" margin="none" truncate style={{ maxWidth: '100%' }}>
-        ¡Bienvenido, {username}!
+      <Heading level="2" alignSelf="center" margin="none" style={{ maxWidth: '100%' }}>
+        <ClampLines
+          className="ellipsis-class"
+          text={`¡Bienvenido, ${username}!`}
+          lines={2}
+          buttons={false}
+          innerElement="span"
+        />
       </Heading>
       <Box
         direction="row-responsive"

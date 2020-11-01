@@ -13,6 +13,7 @@ import MiniStatusDisplay from 'Components/Utils/MiniStateDisplay';
 import VolunteerApplicationList from 'Components/VolunteerApplicationsList';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
+import ClampLines from 'react-clamp-lines';
 import MultilineText from '../../Utils/MultilineText';
 
 const ViewOrderModal = ({ order, onClose, onConfirm }) => {
@@ -49,8 +50,14 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
       <Card>
         <CardHeader>
           <Box justify="between" fill direction="row">
-            <Heading level="3" margin={{ horizontal: 'large', vertical: 'medium' }} gridArea="title" truncate={viewPortSize === 'small'}>
-              {order.title}
+            <Heading level="3" margin={{ horizontal: 'large', vertical: 'medium' }} gridArea="title">
+              <ClampLines
+                text={`${order.title}`}
+                lines={viewPortSize === 'small' ? 1 : 2}
+                buttons
+                moreText="Ver más"
+                lessText="Ver menos"
+              />
             </Heading>
             <Button
               style={{ maxHeight: '66px' }}
