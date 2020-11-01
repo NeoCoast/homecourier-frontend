@@ -24,7 +24,7 @@ const OrderCard = ({
       margin={{ horizontal: 'small', bottom: 'large' }}
     >
       <CardHeader pad={{ horizontal: 'large', top: 'medium', bottom: 'medium' }}>
-        <Heading level="4" truncate margin={{ horizontal: 'small' }}>
+        <Heading level="4" margin={{ horizontal: 'small' }}>
           <ClampLines
             text={`${order.title}`}
             lines={1}
