@@ -68,7 +68,8 @@ const OrdersList = ({
 
     switch (orderStatus) {
       case 'created':
-        takeOrder(orderId);
+        if (cancel) setOrderStatus({ orderId, status });
+        else takeOrder(orderId);
         break;
       case 'accepted':
         setOrderStatus({ orderId, status });

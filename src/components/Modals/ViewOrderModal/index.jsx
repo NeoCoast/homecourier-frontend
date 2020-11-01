@@ -130,7 +130,8 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
           </Box>
         </CardBody>
         <CardFooter pad="small" justify="end">
-          {order.status !== 'created' && order.status !== 'finished' && order.status !== 'cancelled'
+          {(order.status !== 'created' || (!userData.documentNumber && order.status === 'created')) 
+          && order.status !== 'finished' && order.status !== 'cancelled'
         && (
           <Button
             secondary

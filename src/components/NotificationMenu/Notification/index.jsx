@@ -6,8 +6,8 @@ import { dateToPrint } from 'Helpers/utils.helper';
 const Notification = (item) => (
   <Box direction="row" justify="between" fill="horizontal" align="center" gap="small" style={{ minHeight: '50px' }} key={item.id}>
     <Box align="center" direction="row" gap="small">
-      {item.status === 'not_seen' && <Box round background="brand" style={{ height: '10px', width: '10px' }} id="new-box"></Box>}
-      <Box style={{ maxWidth: '400px' }}>
+      {item.status === 'not_seen' && <Box round background="brand" height="10px" width="10px" id="new-box"></Box>}
+      <Box style={{ maxWidth: '300px' }}>
         <Text truncate style={{ fontWeight: 'bold' }}>{item.title}</Text>
         <ClampLines
           text={`${item.body}!`}
