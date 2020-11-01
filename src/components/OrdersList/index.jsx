@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { Box, InfiniteScroll, ResponsiveContext } from 'grommet';
+import {
+  Box, InfiniteScroll, ResponsiveContext,
+} from 'grommet';
 import PropTypes from 'prop-types';
 import ordersService from 'Api/orders.service';
 import { useSelector } from 'react-redux';
@@ -21,15 +23,18 @@ const OrdersList = ({
         orderId,
       });
       setLoading(false);
-      setMessage('Se ha postulado la orden! Gracias por ayudar!');
+      setMessage('¡Se ha postulado para realizar la orden!');
       setSuccessModal(true);
     } catch (error) {
       setLoading(false);
-      setMessage('Hubo un error.');
+      if (error.message.match(/406/)) {
+        setMessage('Otro voluntario ya fue aceptado.');
+      } else {
+        setMessage('Hubo un error.');
+      }
       setErrorModal(true);
     }
   };
-
   const setOrderStatus = async ({ orderId, status }) => {
     try {
       setLoading(true);
@@ -38,9 +43,18 @@ const OrdersList = ({
         status,
       });
       setLoading(false);
+      if (status === 'in_process') {
+        setMessage('¡Ha iniciado el pedido!');
+        setSuccessModal(true);
+      }
       if (status === 'finished') {
         setShowRating(true);
       }
+      if (status === 'cancelled') {
+        setMessage('Se ha cancelado la orden correctamente.');
+        setSuccessModal(true);
+      }
+      modalClosed(true);
     } catch (error) {
       setLoading(false);
       setMessage('Hubo un error.');
@@ -95,7 +109,7 @@ const OrdersList = ({
       <InfiniteScroll
 
         direction="column"
-        pad={{ horizontal: viewportSize === 'small' ? 'small' : '20vw', vertical: 'medium' }}
+        pad={{ horizontal: viewportSize === 'small' ? 'small' : 'medium', vertical: 'medium' }}
         overflow="auto"
         fill
         items={orders}

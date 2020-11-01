@@ -5,7 +5,7 @@ import {
 } from 'grommet';
 import PropTypes from 'prop-types';
 import {
-  Home, Task, Package, StatusCritical, StatusCriticalSmall,
+  Home, Task, Package, StatusCritical, StatusCriticalSmall, Validate,
 } from 'grommet-icons';
 
 // Props:
@@ -49,8 +49,8 @@ const Stepper = (props) => {
             <Box direction="row" align="center">
               <Box>
                 <Box margin="small" direction="row" align="center">
-                  { icons[activeStep - 1] }
-                  <Text textAlign="center" margin="small">{stepsLabel[activeStep - 1]}</Text>
+                  { icons[activeStep] }
+                  <Text textAlign="center" margin="small">{stepsLabel[activeStep]}</Text>
                 </Box>
               </Box>
             </Box>
@@ -70,8 +70,9 @@ Stepper.propTypes = {
 };
 
 Stepper.defaultProps = {
-  activeStep: 1,
+  activeStep: 0,
   stepsLabel: [
+    'Orden creada',
     'Orden tomada',
     'Realizando orden',
     'Entregado',
@@ -79,6 +80,7 @@ Stepper.defaultProps = {
   cancelled: false,
   cancelledText: 'Cancelada',
   icons: [
+    <Validate size="large" color="black" />,
     <Package size="large" color="black" />,
     <Task size="large" color="black" />,
     <Home size="large" color="black" />,

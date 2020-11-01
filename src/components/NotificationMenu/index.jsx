@@ -119,7 +119,7 @@ const NotificationMenu = () => {
             && (
               <Box fill="horizontal" margin={{ bottom: 'small' }} pad={{ top: 'small' }}>
                 <Box direction="row" justify="between">
-                  <Heading level="5" margin="none">Historico</Heading>
+                  <Heading level="5" margin="none">Histórico</Heading>
                   <Anchor onClick={closeHistory}>Esconder</Anchor>
                 </Box>
                 <Box fill="horizontal" overflow="auto" height="50vh">

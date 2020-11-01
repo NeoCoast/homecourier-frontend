@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import notificationsService from 'Api/notifications.service';
 import { add, loadAll } from 'Actions/userNotifications';
+import { login } from 'Actions/logUser';
 
 const MainContainer = ({ children }) => {
   const loggedIn = useSelector((state) => state.logUser.loggedIn);
@@ -28,11 +29,20 @@ const MainContainer = ({ children }) => {
     await dispatch(add(data));
   };
 
+  const updateRating = async (data) => {
+    const userCopy = JSON.parse(JSON.stringify(userData));
+    userCopy.pendingRateId = data.order_id;
+    userCopy.pendingRate = true;
+    await dispatch(login(userCopy));
+  };
+
   if (loggedIn) {
     return (
       <ActionCableProvider url={`${process.env.WS_URL}?token=${userData.token.replace(/Bearer /, '')}`}>
-        <ActionCableConsumer channel="WebNotificationsChannel" onReceived={(data) => updateNotifications(data)} onConnected={() => console.log('connected')}>
-          <Layout>{children}</Layout>
+        <ActionCableConsumer channel="WebNotificationsChannel" onReceived={(data) => updateNotifications(data)}>
+          <ActionCableConsumer channel="PendingRatingChannel" onReceived={(data) => updateRating(data)}>
+            <Layout>{children}</Layout>
+          </ActionCableConsumer>
         </ActionCableConsumer>
       </ActionCableProvider>
     );

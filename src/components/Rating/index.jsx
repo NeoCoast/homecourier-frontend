@@ -21,6 +21,7 @@ const Rating = (props) => {
     successMessage,
     setShow,
     show,
+    username,
   } = props;
 
   // const [show, setShow] = useState(false);
@@ -52,7 +53,7 @@ const Rating = (props) => {
   const handleSubmit = async () => {
     setLoading(true);
     const info = {
-      score: active,
+      score: active + 1,
       comment: feedBack,
     };
     try {
@@ -93,44 +94,63 @@ const Rating = (props) => {
       {success && <SuccessModal message={successMessage} setShow={setSuccess} show={success} />}
       { show
           && (
-            <Layer margin="large" position="center" modal responsive={false}>
-              <Heading margin="small" level={headingSize} alignSelf="center">{ title }</Heading>
-              <Box
-                justify="center"
-                alignSelf="center"
-                direction="row"
-                gap={gapSize}
-                margin="xsmall"
-                responsive={false}
-              >
-                { starsElement }
+            <Layer margin="medium" position="center" modal responsive={false}>
+              <Box overflow="auto">
+                <Heading
+                  margin={{
+                    top: 'small', bottom: 'none', left: 'small', right: 'small',
+                  }}
+                  level={headingSize}
+                  alignSelf="center"
+                >{ title }
+                </Heading>
+                <Box align="center">
+                  <Heading margin="none" level={headingSize}>{username}</Heading>
+                </Box>
+                <Box
+                  justify="center"
+                  alignSelf="center"
+                  direction="row"
+                  gap={gapSize}
+                  margin="xsmall"
+                  responsive={false}
+                  style={
+                    {
+                      minWidth: '300px',
+                      maxHeigh: '90%',
+                      padding: '10px',
+                    }
+                  }
+                >
+                  { starsElement }
+                </Box>
+                <Form onSubmit={handleSubmit}>
+                  <Box pad="small">
+                    <FormField name="Comment" validate={(value) => validateComment(value, (active >= Math.floor(stars / 2)), errorMessage)}>
+                      <Box align="center" height="small">
+                        <TextArea
+                          name="Comment"
+                          id="Comment"
+                          size="medium"
+                          resize={false}
+                          fill
+                          placeholder={description}
+                          onChange={(event) => setFeedBack(event.target.value)}
+                        />
+                      </Box>
+                    </FormField>
+                  </Box>
+                  <Box pad="small">
+                    <Button
+                      primary
+                      disabled={active < 0}
+                      fill="horizontal"
+                      label={buttonLabel}
+                      type="submit"
+                    />
+                  </Box>
+                </Form>
               </Box>
-              <Form onSubmit={handleSubmit}>
-                <Box pad="small">
-                  <FormField name="Comment" validate={(value) => validateComment(value, (active >= Math.floor(stars / 2)), errorMessage)}>
-                    <Box align="center" height="small">
-                      <TextArea
-                        name="Comment"
-                        id="Comment"
-                        size="medium"
-                        resize={false}
-                        fill
-                        placeholder={description}
-                        onChange={(event) => setFeedBack(event.target.value)}
-                      />
-                    </Box>
-                  </FormField>
-                </Box>
-                <Box pad="small">
-                  <Button
-                    primary
-                    disabled={active < 0}
-                    fill="horizontal"
-                    label={buttonLabel}
-                    type="submit"
-                  />
-                </Box>
-              </Form>
             </Layer>
           )}
     </Box>
@@ -147,6 +167,7 @@ Rating.propTypes = {
   successMessage: PropTypes.string,
   show: PropTypes.bool.isRequired,
   setShow: PropTypes.func.isRequired,
+  username: PropTypes.string,
 };
 
 Rating.defaultProps = {
@@ -154,8 +175,9 @@ Rating.defaultProps = {
   title: 'Califique al voluntario',
   description: 'Por favor, haga un comentario sobre su experiencia',
   buttonLabel: 'Calificar',
-  errorMessageComment: 'Por favor, de un comentario sobre que no fue de su agrado en su experiencia',
-  successMessage: 'Ha calificado con éxito. Gracias!',
+  errorMessageComment: 'Por favor, dé un comentario sobre qué no fue de su agrado.',
+  successMessage: 'Ha calificado con éxito. ¡Gracias!',
+  username: '',
 };
 
 export default Rating;

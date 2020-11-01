@@ -5,17 +5,23 @@ import {
 } from 'grommet';
 import { MONTHS } from 'Data/utils';
 
-const BirthDatePicker = ({ validateDay, validateYear }) => (
+const BirthDatePicker = ({ validateDay, validateYear, isMinor }) => (
   <Box fill>
     <Text size="small" margin={{ top: '5px', bottom: '5px' }}>
-      Fecha de Nacimiento:
+      Fecha de nacimiento:
     </Text>
     <Grid rows={['full']} columns={['auto', '8rem', 'auto']} fill gap="small">
       <FormField name="birthDay" validate={validateDay} required>
-        <TextInput placeholder="Día" name="birthDay" id="birthDay" />
+        <TextInput
+          aria-label="birthDay"
+          placeholder="Día"
+          name="birthDay"
+          id="birthDay"
+        />
       </FormField>
       <FormField name="birthMonth" required>
         <Select
+          aria-label="birthMonth"
           placeholder="Mes"
           options={MONTHS}
           labelKey="displayValue"
@@ -25,15 +31,22 @@ const BirthDatePicker = ({ validateDay, validateYear }) => (
         />
       </FormField>
       <FormField name="birthYear" validate={validateYear} required>
-        <TextInput placeholder="Año" name="birthYear" id="birthYear" />
+        <TextInput
+          aria-label="birthYear"
+          placeholder="Año"
+          name="birthYear"
+          id="birthYear"
+        />
       </FormField>
     </Grid>
+    {isMinor && <Text color="accent-2" size="small"> Debe ser mayor a 18 </Text>}
   </Box>
 );
 
 BirthDatePicker.propTypes = {
   validateDay: PropTypes.func.isRequired,
   validateYear: PropTypes.func.isRequired,
+  isMinor: PropTypes.bool.isRequired,
 };
 
 export default BirthDatePicker;

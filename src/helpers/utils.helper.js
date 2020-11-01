@@ -37,3 +37,11 @@ export const dateToPrint = (createdAt) => {
   }
   return dateTime.toFormat('dd/MM/yyyy HH:mm');
 };
+
+export const isMinor = (date) => {
+  const dateTime = DateTime.fromFormat(date, 'd/M/yyyy');
+  if (DateTime.local().diff(dateTime).as('years') < 18) {
+    return true;
+  }
+  return false;
+};
