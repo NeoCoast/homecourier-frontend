@@ -8,6 +8,7 @@ const Chip = ({ text }) => (
     round="large"
     pad={{ horizontal: '15px', vertical: '3px' }}
     fill={false}
+    margin="xsmall"
     style={{ height: '2em' }}
   >
     <Text size="small">{text}</Text>

@@ -49,10 +49,11 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
       <Card>
         <CardHeader>
           <Box justify="between" fill direction="row">
-            <Heading level="3" margin={{ horizontal: 'large', vertical: 'medium' }} gridArea="title">
+            <Heading level="3" margin={{ horizontal: 'large', vertical: 'medium' }} gridArea="title" truncate={viewPortSize === 'small'}>
               {order.title}
             </Heading>
             <Button
+              style={{ maxHeight: '66px' }}
               onClick={onClose}
               margin="small"
               icon={<Close />}
