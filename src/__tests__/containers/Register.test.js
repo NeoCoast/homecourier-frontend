@@ -74,8 +74,10 @@ describe('Register container', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Registrarse' }));
 
     await waitFor(() => {
-      // expect(getByText(`Bienvenido, ${usernameResponse}`)).toBeInTheDocument();
-      expect(screen.getByText('Su solicitud de registro se ha enviado correctamente, le hemos enviado un mail de confirmacion a su casilla de correo.')).toBeInTheDocument();
+      expect(screen.getByText(
+        'Su solicitud de registro se ha enviado correctamente, '
+        + 'le hemos enviado un mail de confirmación a su casilla de correo.'
+      )).toBeInTheDocument();
     });
   });
 
