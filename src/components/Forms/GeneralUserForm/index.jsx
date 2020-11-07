@@ -9,8 +9,11 @@ import {
   validateRepeatPassword,
   validateYear,
 } from 'Helpers/validator.helper';
+import AddressInput from '../../Utils/AddressInput';
 
-const GeneralUserForm = ({ message, errorMessage, isMinor }) => (
+const GeneralUserForm = ({
+  message, errorMessage, isMinor, setAddress, address,
+}) => (
   <Box>
     <Box direction="row-responsive" gap="small" fill="horizontal" justify="stretch" alignContent="around">
       <FormField
@@ -112,12 +115,13 @@ const GeneralUserForm = ({ message, errorMessage, isMinor }) => (
         htmlfor="address"
         label={message('Dirección')}
         fill
-        required
+        validate={() => address === undefined ? { status: 'error', message: 'Requerido' } : { status: 'info' }}
       >
-        <TextInput
-          aria-label="address"
+        <AddressInput
+          ariaLabel="address"
           name="address"
           id="address"
+          onChange={setAddress}
         />
       </FormField>
 
@@ -134,6 +138,8 @@ GeneralUserForm.propTypes = {
   message: PropTypes.func.isRequired,
   errorMessage: PropTypes.func.isRequired,
   isMinor: PropTypes.bool.isRequired,
+  address: PropTypes.string.isRequired,
+  setAddress: PropTypes.func.isRequired,
 };
 
 export default GeneralUserForm;

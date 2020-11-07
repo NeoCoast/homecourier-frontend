@@ -26,6 +26,7 @@ const Register = ({ volunteer }) => {
   const [username, setUsername] = useState(null);
   const [image, setImage] = useState(null);
   const [minor, setMinor] = useState(false);
+  const [formValue, setFormValue] = useState({});
 
   const submitService = volunteer ? volunteerService : helpeeService;
   const headingMessage = volunteer ? ', gracias por querer ayudar' : ' a HomeCourier';
@@ -38,8 +39,8 @@ const Register = ({ volunteer }) => {
     </Text>
   );
 
-  const submit = async (formValues) => {
-    const values = { ...formValues.value };
+  const submit = async () => {
+    const values = { ...formValue };
 
     values.birthDate = `${values.birthDay}/${values.birthMonth.month}/${values.birthYear}`;
     if (isMinor(values.birthDate)) {
@@ -79,6 +80,18 @@ const Register = ({ volunteer }) => {
       setErrorModalMessage('Ha ocurrido un error inesperado.');
       setErrorModal(true);
     }
+  };
+
+  const valueChanged = (nextValue) => {
+    setFormValue({ ...formValue, ...nextValue });
+  };
+
+  const setValue = (e) => {
+    const value = {
+      ...formValue,
+      address: e.label,
+    };
+    setFormValue(value);
   };
 
   if (username) return <RegisterConfirm username={username} />;
@@ -136,8 +149,9 @@ const Register = ({ volunteer }) => {
           messages={{
             required: 'Requerido',
           }}
+          onChange={valueChanged}
         >
-          <GeneralUserForm message={message} errorMessage={errorMessage} isMinor={minor} />
+          <GeneralUserForm message={message} errorMessage={errorMessage} isMinor={minor} setAddress={setValue} address={formValue.address} />
           {volunteer && (
             <VolunteerForm
               message={message}
