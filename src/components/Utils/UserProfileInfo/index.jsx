@@ -14,10 +14,17 @@ const UserProfileInfo = ({ user }) => (
       }}
     >
       <Text truncate style={{ maxWidth: '200px' }}>{`${user.name.toUpperCase()} ${user.lastname.toUpperCase()}`}</Text>
-      <CalificationGradient
-        percent={user.rating !== null ? ((Number(user.rating) * 100) / 5) : 0}
-        maxRating={5}
-      />
+      {(user.rating)
+        && (
+          <CalificationGradient
+            percent={user.rating !== null ? ((Number(user.rating) * 100) / 5) : 0}
+            maxRating={5}
+          />
+        )}
+      {(!user.rating)
+        && (
+          <Text> No tiene calificaciones. </Text>
+        )}
     </Box>
   </Box>
 );
