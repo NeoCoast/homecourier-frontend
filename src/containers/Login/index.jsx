@@ -111,7 +111,7 @@ const Login = () => {
           <Box direction="row" fill justify="center" gap="small">
             <Text size="small">Quieres ayudar?</Text>
             <Link to="/register-volunteer" style={{ lineHeight: '20px' }}>
-              Regístrate Aquí
+              Regístrate aquí
             </Link>
           </Box>
         </Box>

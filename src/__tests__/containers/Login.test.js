@@ -61,9 +61,9 @@ describe('Login container', () => {
   test('has a registration link for volunteers', () => {
     render(<Login />);
 
-    expect(screen.getByText('Regístrate Aquí')).toBeInTheDocument();
-    expect(screen.getByText('Regístrate Aquí').closest('a')).toBeInTheDocument();
-    expect(screen.getByText('Regístrate Aquí').closest('a')).toHaveAttribute('href', '/register-volunteer');
+    expect(screen.getByText('Regístrate aquí')).toBeInTheDocument();
+    expect(screen.getByText('Regístrate aquí').closest('a')).toBeInTheDocument();
+    expect(screen.getByText('Regístrate aquí').closest('a')).toHaveAttribute('href', '/register-volunteer');
   });
 
   test('hitting the submit button should show errors', async () => {
