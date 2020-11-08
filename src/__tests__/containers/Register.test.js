@@ -8,7 +8,9 @@ import Register from 'Containers/Register';
 import helpeeService from 'Api/helpee.service';
 import render from '../../__mocks__/render';
 
-jest.mock('Api/helpee.service');
+jest.mock('Api/helpee.service', () => ({
+  create: jest.fn(),
+}));
 
 describe('Register container', () => {
   afterEach(() => {
