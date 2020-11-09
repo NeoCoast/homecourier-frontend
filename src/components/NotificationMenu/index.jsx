@@ -7,8 +7,12 @@ import React, { useRef, useState, useEffect } from 'react';
 import notificationsService from 'Api/notifications.service';
 import { RingLoader } from 'react-spinners';
 import { loadAll } from 'Actions/userNotifications';
-import InfiniteLoader from 'react-window-infinite-loader';
-import { FixedSizeList } from 'react-window';
+import {
+  InfiniteLoader,
+  CellMeasurer,
+  CellMeasurerCache,
+  List,
+} from 'react-virtualized';
 import NotificationComponent from './Notification';
 
 const NotificationMenu = () => {
@@ -19,14 +23,12 @@ const NotificationMenu = () => {
   const notiRef = useRef();
   const [openDrop, setOpenDrop] = useState(false);
   const [loading, setLoading] = useState(false);
+  const listRef = useRef();
+  const [updateListIndex, setUpdateListIndex] = useState(-1);
+  const [updateList, setUpdateList] = useState(false);
 
-  const renderNotification = ({ index, style }) => notifications[index]
-    ? <div style={style}>{NotificationComponent(notifications[index])}</div>
-    : false;
-
-  const loadMoreItems = async (startIndex, stopIndex) => {
+  const loadMoreItems = async ({ stopIndex }) => {
     if (notifications.length && notifications.length > stopIndex + 1) {
-      console.log(startIndex, stopIndex);
       return;
     }
     const page = Math.floor((stopIndex + 1) / 50);
@@ -34,7 +36,6 @@ const NotificationMenu = () => {
     setNotifications([...notifications, ...res.data.notifications]
       .filter((notif, index, a) => a.findIndex((t) => (t.id === notif.id)) === index));
     setLoading(false);
-    console.log(notifications);
   };
 
   const isItemLoaded = ({ index }) => !!notifications[index];
@@ -47,17 +48,23 @@ const NotificationMenu = () => {
     setNotifications(allNotificationsSelector);
   }, [allNotificationsSelector]);
 
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.recomputeRowHeights(updateListIndex);
+      listRef.current.forceUpdateGrid();
+    }
+  }, [updateList, updateListIndex]);
+
   const setSeen = async () => {
     const seenNotisId = notifications.filter((notif) => notif.status === 'seen').map((x) => x.id);
     try {
       const response = await notificationsService.setSeenNotifications(seenNotisId);
-      setNotifications(
-        notifications.map((noti) => {
-          const notiAux = noti;
-          notiAux.status = 'seen';
-          return notiAux;
-        })
-      );
+      const notificationsAux = notifications.map((noti) => {
+        const notiAux = noti;
+        notiAux.status = 'seen';
+        return notiAux;
+      });
+      setNotifications(notificationsAux);
       if (response.status === 200) await dispatch(loadAll(notifications));
     } catch (error) {
       console.error(error);
@@ -69,9 +76,49 @@ const NotificationMenu = () => {
   };
 
   const closeNotiDrop = () => {
+    setNotSeenNotifications([]);
     setOpenDrop(false);
     setSeen();
   };
+
+  const cache = new CellMeasurerCache({
+    defaultHeight: 72,
+    fixedWidth: true,
+  });
+
+  const rowRenderer = ({
+    index,
+    key,
+    parent,
+    style,
+  }) => (
+    <CellMeasurer
+      cache={cache}
+      columnIndex={0}
+      key={key}
+      parent={parent}
+      rowIndex={index}
+    >
+      {({ measure, registerChild }) => (
+        notifications[index]
+          ? (
+            // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+            <div
+              style={style}
+              ref={registerChild}
+              onClick={() => {
+                measure();
+                setUpdateList(!updateList);
+                setUpdateListIndex(index);
+              }}
+            >
+              {NotificationComponent(notifications[index])}
+            </div>
+          )
+          : false
+      )}
+    </CellMeasurer>
+  );
 
   return (
     <Box pad="small" justify="center">
@@ -97,32 +144,38 @@ const NotificationMenu = () => {
           target={notiRef.current}
           onEsc={closeNotiDrop}
           onClickOutside={closeNotiDrop}
+          responsive={false}
+          stretch={false}
         >
-          <Box pad="small" style={{ minWidth: '300px' }}>
+          <Box pad="small">
             <Heading level="4" margin="none">Notificaciones</Heading>
             {loading && <Box fill="horizontal" justify="center" align="center"><RingLoader loading size={80} color="#54a3ff" /></Box>}
-            <Box fill="horizontal" margin={{ bottom: 'small' }} pad={{ top: 'small' }}>
-              <Box fill="horizontal" overflow="auto" height="40vh">
+            {notifications.length ? (
+              <Box fill="horizontal" width="340px" height="40vh">
                 <InfiniteLoader
-                  isItemLoaded={isItemLoaded}
-                  itemCount={notifications.length || 50}
-                  loadMoreItems={loadMoreItems}
+                  isRowLoaded={isItemLoaded}
+                  rowCount={notifications.length + 1 || 51}
+                  loadMoreRows={loadMoreItems}
                 >
-                  {({ onItemsRendered, ref }) => (
-                    <FixedSizeList
-                      height={300}
-                      width={320}
-                      itemCount={notifications.length || 50}
-                      itemSize={72}
-                      onItemsRendered={onItemsRendered}
-                      ref={ref}
-                    >
-                      {renderNotification}
-                    </FixedSizeList>
+                  {({ onRowsRendered }) => (
+                    <List
+                      height={400}
+                      width={340}
+                      onRowsRendered={onRowsRendered}
+                      ref={listRef}
+                      rowCount={notifications.length || 50}
+                      rowRenderer={rowRenderer}
+                      deferredMeasurementCache={cache}
+                      rowHeight={cache.rowHeight}
+                    />
                   )}
                 </InfiniteLoader>
               </Box>
-            </Box>
+            ) : (
+              <Box fill="horizontal" width="300px" height="5vh">
+                <Text size="small">No hay notificaciones</Text>
+              </Box>
+            )}
           </Box>
         </Drop>
       )}
