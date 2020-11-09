@@ -21,7 +21,7 @@ const UserProfileInfo = ({ user }) => (
             maxRating={5}
           />
         ) : (
-          <Text> No tiene calificaciones. </Text>
+          <Text size="small"> No tiene calificaciones. </Text>
         )}
     </Box>
   </Box>
