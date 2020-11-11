@@ -136,7 +136,8 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
               Ubicación
             </Heading>
             <Map
-              center={{ lat: -34.918120, lng: -56.166589 }}
+              isMarkerShown={!(userData.documentNumber && order.status === 'created')}
+              center={{ lat: order.helpee.latitude, lng: order.helpee.longitude }}
             />
           </Box>
         </CardBody>
