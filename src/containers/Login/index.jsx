@@ -103,7 +103,7 @@ const Login = () => {
         </Form>
         <Box fill gap="small">
           <Box direction="row" fill justify="center" gap="small">
-            <Text size="small">No eres usuario aun?</Text>
+            <Text size="small">No eres usuario aún?</Text>
             <Link to="/register" style={{ lineHeight: '20px' }}>
               Crea tu cuenta
             </Link>
@@ -111,7 +111,7 @@ const Login = () => {
           <Box direction="row" fill justify="center" gap="small">
             <Text size="small">Quieres ayudar?</Text>
             <Link to="/register-volunteer" style={{ lineHeight: '20px' }}>
-              Registrate Aqui
+              Regístrate aquí
             </Link>
           </Box>
         </Box>

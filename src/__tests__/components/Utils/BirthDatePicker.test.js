@@ -1,27 +1,29 @@
 import React from 'react';
-import { cleanup, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { validateDay, validateYear } from 'Helpers/validator.helper';
 import BirthDatePicker from 'Components/Utils/BirthDatePicker';
 import render from '../../../__mocks__/render';
 
 describe('BirthDatePicker component', () => {
   afterEach(() => {
-    cleanup();
+    jest.resetAllMocks();
   });
 
   const errorMessage = '';
-  const validateDayFunction = (value) => {
+  const validateDayFunction = jest.fn((value) => {
     validateDay(value, errorMessage);
-  };
-  const validateYearFunction = (value) => {
+  });
+  const validateYearFunction = jest.fn((value) => {
     validateYear(value, errorMessage);
-  };
+  });
+  const isMinor = jest.fn();
 
   test('has a birth day input', () => {
     render(
       <BirthDatePicker
         validateDay={validateDayFunction}
         validateYear={validateYearFunction}
+        isMinor={isMinor}
       />
     );
 
@@ -33,6 +35,7 @@ describe('BirthDatePicker component', () => {
       <BirthDatePicker
         validateDay={validateDayFunction}
         validateYear={validateYearFunction}
+        isMinor={isMinor}
       />
     );
 
@@ -44,6 +47,7 @@ describe('BirthDatePicker component', () => {
       <BirthDatePicker
         validateDay={validateDayFunction}
         validateYear={validateYearFunction}
+        isMinor={isMinor}
       />
     );
 
