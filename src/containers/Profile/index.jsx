@@ -9,8 +9,9 @@ import { useHistory } from 'react-router-dom';
 
 const Profile = (props) => {
   const userInfo = useSelector((state) => state.logUser.data);
-  const { match: { params: { username } } } = props || userInfo.username;
+  let { match: { params: { username } } } = props;
   const history = useHistory();
+  username = username || userInfo.username;
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
