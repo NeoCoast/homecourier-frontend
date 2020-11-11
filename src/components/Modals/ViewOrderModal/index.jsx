@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {
-  Layer, Heading, Box, Button, ResponsiveContext, Card, CardHeader, CardBody, CardFooter,
+  Layer, Heading, Box, Button, ResponsiveContext, Card, CardHeader, CardBody, CardFooter, Anchor,
 } from 'grommet';
 import { Package, Task, Home } from 'grommet-icons';
 import { Close } from 'grommet-icons';
@@ -11,6 +11,7 @@ import { ORDER_STATUS_ACTIONS, ORDER_STATUS_PHASE_NUMBER, STEP_DATA } from 'Data
 import Stepper from 'Components/Utils/Stepper';
 import MiniStatusDisplay from 'Components/Utils/MiniStateDisplay';
 import VolunteerApplicationList from 'Components/VolunteerApplicationsList';
+import ExactLocation from 'Components/MapsExactLocation';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import ClampLines from 'react-clamp-lines';
@@ -19,7 +20,12 @@ import MultilineText from '../../Utils/MultilineText';
 const ViewOrderModal = ({ order, onClose, onConfirm }) => {
   const userData = useSelector((state) => state.logUser.data);
   const [alreadyApplied, setAlreadyApplied] = useState(false);
+  const [viewLocation, setViewLocation] = useState(false);
   const viewPortSize = useContext(ResponsiveContext);
+  //TODO delete later, lar and lng should come in the backend request
+  order = {...order,
+  lat: -34.8845,
+  lng: -56.159}
   const icons = [
     <Package size="large" color="black" />,
     <Task size="large" color="black" />,
@@ -128,6 +134,28 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
               </Box>
             )}
           </Box>
+          <Box 
+            >
+              { order.status === 'accepted' && userData.documentNumber &&
+              <Anchor
+                label={ (viewLocation) ? 'Ocultar mapa' : 'Ver mapa'}
+                margin="medium"
+                size={viewPortSize === 'small' ? 'small' : 'medium'}
+                onClick={() => {
+                  setViewLocation(!viewLocation)
+                }}
+              />
+              } 
+              { viewLocation &&
+                  <Box
+                    width="large"
+                    height="medium"
+                    alignSelf="center"
+                  >
+                    <ExactLocation isMarkerShown lat={order.lat} lng={order.lng} zoom={16} size={300} />
+                  </Box>
+                }
+            </Box>
         </CardBody>
         <CardFooter pad="small" justify="end">
           {(order.status !== 'created' || (!userData.documentNumber && order.status === 'created'))
