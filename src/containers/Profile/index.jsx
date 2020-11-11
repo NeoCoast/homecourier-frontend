@@ -1,21 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.scss';
 import { Box, Heading } from 'grommet';
 import { useSelector } from 'react-redux';
 import ExactLocation from 'Components/MapsExactLocation';
 import PropTypes from 'prop-types';
+import usersService from 'Api/users.service';
+import { useHistory } from 'react-router-dom';
 
 const Profile = (props) => {
   const userInfo = useSelector((state) => state.logUser.data);
-  let { match: { params: { username } } } = props;
-  username = username || userInfo.username;
+  const { match: { params: { username } } } = props || userInfo.username;
+  const history = useHistory();
+  const [userData, setUserData] = useState({});
+
+  useEffect(() => {
+    async function getUserData() {
+      if (username !== userInfo.username) {
+        try {
+          const response = await usersService.profileData(username);
+          setUserData(response.data);
+        } catch (error) {
+          history.push('/404');
+        }
+      } else {
+        setUserData(userInfo);
+      }
+    }
+    getUserData();
+  }, []);
+
   return (
     <Box fill align="center">
       <Box overflow="auto" justify="stretch">
         <Heading alignSelf="stretch">Perfil de {username}</Heading>
-        {username === userInfo.username && (
+        {userData.username === userInfo.username && (
           <Box margin="small" overflow="auto">
-            <ExactLocation isMarkerShown lat={userInfo.latitude} lng={userInfo.longitude} zoom={16} size={300} />
+            <ExactLocation isMarkerShown lat={userData.latitude} lng={userData.longitude} zoom={16} size={300} />
           </Box>
         )}
       </Box>
