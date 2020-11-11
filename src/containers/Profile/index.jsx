@@ -35,7 +35,7 @@ const Profile = (props) => {
       <Box overflow="auto" justify="stretch">
         <Heading alignSelf="stretch">Perfil de {username}</Heading>
         {userData.username === userInfo.username && (
-          <Box margin="small" overflow="auto">
+          <Box a11yTitle="Map" margin="small" overflow="auto">
             <ExactLocation isMarkerShown lat={userData.latitude} lng={userData.longitude} zoom={16} size={300} />
           </Box>
         )}
