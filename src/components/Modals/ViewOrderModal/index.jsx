@@ -82,15 +82,15 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
               gap="medium"
               fill
             >
-              { (userData.documentNumber || order.status !== 'created') && <UserProfileInfo user={userData.documentNumber ? order.helpee : order.volunteers[0]} /> }
+              {(userData.documentNumber || order.status !== 'created') && <UserProfileInfo user={userData.documentNumber ? order.helpee : order.volunteers[0]} />}
 
               {((order.volunteers ? order.volunteers.map((x) => x.id).includes(userData.id) : false)
-              || order.helpee.id === userData.id) && order.status !== 'created' && viewPortSize === 'small'
-              && (
-                <Box alignSelf="start">
-                  <MiniStatusDisplay activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]} cancelled={order.status === 'cancelled'} />
-                </Box>
-              )}
+                || order.helpee.id === userData.id) && order.status !== 'created' && viewPortSize === 'small'
+                && (
+                  <Box alignSelf="start">
+                    <MiniStatusDisplay activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]} cancelled={order.status === 'cancelled'} />
+                  </Box>
+                )}
 
               {order.helpee.id === userData.id && order.status === 'created' && viewPortSize === 'small' && (
                 <VolunteerApplicationList orderId={order.id} onClose={onClose} />
@@ -110,17 +110,17 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
               </Box>
             </Box>
             {((order.volunteers ? order.volunteers.map((x) => x.id).includes(userData.id) : false)
-          || order.helpee.id === userData.id) && order.status !== 'created' && viewPortSize !== 'small'
-          && (
-            <Stepper
-              steps={STEP_DATA.steps}
-              stepsLabel={STEP_DATA.stepsLabel}
-              stepsContent={STEP_DATA.stepsContent}
-              activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]}
-              icons={icons}
-              cancelled={order.status === 'cancelled'}
-            />
-          )}
+              || order.helpee.id === userData.id) && order.status !== 'created' && viewPortSize !== 'small'
+              && (
+                <Stepper
+                  steps={STEP_DATA.steps}
+                  stepsLabel={STEP_DATA.stepsLabel}
+                  stepsContent={STEP_DATA.stepsContent}
+                  activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]}
+                  icons={icons}
+                  cancelled={order.status === 'cancelled'}
+                />
+              )}
 
             {order.helpee.id === userData.id && order.status === 'created' && viewPortSize !== 'small' && (
               <Box style={{ minWidth: '400px' }} fill>
@@ -130,36 +130,36 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
           </Box>
         </CardBody>
         <CardFooter pad="small" justify="end">
-          {(order.status !== 'created' || (!userData.documentNumber && order.status === 'created')) 
-          && order.status !== 'finished' && order.status !== 'cancelled'
-        && (
-          <Button
-            secondary
-            label="Cancelar pedido"
-            hoverIndicator="accent-2"
-            size={viewPortSize === 'small' ? 'small' : 'medium'}
-            onClick={() => {
-              onConfirm(order.id, true);
-              onClose();
-            }}
-          />
-        )}
+          {(order.status !== 'created' || (!userData.documentNumber && order.status === 'created'))
+            && order.status !== 'finished' && order.status !== 'cancelled'
+            && (
+              <Button
+                secondary
+                label="Cancelar pedido"
+                hoverIndicator="accent-2"
+                size={viewPortSize === 'small' ? 'small' : 'medium'}
+                onClick={() => {
+                  onConfirm(order.id, true);
+                  onClose();
+                }}
+              />
+            )}
           {((userData.documentNumber && order.status !== 'in_process')
-          || (!userData.documentNumber && order.status === 'in_process'))
-          && !(alreadyApplied && order.status === 'created')
-          && order.status !== 'finished'
-          && order.status !== 'cancelled'
-          && (
-            <Button
-              primary
-              label={ORDER_STATUS_ACTIONS[order.status]}
-              size={viewPortSize === 'small' ? 'small' : 'medium'}
-              onClick={() => {
-                onConfirm(order.id);
-                onClose();
-              }}
-            />
-          )}
+            || (!userData.documentNumber && order.status === 'in_process'))
+            && !(alreadyApplied && order.status === 'created')
+            && order.status !== 'finished'
+            && order.status !== 'cancelled'
+            && (
+              <Button
+                primary
+                label={ORDER_STATUS_ACTIONS[order.status]}
+                size={viewPortSize === 'small' ? 'small' : 'medium'}
+                onClick={() => {
+                  onConfirm(order.id);
+                  onClose();
+                }}
+              />
+            )}
         </CardFooter>
       </Card>
     </Layer>

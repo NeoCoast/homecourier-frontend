@@ -19,6 +19,15 @@ const setOrderStatus = ({ orderId, status }) => HTTP.post('orders/status', {
   status,
 }).then(({ data }) => data);
 
+const getOrdersMap = (latTopRight, lngTopRight, latDownLeft, lngDownLeft) => HTTP.get('/orders/show/map', {
+  params: {
+    lat_top_right: latTopRight,
+    lng_top_right: lngTopRight,
+    lat_down_left: latDownLeft,
+    lng_down_left: lngDownLeft,
+  },
+}).then(({ data }) => data);
+
 const create = ({
   title, helpeeId, categories, description,
 }) => HTTP.post('/orders', {
@@ -40,4 +49,5 @@ export default {
   getMyOrders,
   setOrderStatus,
   getVolunteerOrders,
+  getOrdersMap,
 };

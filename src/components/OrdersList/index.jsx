@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import {
-  Box, InfiniteScroll, ResponsiveContext,
+  Box, Button, InfiniteScroll, ResponsiveContext,
 } from 'grommet';
 import PropTypes from 'prop-types';
 import ordersService from 'Api/orders.service';
@@ -11,6 +11,8 @@ import ErrorModal from 'Components/Modals/ErrorModal';
 import SuccessModal from 'Components/Modals/SuccessModal';
 import RateOrder from 'Containers/RateOrder';
 import { NEXT_STATUS } from 'Data/constants';
+import MapOrderList from 'Components/MapOrderList';
+import { List, Map } from 'grommet-icons';
 
 const OrdersList = ({
   orders, setLoading, modalClosed,
@@ -93,6 +95,7 @@ const OrdersList = ({
   const [message, setMessage] = useState('');
   const viewportSize = useContext(ResponsiveContext);
   const [orderSelected, setOrderSelected] = useState(null);
+  const [isMapEnabled, setIsMapEnabled] = useState(false);
 
   const openModal = (order) => {
     setOrderSelected(order);
@@ -105,20 +108,45 @@ const OrdersList = ({
   };
 
   return (
-    <Box overflow="auto" flex={false}>
+    <Box fill={isMapEnabled} overflow="auto" flex={false}>
 
-      <InfiniteScroll
-
-        direction="column"
-        pad={{ horizontal: viewportSize === 'small' ? 'small' : 'medium', vertical: 'medium' }}
-        overflow="auto"
-        fill
-        items={orders}
+      <Box
+        direction="row"
+        alignSelf="end"
+        background="white"
+        border="black"
+        margin={{ top: 'medium', right: 'medium', bottom: 'xsmall' }}
       >
-        {(order) => (
-          <OrderCard order={order} viewportSize={viewportSize} key={order.id} openModal={openModal} />
-        )}
-      </InfiniteScroll>
+        <Button
+          icon={(<List />)}
+          onClick={() => setIsMapEnabled(false)}
+        />
+        <Button
+          icon={(<Map />)}
+          onClick={() => setIsMapEnabled(true)}
+        />
+      </Box>
+      {!isMapEnabled && (
+        <InfiniteScroll
+          direction="column"
+          pad={{ horizontal: viewportSize === 'small' ? 'small' : 'medium', vertical: 'medium' }}
+          overflow="auto"
+          fill
+          items={orders}
+        >
+          {(order) => (
+            <OrderCard order={order} viewportSize={viewportSize} key={order.id} openModal={openModal} />
+          )}
+        </InfiniteScroll>
+      )}
+      {isMapEnabled && (
+        <Box
+          pad={{ left: 'medium', right: 'medium', bottom: 'medium' }}
+          fill
+        >
+          <MapOrderList setLoading={setLoading} openModal={openModal} openErrorModal={setErrorModal} setErrorMsg={setMessage} />
+        </Box>
+      )}
 
       {errorModal && <ErrorModal setShow={setErrorModal} show={errorModal} errorMessage={message} />}
       {successModal && <SuccessModal setShow={setSuccessModal} show={successModal} message={message} />}
