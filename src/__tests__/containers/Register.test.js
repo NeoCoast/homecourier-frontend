@@ -8,9 +8,15 @@ import Register from 'Containers/Register';
 import helpeeService from 'Api/helpee.service';
 import render from '../../__mocks__/render';
 
+// eslint-disable-next-line react/prop-types
+jest.mock('Components/Utils/AddressInput', () => ({ onChange }) => (
+  <input aria-label="address" name="address" onChange={(e) => onChange({ label: e.target.value })} />
+));
+
 jest.mock('Api/helpee.service', () => ({
   create: jest.fn(),
 }));
+
 
 describe('Register container', () => {
   afterEach(() => {
