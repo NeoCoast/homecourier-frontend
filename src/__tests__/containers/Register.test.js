@@ -8,11 +8,15 @@ import Register from 'Containers/Register';
 import helpeeService from 'Api/helpee.service';
 import render from '../../__mocks__/render';
 
-jest.mock('Api/helpee.service');
 // eslint-disable-next-line react/prop-types
 jest.mock('Components/Utils/AddressInput', () => ({ onChange }) => (
   <input aria-label="address" name="address" onChange={(e) => onChange({ label: e.target.value })} />
 ));
+
+jest.mock('Api/helpee.service', () => ({
+  create: jest.fn(),
+}));
+
 
 describe('Register container', () => {
   afterEach(() => {
@@ -78,7 +82,10 @@ describe('Register container', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Registrarse' }));
 
     await waitFor(() => {
-      expect(screen.getByText('Su solicitud de registro se ha enviado correctamente, le hemos enviado un mail de confirmación a su casilla de correo.')).toBeInTheDocument();
+      expect(screen.getByText(
+        'Su solicitud de registro se ha enviado correctamente, '
+        + 'le hemos enviado un mail de confirmación a su casilla de correo.'
+      )).toBeInTheDocument();
     });
   });
 
