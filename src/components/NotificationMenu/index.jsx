@@ -1,5 +1,5 @@
 import {
-  Box, Stack, Text, Drop, List, Heading, Anchor,
+  Box, Stack, Text, Drop, Heading,
 } from 'grommet';
 import { Notification } from 'grommet-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,77 +7,65 @@ import React, { useRef, useState, useEffect } from 'react';
 import notificationsService from 'Api/notifications.service';
 import { RingLoader } from 'react-spinners';
 import { loadAll } from 'Actions/userNotifications';
+import {
+  InfiniteLoader,
+  CellMeasurer,
+  CellMeasurerCache,
+  List,
+} from 'react-virtualized';
 import NotificationComponent from './Notification';
 
 const NotificationMenu = () => {
   const dispatch = useDispatch();
   const allNotificationsSelector = useSelector((state) => state.userNotifications.notifications);
-  const [allNotifications, setAllNotifications] = useState(allNotificationsSelector);
-  const [notSeenNotifications, setNotSeenNotifications] = useState(allNotifications.filter((x) => x.status === 'not_seen'));
-  const [seenNotifications, setSeenNotifications] = useState(allNotifications.filter((x) => x.status === 'seen'));
+  const [notifications, setNotifications] = useState(allNotificationsSelector);
+  const [notSeenNotifications, setNotSeenNotifications] = useState([]);
   const notiRef = useRef();
   const [openDrop, setOpenDrop] = useState(false);
-  const [viewHistory, setViewHistory] = useState(false);
-  const [notificationHistory, setNotificationHistory] = useState([]);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [notSeenPage, setNotSeenPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const listRef = useRef();
+  const [updateListIndex, setUpdateListIndex] = useState(-1);
+  const [updateList, setUpdateList] = useState(false);
 
-  const getNotifications = async (page = 0) => {
+  const loadMoreItems = async ({ stopIndex }) => {
+    if (notifications.length && notifications.length > stopIndex + 1) {
+      return;
+    }
+    const page = Math.floor((stopIndex + 1) / 50);
     const res = await notificationsService.getNotifications(page);
-    setNotificationHistory([...notificationHistory, ...res.data.notifications]);
+    setNotifications([...notifications, ...res.data.notifications]
+      .filter((notif, index, a) => a.findIndex((t) => (t.id === notif.id)) === index));
     setLoading(false);
   };
 
-  const getNotSeenNotifications = async (page = 0) => {
-    const res = await notificationsService.getNotSeenNotifications(page);
-    if (!(res.data.notifications.length === 0)) {
-      setAllNotifications(allNotifications.concat(res.data.notifications)
-        .filter((notif, index, a) => a.findIndex((t) => (t.id === notif.id)) === index));
-    }
-  };
+  const isItemLoaded = ({ index }) => !!notifications[index];
 
   useEffect(() => {
-    if (notSeenNotifications.length === 0) {
-      setNotSeenPage(0);
-      getNotSeenNotifications(notSeenPage);
-    }
-  }, [notSeenNotifications]);
+    setNotSeenNotifications(notifications.filter((notif) => notif.status === 'not_seen'));
+  }, [notifications]);
 
   useEffect(() => {
-    setAllNotifications(allNotificationsSelector);
+    setNotifications(allNotificationsSelector);
   }, [allNotificationsSelector]);
 
   useEffect(() => {
-    setNotSeenNotifications(allNotifications.filter((x) => x.status === 'not_seen'));
-    setSeenNotifications(allNotifications.filter((x) => x.status === 'seen'));
-  }, [allNotifications]);
-
-  const openHistory = async () => {
-    setLoading(true);
-    await getNotifications();
-    setViewHistory(true);
-  };
-
-  const closeHistory = async () => {
-    setPageNumber(1);
-    setViewHistory(false);
-    setNotificationHistory([]);
-  };
+    if (listRef.current) {
+      listRef.current.recomputeRowHeights(updateListIndex);
+      listRef.current.forceUpdateGrid();
+    }
+  }, [updateList, updateListIndex]);
 
   const setSeen = async () => {
-    const seenNotisId = notSeenNotifications.map((x) => x.id);
+    const seenNotisId = notifications.filter((notif) => notif.status === 'seen').map((x) => x.id);
     try {
       const response = await notificationsService.setSeenNotifications(seenNotisId);
-      notSeenNotifications.forEach((noti) => {
+      const notificationsAux = notifications.map((noti) => {
         const notiAux = noti;
         notiAux.status = 'seen';
+        return notiAux;
       });
-      setNotSeenNotifications(allNotifications.filter((x) => x.status === 'not_seen'));
-      setSeenNotifications(allNotifications.filter((x) => x.status === 'seen'));
-      if (response.status === 200) await dispatch(loadAll(allNotifications));
-      setNotSeenPage(0);
-      getNotSeenNotifications();
+      setNotifications(notificationsAux);
+      if (response.status === 200) await dispatch(loadAll(notifications));
     } catch (error) {
       console.error(error);
     }
@@ -88,10 +76,49 @@ const NotificationMenu = () => {
   };
 
   const closeNotiDrop = () => {
+    setNotSeenNotifications([]);
     setOpenDrop(false);
     setSeen();
-    closeHistory();
   };
+
+  const cache = new CellMeasurerCache({
+    defaultHeight: 72,
+    fixedWidth: true,
+  });
+
+  const rowRenderer = ({
+    index,
+    key,
+    parent,
+    style,
+  }) => (
+    <CellMeasurer
+      cache={cache}
+      columnIndex={0}
+      key={key}
+      parent={parent}
+      rowIndex={index}
+    >
+      {({ measure, registerChild }) => (
+        notifications[index]
+          ? (
+            // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+            <div
+              style={style}
+              ref={registerChild}
+              onClick={() => {
+                measure();
+                setUpdateList(!updateList);
+                setUpdateListIndex(index);
+              }}
+            >
+              {NotificationComponent(notifications[index])}
+            </div>
+          )
+          : false
+      )}
+    </CellMeasurer>
+  );
 
   return (
     <Box pad="small" justify="center">
@@ -117,68 +144,41 @@ const NotificationMenu = () => {
           target={notiRef.current}
           onEsc={closeNotiDrop}
           onClickOutside={closeNotiDrop}
+          responsive={false}
+          stretch={false}
         >
-          <Box pad="small" style={{ minWidth: '300px' }}>
+          <Box pad="small">
             <Heading level="4" margin="none">Notificaciones</Heading>
-            {notSeenNotifications.length === 0 && seenNotifications.length === 0
-              && <Text size="small">No hay notificaciones nuevas para mostrar.</Text>}
-            <Box fill="horizontal" overflow="auto" style={{ maxHeight: viewHistory ? '50vh' : '70vh' }}>
-              {!!notSeenNotifications.length && <Heading level="6" margin="none">Nuevas</Heading>}
-              <Box fill="horizontal" overflow="auto" style={{ minHeight: notSeenNotifications.length ? '18vh' : '0' }}>
-                {notSeenNotifications.length > 0
-                  && (
-                    <List
-                      data={notSeenNotifications}
-                      onMore={async () => {
-                        await getNotSeenNotifications(notSeenPage + 1);
-                        setNotSeenPage(notSeenPage + 1);
-                      }}
-                      border={{ color: '#ffffff', side: 'horizontal' }}
-                    >
-                      {NotificationComponent}
-                    </List>
-                  )}
-              </Box>
-              {!!seenNotifications.length && <Heading level="6" margin="none">Vistas</Heading>}
-              <Box fill="horizontal" overflow="auto" style={{ minHeight: seenNotifications.length ? '18vh' : '0' }}>
-                {seenNotifications.length > 0
-                  && (
-                    <List
-                      data={seenNotifications}
-                      border={{ color: '#ffffff', side: 'horizontal' }}
-                    >
-                      {NotificationComponent}
-                    </List>
-                  )}
-              </Box>
-            </Box>
-            {!viewHistory && !loading && <Anchor onClick={() => openHistory()}>Ver todas</Anchor>}
             {loading && <Box fill="horizontal" justify="center" align="center"><RingLoader loading size={80} color="#54a3ff" /></Box>}
-            {viewHistory
-              && (
-                <Box fill="horizontal" margin={{ bottom: 'small' }} pad={{ top: 'small' }}>
-                  <Box direction="row" justify="between">
-                    <Heading level="5" margin="none">Histórico</Heading>
-                    <Anchor onClick={closeHistory}>Esconder</Anchor>
-                  </Box>
-                  <Box fill="horizontal" overflow="auto" height="40vh">
+            {notifications.length ? (
+              <Box fill="horizontal" width="340px" height="40vh">
+                <InfiniteLoader
+                  isRowLoaded={isItemLoaded}
+                  rowCount={notifications.length + 1 || 51}
+                  loadMoreRows={loadMoreItems}
+                >
+                  {({ onRowsRendered }) => (
                     <List
-                      data={notificationHistory}
-                      onMore={() => {
-                        getNotifications(pageNumber);
-                        setPageNumber(pageNumber + 1);
-                      }}
-                      border={{ color: '#ffffff', side: 'horizontal' }}
-                    >
-                      {NotificationComponent}
-                    </List>
-                  </Box>
-                </Box>
-              )}
+                      height={400}
+                      width={340}
+                      onRowsRendered={onRowsRendered}
+                      ref={listRef}
+                      rowCount={notifications.length || 50}
+                      rowRenderer={rowRenderer}
+                      deferredMeasurementCache={cache}
+                      rowHeight={cache.rowHeight}
+                    />
+                  )}
+                </InfiniteLoader>
+              </Box>
+            ) : (
+              <Box fill="horizontal" width="300px" height="5vh">
+                <Text size="small">No hay notificaciones</Text>
+              </Box>
+            )}
           </Box>
         </Drop>
       )}
-
     </Box>
   );
 };
