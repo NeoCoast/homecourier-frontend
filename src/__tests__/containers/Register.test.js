@@ -17,7 +17,6 @@ jest.mock('Api/helpee.service', () => ({
   create: jest.fn(),
 }));
 
-
 describe('Register container', () => {
   afterEach(() => {
     jest.resetAllMocks();
