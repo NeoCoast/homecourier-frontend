@@ -25,7 +25,7 @@ describe('Profile component', () => {
           logUser: {
             loggedIn: true,
           },
-          route: '/profile/manu',
+          route: '/profile',
         },
       });
 
