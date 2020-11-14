@@ -88,6 +88,7 @@ const OrdersList = ({
   };
 
   const volunteerId = useSelector((state) => state.logUser.data.id);
+  const isVolunteer = useSelector((state) => state.logUser.data.document_number);
   const [viewOrderModal, setViewOrderModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -110,22 +111,24 @@ const OrdersList = ({
   return (
     <Box fill={isMapEnabled} overflow="auto" flex={false}>
 
-      <Box
-        direction="row"
-        alignSelf="end"
-        background="white"
-        border="black"
-        margin={{ top: 'medium', right: 'medium', bottom: 'xsmall' }}
-      >
-        <Button
-          icon={(<List />)}
-          onClick={() => setIsMapEnabled(false)}
-        />
-        <Button
-          icon={(<Map />)}
-          onClick={() => setIsMapEnabled(true)}
-        />
-      </Box>
+      {isVolunteer && (
+        <Box
+          direction="row"
+          alignSelf="end"
+          background="white"
+          border="black"
+          margin={{ top: 'medium', right: 'medium', bottom: 'xsmall' }}
+        >
+          <Button
+            icon={(<List />)}
+            onClick={() => setIsMapEnabled(false)}
+          />
+          <Button
+            icon={(<Map />)}
+            onClick={() => setIsMapEnabled(true)}
+          />
+        </Box>
+      )}
       {!isMapEnabled && (
         <InfiniteScroll
           direction="column"
