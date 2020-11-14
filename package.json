@@ -39,6 +39,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.4.2",
     "jest-chain": "^1.1.5",
+    "jest-google-maps-mock": "^1.0.3",
     "node-sass": "^4.14.1",
     "sass-loader": "^10.0.2",
     "style-loader": "^1.0.0",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { compose, withProps } from 'recompose';
 import {
   withScriptjs,
@@ -13,7 +13,7 @@ import orderServices from 'Api/orders.service';
 const MapOrderList = compose(
   withProps({
     googleMapURL:
-      'https://maps.googleapis.com/maps/api/js?key=AIzaSyCY5hc7YI-a9IowKkfCkkDbuxYq6glpYrI&v=3.exp&libraries=geometry,drawing,places',
+      'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places',
     loadingElement: <Box fill />,
     containerElement: <Box fill />,
     mapElement: <Box fill />,
@@ -23,7 +23,7 @@ const MapOrderList = compose(
 )(({
   openModal, openErrorModal, setErrorMsg,
 }) => {
-  const [googleMap, setGoogleMap] = useState(React.createRef);
+  const googleMap = useRef();
   const [ordersList, setOrders] = useState([]);
   const [circles, setCircles] = useState([]);
   const [markers, setMarkers] = useState([]);
@@ -31,41 +31,32 @@ const MapOrderList = compose(
   const mapZoom = 13;
 
   useEffect(() => {
-    const drawCircles = () => {
-      const circlesList = [];
-      for (let i = 0; i < ordersList.length; i += 1) {
-        circlesList.push(
-          <Circle
-            key={i}
-            center={{ lat: ordersList[i].helpee.latitude, lng: ordersList[i].helpee.longitude }}
-            radius={300}
-            options={{ fillColor: '#87CEEB', strokeColor: '#0087CEEB' }}
-          />
-        );
-      }
-      return circlesList;
-    };
-    const drawMarkers = () => {
-      const markersList = [];
-      for (let i = 0; i < ordersList.length; i += 1) {
-        markersList.push(
-          <Marker
-            key={i}
-            position={{ lat: ordersList[i].helpee.latitude, lng: ordersList[i].helpee.longitude }}
-            icon={{
-              url: 'https://image.flaticon.com/icons/png/512/126/126165.png',
-              anchor: { x: 15, y: 15 },
-              scaledSize: { width: 30, height: 30 },
-            }}
-            clickable
-            onClick={() => openModal(ordersList[i])}
-          />
-        );
-      }
-      return markersList;
-    };
-    setCircles(drawCircles());
-    setMarkers(drawMarkers());
+    setCircles(
+      ordersList.map(({ helpee }, i) => (
+        <Circle
+          key={`circle-${i}`}
+          center={{ lat: helpee.latitude, lng: helpee.longitude }}
+          radius={300}
+          options={{ fillColor: '#87CEEB', strokeColor: '#0087CEEB' }}
+        />
+      ))
+    );
+
+    setMarkers(
+      ordersList.map(({ helpee }, i) => (
+        <Marker
+          key={`marker-${i}`}
+          position={{ lat: helpee.latitude, lng: helpee.longitude }}
+          icon={{
+            url: 'https://image.flaticon.com/icons/png/512/126/126165.png',
+            anchor: { x: 15, y: 15 },
+            scaledSize: { width: 30, height: 30 },
+          }}
+          clickable
+          onClick={() => openModal(ordersList[i])}
+        />
+      ))
+    );
   }, [ordersList]);
 
   const getOrdersFirstTime = () => {
@@ -76,14 +67,13 @@ const MapOrderList = compose(
   };
 
   const getOrders = async () => {
-    const latTopRight = googleMap.getBounds().getNorthEast().lat();
-    const lngTopRight = googleMap.getBounds().getNorthEast().lng();
-    const latDownLeft = googleMap.getBounds().getSouthWest().lat();
-    const lngDownLeft = googleMap.getBounds().getSouthWest().lng();
+    const latTopRight = googleMap.current.getBounds().getNorthEast().lat();
+    const lngTopRight = googleMap.current.getBounds().getNorthEast().lng();
+    const latDownLeft = googleMap.current.getBounds().getSouthWest().lat();
+    const lngDownLeft = googleMap.current.getBounds().getSouthWest().lng();
     try {
       const response = await orderServices.getOrdersMap(latTopRight, lngTopRight, latDownLeft, lngDownLeft);
       setOrders(response);
-      console.log(response);
     } catch (error) {
       setErrorMsg('Se ha producido un error al cargar los pedidos');
       openErrorModal(true);
@@ -93,7 +83,7 @@ const MapOrderList = compose(
 
   return (
     <GoogleMap
-      ref={(gmap) => setGoogleMap(gmap)}
+      ref={googleMap}
       onDragEnd={getOrders}
       onZoomChanged={getOrders}
       onTilesLoaded={getOrdersFirstTime}
