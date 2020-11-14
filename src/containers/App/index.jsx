@@ -25,7 +25,7 @@ const App = () => (
         <PublicOnlyRoute exact path={ROUTES.register} component={Register} />
         <PublicOnlyRoute exact path={ROUTES.login} component={Login} />
         <PublicOnlyRoute exact path={ROUTES.registerVolunteer} component={() => <Register volunteer />} />
-        <PrivateRoute exact path={ROUTES.profile} component={Profile} />
+        <PrivateRoute exact path={`${ROUTES.profile}/:username?`} component={Profile} />
         <VolunteerOnlyRoute exact path={ROUTES.orders} component={Orders} />
         <PrivateRoute exact path={ROUTES.myOrders} component={MyOrders} />
         <Route component={NotFound} />

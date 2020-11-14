@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useRef, useState, useEffect } from 'react';
 import { compose, withProps } from 'recompose';
 import {

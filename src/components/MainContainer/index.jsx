@@ -15,7 +15,7 @@ const MainContainer = ({ children }) => {
   const loadNotifications = async () => {
     try {
       const noti = await notificationsService.getNotifications();
-      await dispatch(loadAll(noti.data.notifications.filter((x) => x.status === 'not_seen')));
+      await dispatch(loadAll(noti.data.notifications));
     } catch (error) {
       console.error(error);
     }

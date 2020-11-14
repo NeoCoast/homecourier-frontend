@@ -48,7 +48,7 @@ const ProfileDropdown = () => {
           onClickOutside={switchDrop}
         >
           <Box pad="small" style={{ minWidth: '160px' }}>
-            <Anchor label="Mi perfil" icon={<User />} onClick={() => history.push(ROUTES.profile)} />
+            <Anchor label="Mi perfil" icon={<User />} onClick={() => history.push(ROUTES.profile, '')} />
             <Anchor label="Cerrar sesión" icon={<Logout />} onClick={handleLogout} />
           </Box>
         </Drop>

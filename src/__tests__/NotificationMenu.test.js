@@ -1,14 +1,12 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import faker from 'faker';
 import NotificationMenu from 'Components/NotificationMenu';
-import notificationsService from 'Api/notifications.service';
 import logUser from 'Reducers/logUser';
 import userNotifications from 'Reducers/logUser';
 import { combineReducers } from '@reduxjs/toolkit';
 import { createStore } from 'redux';
-import { DateTime } from 'luxon';
 
 function renderWithProviders(ui, reduxState) {
   const initialState = {
@@ -28,10 +26,7 @@ function renderWithProviders(ui, reduxState) {
   return render(<Provider store={store}>{ui}</Provider>);
 }
 
-jest.mock('Api/notifications.service', () => ({
-  setSeenNotifications: jest.fn(),
-  getNotifications: jest.fn(),
-}));
+jest.mock('Api/notifications.service');
 
 describe('Notification Menu Empty', () => {
   test('Has notification button', () => {
@@ -51,24 +46,25 @@ describe('Notification Menu Empty', () => {
     expect(getAllByText(/No hay notificaciones/i)).toHaveLength(1);
   });
 });
-const state = {
-  logUser: {
-    data: { documentNumber: '232323' },
-    loggedIn: false,
-  },
-  userNotifications: {
-    notifications: [
-      {
-        id: 1,
-        title: 'Una notificacion',
-        body: 'notificacion',
-        status: 'not_seen',
-        createdAt: faker.date.past(),
-      },
-    ],
-  },
-};
+
 describe('Notification Menu Only New', () => {
+  const state = {
+    logUser: {
+      data: { documentNumber: '232323' },
+      loggedIn: false,
+    },
+    userNotifications: {
+      notifications: [
+        {
+          id: 1,
+          title: 'Una notificacion',
+          body: 'notificacion',
+          status: 'not_seen',
+          createdAt: faker.date.past(),
+        },
+      ],
+    },
+  };
   test('No seen notifications', () => {
     const { getAllByText } = renderWithProviders(<NotificationMenu />, state);
     fireEvent.click(document.getElementById('noty-stack'));
@@ -81,93 +77,10 @@ describe('Notification Menu Only New', () => {
     expect(getByText(/Una notificacion/i)).toBeInTheDocument();
   });
 
-  test('View History', async () => {
-    notificationsService.getNotifications.mockImplementation(() => ({
-      status: 200,
-      data: {
-        notifications: [
-          {
-            id: 2,
-            title: 'Historia',
-            body: 'notificacion',
-            status: 'seen',
-            createdAt: DateTime.local().minus({ day: 1 }).toISO(),
-          },
-        ],
-      },
-    }));
-    const { getByText } = await renderWithProviders(<NotificationMenu />, state);
-    fireEvent.click(document.getElementById('noty-stack'));
-    fireEvent.click(getByText(/Ver todas/i));
-    await waitFor(() => {
-      expect(getByText(/Historia/i)).toBeInTheDocument();
-    });
-  });
-
-  test('View History And Close', async () => {
-    notificationsService.getNotifications.mockImplementation(() => ({
-      status: 200,
-      data: {
-        notifications: [
-          {
-            id: 2,
-            title: 'Historia',
-            body: 'notificacion',
-            status: 'seen',
-            createdAt: DateTime.local().toISO(),
-          },
-        ],
-      },
-    }));
-    const { getByText, queryByText } = await renderWithProviders(<NotificationMenu />, state);
-    fireEvent.click(document.getElementById('noty-stack'));
-    fireEvent.click(getByText(/Ver todas/i));
-    await waitFor(() => {
-      expect(getByText(/Historia/i)).toBeInTheDocument();
-    });
-    fireEvent.click(getByText(/Esconder/i));
-    await waitFor(() => {
-      expect(queryByText(/Historia/i)).toBeNull();
-    });
-  });
-
-  test('Open And Close', async () => {
-    notificationsService.getNotifications.mockImplementation(() => ({
-      status: 200,
-      data: {
-        notifications: [
-          {
-            id: 2,
-            title: 'Historia',
-            body: 'notificacion',
-            status: 'seen',
-            createdAt: DateTime.local().toISO(),
-          },
-        ],
-      },
-    }));
-    const { getByText, queryByText } = await renderWithProviders(<NotificationMenu />, state);
-    fireEvent.click(document.getElementById('noty-stack'));
-    fireEvent.click(getByText(/Ver todas/i));
-    fireEvent.keyDown(document.getElementById('noty-stack'), { key: 'Escape', keyCode: 27 });
-    await waitFor(() => {
-      expect(queryByText(/Notificaciones/i)).toBeNull();
-    });
-  });
-
-  test('Open, Close And Again', async () => {
-    notificationsService.setSeenNotifications.mockImplementation(() => ({
-      status: 200,
-    }));
-    const { getAllByText, queryByText } = await renderWithProviders(<NotificationMenu />, state);
+  test('Open and close', () => {
+    const { queryByText } = renderWithProviders(<NotificationMenu />, state);
     fireEvent.click(document.getElementById('noty-stack'));
     fireEvent.keyDown(document.getElementById('noty-stack'), { key: 'Escape', keyCode: 27 });
-    await waitFor(() => {
-      expect(queryByText(/Notificaciones/i)).toBeNull();
-    });
-    fireEvent.click(document.getElementById('noty-stack'));
-    await waitFor(() => {
-      expect(getAllByText(/Notificaciones/i).length).toBeGreaterThan(0);
-    });
+    expect(queryByText(/Una notificacion/i)).not.toBeInTheDocument();
   });
 });
