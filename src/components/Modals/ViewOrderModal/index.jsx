@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {
-  Layer, Heading, Box, Button, ResponsiveContext, Card, CardHeader, CardBody, CardFooter, Anchor,
+  Layer, Heading, Box, Button, ResponsiveContext, Card, CardHeader, CardBody, CardFooter, Anchor, Grid, Text,
 } from 'grommet';
 import { Package, Task, Home } from 'grommet-icons';
 import { Close } from 'grommet-icons';
@@ -101,6 +101,18 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
                 <VolunteerApplicationList orderId={order.id} onClose={onClose} />
               )}
 
+              {userData.documentNumber && order.status !== 'created'
+              && (
+                <Box>
+                  <Heading level="4" margin={{ vertical: 'small', horizontal: 'none' }}>
+                    Información
+                  </Heading>
+                  <Grid columns={['small', 'auto']}>
+                    <Home />
+                    <Text>{order.helpee.address}</Text>
+                  </Grid>
+                </Box>
+              )}
               <Box>
                 <Heading level="4" margin={{ vertical: 'small', horizontal: 'none' }}>
                   Categorías
