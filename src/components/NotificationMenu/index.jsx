@@ -12,6 +12,7 @@ import {
   CellMeasurer,
   CellMeasurerCache,
   List,
+  AutoSizer,
 } from 'react-virtualized';
 import NotificationComponent from './Notification';
 
@@ -152,23 +153,27 @@ const NotificationMenu = () => {
             <Heading level="4" margin="none">Notificaciones</Heading>
             {loading && <Box fill="horizontal" justify="center" align="center"><RingLoader loading size={80} color="#54a3ff" /></Box>}
             {notifications.length ? (
-              <Box fill="horizontal" width="340px" height="40vh">
+              <Box width="340px" height="40vh">
                 <InfiniteLoader
                   isRowLoaded={isItemLoaded}
                   rowCount={notifications.length + 1 || 51}
                   loadMoreRows={loadMoreItems}
                 >
                   {({ onRowsRendered }) => (
-                    <List
-                      height={300}
-                      width={340}
-                      onRowsRendered={onRowsRendered}
-                      ref={listRef}
-                      rowCount={notifications.length || 50}
-                      rowRenderer={rowRenderer}
-                      deferredMeasurementCache={cache}
-                      rowHeight={cache.rowHeight}
-                    />
+                    <AutoSizer>
+                      {({ height, width }) => (
+                        <List
+                          height={height}
+                          width={width}
+                          onRowsRendered={onRowsRendered}
+                          ref={listRef}
+                          rowCount={notifications.length || 50}
+                          rowRenderer={rowRenderer}
+                          deferredMeasurementCache={cache}
+                          rowHeight={cache.rowHeight}
+                        />
+                      )}
+                    </AutoSizer>
                   )}
                 </InfiniteLoader>
               </Box>
