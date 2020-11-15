@@ -1,5 +1,7 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useRef, useState, useEffect } from 'react';
+import React, {
+  useRef, useState, useEffect,
+} from 'react';
 import { compose, withProps } from 'recompose';
 import {
   withScriptjs,
@@ -10,6 +12,7 @@ import {
 } from 'react-google-maps';
 import { Box } from 'grommet';
 import orderServices from 'Api/orders.service';
+import { useSelector } from 'react-redux';
 
 const MapOrderList = compose(
   withProps({
@@ -30,6 +33,7 @@ const MapOrderList = compose(
   const [markers, setMarkers] = useState([]);
   const [firstLoad, setFirstLoad] = useState(true);
   const mapZoom = 13;
+  const userData = useSelector((state) => state.logUser.data);
 
   useEffect(() => {
     setCircles(
@@ -89,7 +93,7 @@ const MapOrderList = compose(
       onZoomChanged={getOrders}
       onTilesLoaded={getOrdersFirstTime}
       defaultZoom={mapZoom}
-      defaultCenter={{ lat: -34.910241, lng: -56.176663 }}
+      defaultCenter={{ lat: userData.latitude, lng: userData.longitude }}
     >
       {circles}
       {markers}

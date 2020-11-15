@@ -47,17 +47,17 @@ const MyOrders = () => {
     <Box fill align="center">
       {loading && <Spinner />}
       {!userInfo.documentNumber
-      && (
-        <Button
-          alignSelf="end"
-          disabled={loading}
-          primary
-          icon={<Add color="white" />}
-          onClick={() => setCreateOrderModal(true)}
-          label="Nuevo pedido"
-          margin={{ right: 'xlarge', vertical: 'small' }}
-        />
-      )}
+        && (
+          <Button
+            alignSelf="end"
+            disabled={loading}
+            primary
+            icon={<Add color="white" />}
+            onClick={() => setCreateOrderModal(true)}
+            label="Nuevo pedido"
+            margin={{ right: 'xlarge', vertical: 'small' }}
+          />
+        )}
       {createOrderModal && <CreateOrder closeModal={closeModal} />}
       {orders.length === 0 && !loading && (
         <Heading level="2" textAlign="center">
@@ -67,7 +67,7 @@ const MyOrders = () => {
             && 'Usted no ha cargado ningún pedido aún'}
         </Heading>
       )}
-      {orders.length > 0 && <OrdersList orders={orders} setLoading={setLoading} modalClosed={setViewOrderModal} />}
+      {orders.length > 0 && <OrdersList orders={orders} setLoading={setLoading} modalClosed={setViewOrderModal} isMyOrders />}
     </Box>
   );
 };
