@@ -75,10 +75,11 @@ const NotificationMenu = () => {
     setOpenDrop(true);
   };
 
-  const closeNotiDrop = () => {
+  const closeNotiDrop = async () => {
     setNotSeenNotifications([]);
     setOpenDrop(false);
-    setSeen();
+    await setSeen();
+    loadMoreItems({ stopIndex: notifications.length });
   };
 
   const cache = new CellMeasurerCache({
@@ -159,7 +160,7 @@ const NotificationMenu = () => {
                 >
                   {({ onRowsRendered }) => (
                     <List
-                      height={400}
+                      height={300}
                       width={340}
                       onRowsRendered={onRowsRendered}
                       ref={listRef}
