@@ -15,7 +15,7 @@ import MapOrderList from 'Components/MapOrderList';
 import { List, Map } from 'grommet-icons';
 
 const OrdersList = ({
-  orders, setLoading, modalClosed,
+  orders, setLoading, modalClosed, isMyOrders,
 }) => {
   const takeOrder = async (orderId) => {
     try {
@@ -111,12 +111,12 @@ const OrdersList = ({
   return (
     <Box fill={isMapEnabled} overflow="auto" flex={false}>
 
-      {isVolunteer && (
+      {isVolunteer && !isMyOrders && (
         <Box
           direction="row"
           alignSelf="end"
           background="white"
-          border="black"
+          style={{ border: '1px solid grey' }}
           margin={{ top: 'medium', right: 'medium', bottom: 'xsmall' }}
         >
           <Button
@@ -160,10 +160,15 @@ const OrdersList = ({
   );
 };
 
+OrdersList.defaultProps = {
+  isMyOrders: false,
+};
+
 OrdersList.propTypes = {
   orders: PropTypes.array.isRequired,
   setLoading: PropTypes.func.isRequired,
   modalClosed: PropTypes.func.isRequired,
+  isMyOrders: PropTypes.bool,
 };
 
 export default OrdersList;
