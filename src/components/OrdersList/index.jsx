@@ -88,7 +88,7 @@ const OrdersList = ({
   };
 
   const volunteerId = useSelector((state) => state.logUser.data.id);
-  const isVolunteer = useSelector((state) => state.logUser.data.document_number);
+  const isVolunteer = undefined !== useSelector((state) => state.logUser.data.documentNumber);
   const [viewOrderModal, setViewOrderModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
