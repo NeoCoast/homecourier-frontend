@@ -154,12 +154,12 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
                       alignSelf="center"
                     >
                       {
-                        order.status === 'accepted'
+                        order.status !== 'created'
                       && <ExactLocation isMarkerShown lat={order.helpee.latitude} lng={order.helpee.longitude} zoom={16} size={300} />
                       }
                       {
-                        order.status !== 'accepted'
-                      && <MapCircle isMarkerShown lat={order.helpee.latitude} lng={order.helpee.longitude} zoom={16} size={300} radius={300} />
+                        order.status === 'created'
+                      && <MapCircle isMarkerShown lat={order.helpee.latitude} lng={order.helpee.longitude} zoom={16} size={300} radius={150} />
                       }
                     </Box>
                   )}

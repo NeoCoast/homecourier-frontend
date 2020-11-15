@@ -37,7 +37,7 @@ const MapOrderList = compose(
         <Circle
           key={`circle-${i}`}
           center={{ lat: helpee.latitude, lng: helpee.longitude }}
-          radius={300}
+          radius={150}
           options={{ fillColor: '#87CEEB', strokeColor: '#0087CEEB' }}
         />
       ))
