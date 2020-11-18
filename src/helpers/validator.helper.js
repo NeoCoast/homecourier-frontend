@@ -86,6 +86,14 @@ export const validateYear = (value, errorMessage) => {
   return { status: 'info' };
 };
 
+export const validatePhone = (value, errorMessage) => {
+  const RegExpPhone = /^09[1-9][0-9]{6}$/;
+  if (!RegExpPhone.test(value)) {
+    return { status: 'error', message: errorMessage('No valido') };
+  }
+  return { status: 'info' };
+};
+
 export const validateImages = (elem) => {
   const element = elem;
 
