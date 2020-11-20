@@ -136,16 +136,16 @@ const GeneralUserForm = ({
       />
 
       <FormField
-        name="phone"
-        htmlfor="phone"
-        label={message('Teléfono')}
+        name="phone_number"
+        htmlfor="phone_number"
+        label={message('Celular')}
         fill
         validate={(value) => validatePhone(value, errorMessage)}
       >
         <TextInput
-          aria-label="phone"
-          name="phone"
-          id="phone"
+          aria-label="phone_number"
+          name="phone_number"
+          id="phone_number"
         />
       </FormField>
     </Box>
