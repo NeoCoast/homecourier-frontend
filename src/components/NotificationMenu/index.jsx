@@ -14,7 +14,14 @@ import {
   List,
   AutoSizer,
 } from 'react-virtualized';
+import ordersService from 'Api/orders.service';
+import ErrorModal from 'Components/Modals/ErrorModal';
+import SuccessModal from 'Components/Modals/SuccessModal';
+import Spinner from 'Components/Utils/Spinner';
+import RateOrder from 'Containers/RateOrder';
+import { orderAction } from 'Helpers/order-actions.helper';
 import NotificationComponent from './Notification';
+import ViewOrderModal from '../Modals/ViewOrderModal';
 
 const NotificationMenu = () => {
   const dispatch = useDispatch();
@@ -24,9 +31,17 @@ const NotificationMenu = () => {
   const notiRef = useRef();
   const [openDrop, setOpenDrop] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingOrder, setLoadingOrder] = useState(false);
   const listRef = useRef();
   const [updateListIndex, setUpdateListIndex] = useState(-1);
   const [updateList, setUpdateList] = useState(false);
+  const [viewOrder, setViewOrder] = useState(false);
+  const [order, setOrder] = useState(null);
+  const [errorModal, setErrorModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const [message, setMessage] = useState('');
+  const [showRating, setShowRating] = useState(false);
+  const userData = useSelector((state) => state.logUser.data.id);
 
   const loadMoreItems = async ({ stopIndex }) => {
     if (notifications.length && notifications.length > stopIndex + 1) {
@@ -40,6 +55,19 @@ const NotificationMenu = () => {
   };
 
   const isItemLoaded = ({ index }) => !!notifications[index];
+
+  const executeAction = (orderId, cancel = false) => {
+    const orderStatus = order.status;
+    const callbacks = {
+      setLoading: setLoadingOrder,
+      setMessage,
+      setSuccessModal,
+      setShowRating,
+      setErrorModal,
+      modalClosed: () => null,
+    };
+    orderAction(orderId, cancel, orderStatus, callbacks, userData.id);
+  };
 
   useEffect(() => {
     setNotSeenNotifications(notifications.filter((notif) => notif.status === 'not_seen'));
@@ -55,6 +83,17 @@ const NotificationMenu = () => {
       listRef.current.forceUpdateGrid();
     }
   }, [updateList, updateListIndex]);
+
+  const openModal = async (orderId) => {
+    const res = await ordersService.getOrder(orderId);
+    await setOrder(res.data);
+    closeNotiDrop();
+    setViewOrder(true);
+  };
+
+  const closeModal = () => {
+    setViewOrder(false);
+  };
 
   const setSeen = async () => {
     const seenNotisId = notifications.filter((notif) => notif.status === 'seen').map((x) => x.id);
@@ -108,10 +147,14 @@ const NotificationMenu = () => {
             <div
               style={style}
               ref={registerChild}
-              onClick={() => {
+              onClick={(event) => {
                 measure();
                 setUpdateList(!updateList);
                 setUpdateListIndex(index);
+                if (event.target.innerText !== 'Ver más'
+                  && event.target.innerText !== 'Ver menos') {
+                  openModal(notifications[index].orderId);
+                }
               }}
             >
               {NotificationComponent(notifications[index])}
@@ -139,7 +182,14 @@ const NotificationMenu = () => {
           )}
       </Stack>
       <Box ref={notiRef}></Box>
-
+      {viewOrder
+      && (
+        <ViewOrderModal onClose={closeModal} onConfirm={executeAction} order={order} />
+      )}
+      {errorModal && <ErrorModal setShow={setErrorModal} show={errorModal} errorMessage={message} />}
+      {successModal && <SuccessModal setShow={setSuccessModal} show={successModal} message={message} />}
+      {showRating && <RateOrder orderId={order.id} show={showRating} setShow={setShowRating} title="Califique al voluntario" />}
+      {loadingOrder && <Spinner />}
       {openDrop && (
         <Drop
           align={{ top: 'bottom', right: 'left' }}
