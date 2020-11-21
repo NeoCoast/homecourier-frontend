@@ -1,5 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import {
+  render, fireEvent, screen, waitFor,
+} from '@testing-library/react';
 import { Provider } from 'react-redux';
 import faker from 'faker';
 import NotificationMenu from 'Components/NotificationMenu';
@@ -7,6 +9,7 @@ import logUser from 'Reducers/logUser';
 import userNotifications from 'Reducers/logUser';
 import { combineReducers } from '@reduxjs/toolkit';
 import { createStore } from 'redux';
+import ordersService from 'Api/orders.service';
 
 function renderWithProviders(ui, reduxState) {
   const initialState = {
@@ -27,6 +30,8 @@ function renderWithProviders(ui, reduxState) {
 }
 
 jest.mock('Api/notifications.service');
+
+jest.mock('Api/orders.service');
 
 describe('Notification Menu Empty', () => {
   test('Has notification button', () => {
@@ -66,6 +71,8 @@ describe('Notification Menu Only New', () => {
     },
   };
   test('No seen notifications', () => {
+    jest.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(1500);
+    jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(1500);
     const { getAllByText } = renderWithProviders(<NotificationMenu />, state);
     fireEvent.click(document.getElementById('noty-stack'));
     expect(getAllByText(/Una notificacion/i)).toHaveLength(1);
@@ -82,5 +89,50 @@ describe('Notification Menu Only New', () => {
     fireEvent.click(document.getElementById('noty-stack'));
     fireEvent.keyDown(document.getElementById('noty-stack'), { key: 'Escape', keyCode: 27 });
     expect(queryByText(/Una notificacion/i)).not.toBeInTheDocument();
+  });
+});
+
+describe('OnClick Notification', () => {
+  const state = {
+    logUser: {
+      data: { documentNumber: '232323' },
+      loggedIn: false,
+    },
+    userNotifications: {
+      notifications: [
+        {
+          id: 1,
+          title: 'Una notificacion',
+          body: 'notificacion',
+          status: 'not_seen',
+          createdAt: faker.date.past(),
+        },
+      ],
+    },
+  };
+  test('Click notification', () => {
+    ordersService.getOrder.mockResolvedValue({
+      data: {
+        description: faker.lorem.paragraph(),
+        title: faker.random.words(),
+        helpee: {
+          id: 33,
+          name: faker.name.firstName(),
+          lastname: faker.name.lastName(),
+        },
+        categories: [{
+          label: 'Supermercado',
+        }],
+        status: 'created',
+        id: 1,
+      },
+      status: 200,
+    });
+    const { getByText } = renderWithProviders(<NotificationMenu />, state);
+    fireEvent.click(document.getElementById('noty-stack'));
+    fireEvent.click(getByText(/Una notificacion/i));
+    waitFor(() => {
+      expect(ordersService.getOrder).toHaveBeenCalled(1);
+    });
   });
 });

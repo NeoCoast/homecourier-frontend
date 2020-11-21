@@ -223,7 +223,7 @@ describe('Orders', () => {
         categories: [{
           label: 'Supermercado',
         }],
-        volunteers: [{ id: 1 }],
+        volunteers: [{ id: 1, name: faker.name.firstName(), lastname: faker.name.lastName() }],
         status: 'in_process',
       }],
     };
@@ -231,10 +231,19 @@ describe('Orders', () => {
     OrdersService.setOrderStatus.mockResolvedValue({
       data: {
         order_id: faker.random.number(),
+        volunteers: [{ id: 1, name: faker.name.firstName(), lastname: faker.name.lastName() }],
       },
     });
     const setLoading = jest.fn();
-    const { getByText } = renderWithProviders(<Orders orders={props.orders} setLoading={setLoading} modalClosed={jest.fn()} />);
+    const { getByText } = renderWithProviders(<Orders orders={props.orders} setLoading={setLoading} modalClosed={jest.fn()} />, {
+      logUser: {
+        data: { id: 2, name: faker.name.firstName(), lastname: faker.name.lastName() },
+        loggedIn: false,
+      },
+      userNotifications: {
+        notifications: [],
+      },
+    });
     fireEvent.click(getByText(/Ver más/i));
     fireEvent.click(getByText(/Finalizar/i));
     await waitFor(() => {
@@ -274,7 +283,7 @@ describe('Orders', () => {
     fireEvent.click(getByText(/Ver más/i));
     fireEvent.click(getByText(/Postularse/i));
     await waitFor(() => {
-      expect(getByText(/Ha tomado/i)).toBeInTheDocument();
+      expect(getByText(/Se ha postulado/i)).toBeInTheDocument();
       fireEvent.click(document.getElementById('close-ok-modal'));
     });
   });
