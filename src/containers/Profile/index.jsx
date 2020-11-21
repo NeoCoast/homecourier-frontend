@@ -29,6 +29,7 @@ const Profile = (props) => {
 
   useEffect(() => {
     async function getUserData() {
+      console.log(userInfo);
       let response = {};
       if (username !== userInfo.username) {
         try {
@@ -48,7 +49,6 @@ const Profile = (props) => {
         const page = { page: pageRatings };
         const id = username === userInfo.username ? userInfo.id : response.data.id;
         const ratingsResponse = await usersService.ratingsData(page, id);
-        console.log(page, id);
         setRatings(ratings.concat(ratingsResponse.data.ratings));
         if (ratingsResponse.data.ratings) {
           setPageRatings(pageRatings + 1);
@@ -114,7 +114,7 @@ const Profile = (props) => {
               <Text size="large">Este usuario aún no tiene calificaciones</Text>
             )}
             {userData.rating && (
-              <Box fill pad={{ left: 'small', top: 'small' }}>
+              <Box a11yTitle="Score" fill pad={{ left: 'small', top: 'small' }}>
                 <CalificationGradient maxRating={5} percent={((Number(userData.rating) * 100) / 5)} />
               </Box>
             )}
@@ -162,7 +162,7 @@ const Profile = (props) => {
               >
                 {ratings.map((item, index) => (
                   // eslint-disable-next-line react/no-array-index-key
-                  <Box key={`rating-comment${index}`} pad={{ top: 'medium' }}>
+                  <Box a11yTitle="Rating" key={`rating-comment${index}`} pad={{ top: 'medium' }}>
                     <Card>
                       <Box fill pad={{ left: 'small' }}>
                         <CalificationGradient maxRating={5} percent={((Number(item.score) * 100) / 5)} />
