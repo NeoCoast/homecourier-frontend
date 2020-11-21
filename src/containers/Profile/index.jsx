@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import './index.scss';
 import {
-  Box, Heading, Grid, Avatar, Text, Card, InfiniteScroll,
+  Box, Heading, Grid, Avatar, Text, Card,
 } from 'grommet';
 import { Alert } from 'grommet-icons';
 import { useSelector } from 'react-redux';
@@ -14,6 +14,7 @@ import Spinner from 'Components/Utils/Spinner';
 import ErrorModal from 'Components/Modals/ErrorModal';
 import CalificationGradient from 'Components/Utils/CalificationGradient';
 import AddImage from 'Assets/profile-picture.png';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Profile = (props) => {
   const userInfo = useSelector((state) => state.logUser.data);
@@ -148,8 +149,19 @@ const Profile = (props) => {
 
             )}
             {ratings.length > 0 && (
-              <InfiniteScroll onMore={() => getRatings} items={ratings}>
-                {(item, index) => (
+              <InfiniteScroll
+                dataLength={ratings.length} // This is important field to render the next data
+                next={getRatings}
+                hasMore
+                loader={<Spinner />}
+                endMessage={(
+                  <Box>
+                    <Text>No se han encontrado mas calificaciones.</Text>
+                  </Box>
+                )}
+              >
+                {ratings.map((item, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
                   <Box key={`rating-comment${index}`} pad={{ top: 'medium' }}>
                     <Card>
                       <Box fill pad={{ left: 'small' }}>
@@ -164,7 +176,7 @@ const Profile = (props) => {
                       </Box>
                     </Card>
                   </Box>
-                )}
+                ))}
               </InfiniteScroll>
             )}
           </Box>
