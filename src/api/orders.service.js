@@ -2,6 +2,8 @@ import HTTP from './http';
 
 const getOrders = (status) => HTTP.get(`/orders/show/all?status=${status}`);
 
+const getOrder = (id) => HTTP.get(`/orders/${id}`);
+
 const getApplicationsList = (orderId) => HTTP.get('/orders/show/volunteers', { params: { 'order_id': orderId } })
   .then(({ data }) => data);
 
@@ -54,6 +56,7 @@ export default {
   setOrderStatus,
   getVolunteerOrders,
   getOrdersMap,
+  getOrder,
   ordersForDistance,
   ordersForAntiquity,
 };

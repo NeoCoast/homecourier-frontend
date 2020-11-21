@@ -1,9 +1,10 @@
 import React from 'react';
 import faker from 'faker';
-import { waitFor, render } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 import MapOrderList from 'Components/MapOrderList';
 import orderServices from 'Api/orders.service';
 import MockGoogleMap from '../../__mocks__/mockGoogleMap';
+import render from '../../__mocks__/render';
 
 // const MockGoogleMap = ({
 //   children,
@@ -20,6 +21,23 @@ import MockGoogleMap from '../../__mocks__/mockGoogleMap';
 //     </div>
 //   );
 // };
+const initialState = {
+  logUser: {
+    data: { documentNumber: '232323', lattitude: 1, longitude: 1 },
+    loggedIn: false,
+  },
+  userNotifications: {
+    notifications: [
+      {
+        id: 1,
+        title: 'Una notificacion',
+        body: 'notificacion',
+        status: 'not_seen',
+        createdAt: faker.date.past(),
+      },
+    ],
+  },
+};
 
 jest.mock('react-google-maps', () => ({
   __esModule: true,
@@ -41,9 +59,7 @@ describe('MapOrderList', () => {
 
   test('should render the map', () => {
     orderServices.getOrdersMap.mockImplementation(() => Promise.resolve([]));
-    const { getByText } = render(<MapOrderList />);
-    const hola = new MockGoogleMap({ onTilesLoaded: () => null });
-    console.log(hola.getBounds().getNorthEast().lat());
+    const { getByText } = render(<MapOrderList />, { initialState });
     expect(getByText(/map/i)).toBeInTheDocument();
   });
 
@@ -60,7 +76,7 @@ describe('MapOrderList', () => {
         Promise.resolve(orders)
       ));
 
-    const { queryAllByText } = render(<MapOrderList />);
+    const { queryAllByText } = render(<MapOrderList />, { initialState });
 
     waitFor(() => {
       expect(orderServices.getOrdersMap)
@@ -83,7 +99,7 @@ describe('MapOrderList', () => {
         Promise.resolve(orders)
       ));
 
-    const { queryAllByText } = render(<MapOrderList />);
+    const { queryAllByText } = render(<MapOrderList />, { initialState });
 
     waitFor(() => {
       expect(orderServices.getOrdersMap)
