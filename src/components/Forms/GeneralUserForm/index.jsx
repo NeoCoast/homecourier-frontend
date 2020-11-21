@@ -8,6 +8,7 @@ import {
   validatePassword,
   validateRepeatPassword,
   validateYear,
+  validatePhone,
 } from 'Helpers/validator.helper';
 import AddressInput from '../../Utils/AddressInput';
 
@@ -125,11 +126,28 @@ const GeneralUserForm = ({
         />
       </FormField>
 
+    </Box>
+
+    <Box direction="row-responsive" gap="small" fill="horizontal" justify="center" alignContent="around">
       <BirthDatePicker
         validateDay={(value) => validateDay(value, errorMessage)}
         validateYear={(value) => validateYear(value, errorMessage)}
         isMinor={isMinor}
       />
+
+      <FormField
+        name="phone_number"
+        htmlfor="phone_number"
+        label={message('Celular')}
+        fill
+        validate={(value) => validatePhone(value, errorMessage)}
+      >
+        <TextInput
+          aria-label="phone_number"
+          name="phone_number"
+          id="phone_number"
+        />
+      </FormField>
     </Box>
   </Box>
 );
