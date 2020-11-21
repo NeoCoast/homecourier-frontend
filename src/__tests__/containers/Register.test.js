@@ -69,7 +69,7 @@ describe('Register container', () => {
     fireEvent.change(screen.getByLabelText('address'), { target: { value: addressValue } });
     fireEvent.change(screen.getByLabelText('birthDay'), { target: { value: birthDayValue } });
     fireEvent.change(screen.getByLabelText('birthYear'), { target: { value: birthYearValue } });
-    fireEvent.change(screen.getByLabelText('phone'), { target: { value: phoneValue } });
+    fireEvent.change(screen.getByLabelText('phone_number'), { target: { value: phoneValue } });
 
     expect(screen.getByRole('form')).toBeInTheDocument();
 
@@ -101,12 +101,6 @@ describe('Register container', () => {
 
     expect(screen.getByRole('form')).toBeInTheDocument();
 
-    const usernameResponse = faker.internet.userName();
-    helpeeService.create.mockResolvedValue({
-      status: 200,
-      username: usernameResponse,
-    });
-
     // submit form
     fireEvent.click(screen.getByRole('button', { name: 'Registrarse' }));
 
@@ -127,12 +121,6 @@ describe('Register container', () => {
     fireEvent.change(screen.getByLabelText('birthYear'), { target: { value: birthYearValue } });
 
     expect(screen.getByRole('form')).toBeInTheDocument();
-
-    const usernameResponse = faker.internet.userName();
-    helpeeService.create.mockResolvedValue({
-      status: 200,
-      username: usernameResponse,
-    });
 
     // submit form
     fireEvent.click(screen.getByRole('button', { name: 'Registrarse' }));
