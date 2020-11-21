@@ -16,6 +16,8 @@ const logout = () => HTTP.delete('/users/logout');
 
 const profileData = (user) => HTTP.get(`/users/profile/view?username=${user}`);
 
+const ratingsData = (page, user) => HTTP.get(`/users/ratings/view?id=${user}`, page);
+
 HTTP.interceptors.request.use((
   async (config) => {
     if (store.getState().logUser.loggedIn) {
@@ -35,4 +37,5 @@ export default {
   login,
   logout,
   profileData,
+  ratingsData,
 };
