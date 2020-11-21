@@ -28,7 +28,7 @@ module.exports = ({
       },
       output: {
         path: path.resolve('dist'),
-        publicPath: mode === 'production' ? './' : '/',
+        publicPath: '/',
         filename: 'bundle.[hash].js',
         chunkFilename: '[name].lazy-chunk.js',
       },
