@@ -117,6 +117,18 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
                   </Grid>
                 </Box>
               )}
+              {!userData.documentNumber && order.status !== 'created'
+              && (
+                <Box>
+                  <Heading level="4" margin={{ vertical: 'small', horizontal: 'none' }}>
+                    Información
+                  </Heading>
+                  <Grid columns={['small', 'auto']} rows={['auto', 'auto']} gap="small">
+                    <Phone />
+                    <Text>{order.volunteers[0].phoneNumber}</Text>
+                  </Grid>
+                </Box>
+              )}
               <Box>
                 <Heading level="4" margin={{ vertical: 'small', horizontal: 'none' }}>
                   Categorías
