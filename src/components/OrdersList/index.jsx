@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import {
-  Box, Button, InfiniteScroll, ResponsiveContext,
+  Box, Button, InfiniteScroll, ResponsiveContext, Select,
 } from 'grommet';
 import PropTypes from 'prop-types';
 import ordersService from 'Api/orders.service';
@@ -15,7 +15,7 @@ import MapOrderList from 'Components/MapOrderList';
 import { List, Map } from 'grommet-icons';
 
 const OrdersList = ({
-  orders, setLoading, modalClosed, isMyOrders,
+  orders, setLoading, modalClosed, isMyOrders, onChange,
 }) => {
   const takeOrder = async (orderId) => {
     try {
@@ -108,6 +108,10 @@ const OrdersList = ({
     modalClosed(true);
   };
 
+  const handleFilter = async (option) => {
+    await onChange(option);
+  };
+
   return (
     <Box fill={isMapEnabled} overflow="auto" flex={false}>
 
@@ -115,18 +119,34 @@ const OrdersList = ({
         <Box
           direction="row"
           alignSelf="end"
-          background="white"
-          style={{ border: '1px solid grey' }}
           margin={{ top: 'medium', right: 'medium', bottom: 'xsmall' }}
+          basis="xxsmall"
         >
-          <Button
-            icon={(<List />)}
-            onClick={() => setIsMapEnabled(false)}
-          />
-          <Button
-            icon={(<Map />)}
-            onClick={() => setIsMapEnabled(true)}
-          />
+          {!isMapEnabled && (
+            <Select
+              options={['Distancia ascendente', 'Distancia descendente', 'Pedidos más nuevos', 'Pedidos más antiguos']}
+              placeholder="Ordene los pedidos"
+              size="small"
+              onChange={({ option }) => handleFilter(option)}
+              margin={{ right: 'xlarge' }}
+            />
+          )}
+          <Box
+            direction="row"
+            alignSelf="end"
+            background="white"
+            style={{ border: '1px solid grey' }}
+            margin={{ top: 'medium', right: 'medium', bottom: 'xsmall' }}
+          >
+            <Button
+              icon={(<List />)}
+              onClick={() => setIsMapEnabled(false)}
+            />
+            <Button
+              icon={(<Map />)}
+              onClick={() => setIsMapEnabled(true)}
+            />
+          </Box>
         </Box>
       )}
       {!isMapEnabled && (
@@ -162,6 +182,7 @@ const OrdersList = ({
 
 OrdersList.defaultProps = {
   isMyOrders: false,
+  onChange: false,
 };
 
 OrdersList.propTypes = {
@@ -169,6 +190,7 @@ OrdersList.propTypes = {
   setLoading: PropTypes.func.isRequired,
   modalClosed: PropTypes.func.isRequired,
   isMyOrders: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 export default OrdersList;
