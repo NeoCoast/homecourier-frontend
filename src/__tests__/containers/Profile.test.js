@@ -59,38 +59,61 @@ describe('Profile component', () => {
     });
   });
 
-  // test('user has ratings', async () => {
-  //   const username = faker.internet.userName();
-  //   render(<Route exact path={`${ROUTES.profile}/:username?`} component={Profile} />,
-  //     {
-  //       initialState: {
-  //         logUser: {
-  //           data: { username },
-  //           loggedIn: true,
-  //         },
-  //       },
-  //       route: '/profile',
-  //     });
+  test('user has ratings', async () => {
+    const username = faker.internet.userName();
+    render(<Route exact path={`${ROUTES.profile}/:username?`} component={Profile} />,
+      {
+        initialState: {
+          logUser: {
+            data: { username },
+            loggedIn: true,
+          },
+        },
+        route: '/profile',
+      });
 
-  //   usersService.profileData.mockResolvedValue({
-  //     data: {
-  //       id: faker.random.number({ min: 1, max: 4 }),
-  //     },
-  //   });
+    usersService.profileData.mockResolvedValue({
+      data: {
+        id: faker.random.number({ min: 1, max: 4 }),
+      },
+    });
 
-  //   usersService.ratingsData.mockResolvedValue({
-  //     data: {
-  //       ratings: [{
-  //         score: faker.random.number({ min: 1, max: 5 }),
-  //         comment: faker.random.words(),
-  //       }],
-  //     },
-  //   });
+    usersService.ratingsData.mockResolvedValue({
+      data: {
+        ratings: [{
+          score: faker.random.number({ min: 1, max: 5 }),
+          comment: faker.random.words(),
+        }],
+      },
+    });
 
-  //   await waitFor(() => {
-  //     expect(screen.getByLabelText('Rating')).toBeInTheDocument();
-  //   });
-  // });
+    await waitFor(() => {
+      expect(screen.getByText(`Perfil de ${username}`)).toBeInTheDocument();
+      // expect(screen.getByLabelText('Rating')).toBeInTheDocument();
+    });
+  });
+
+  test('user doesnt exist', async () => {
+    const username = faker.internet.userName();
+    const { history } = render(<Route exact path={`${ROUTES.profile}/:username?`} component={Profile} />,
+      {
+        initialState: {
+          logUser: {
+            data: { username: faker.internet.userName() },
+            loggedIn: true,
+          },
+        },
+        route: `/profile/${username}`,
+      });
+
+    usersService.profileData.mockRejectedValue({
+      status: 400,
+    });
+
+    await waitFor(() => {
+      expect(history.location.pathname).toEqual('/404');
+    });
+  });
 
   test('fails to obtain ratings', async () => {
     const username = faker.internet.userName();
@@ -105,7 +128,7 @@ describe('Profile component', () => {
         route: '/profile',
       });
 
-    usersService.ratingsData.mockResolvedValue({
+    usersService.ratingsData.mockRejectedValue({
       status: 400,
     });
 
