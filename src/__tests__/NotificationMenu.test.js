@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  render, fireEvent, screen, waitFor,
+  render, fireEvent, waitFor,
 } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import faker from 'faker';
