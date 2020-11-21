@@ -42,6 +42,10 @@ const create = ({
 const acceptVolunteerForOrder = (orderId, volunteerId) => HTTP.post('/orders/accept', { 'order_id': orderId, 'volunteer_id': volunteerId })
   .then(({ data }) => data);
 
+const ordersForDistance = (id, ascDesc) => HTTP.get('/orders/show/distance', { params: { 'user_id': id, 'asc_desc': ascDesc } });
+
+const ordersForAntiquity = (status, ascDesc) => HTTP.get('/orders/show/all', { params: { 'status': status, 'asc_desc': ascDesc } });
+
 export default {
   getOrders,
   getApplicationsList,
@@ -53,4 +57,6 @@ export default {
   getVolunteerOrders,
   getOrdersMap,
   getOrder,
+  ordersForDistance,
+  ordersForAntiquity,
 };

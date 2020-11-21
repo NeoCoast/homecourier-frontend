@@ -111,9 +111,9 @@ const CreateOrder = ({ closeModal }) => {
         overflow="auto"
         width={React.useContext(ResponsiveContext) === 'small' ? 'medium' : '500px'}
       >
-        <Heading level={2} margin="none">Crear un pedido</Heading>
+        <Heading level={React.useContext(ResponsiveContext) === 'small' ? 2 : 3} margin="none">Crear un pedido</Heading>
         <Form onSubmit={newOrder}>
-          <Heading htmlFor="title" level={3} margin="none">Título</Heading>
+          <Heading htmlFor="title" level={4} margin="none">Título</Heading>
           <FormField
             name="title"
             validate={(value) => validateTitle(
@@ -133,7 +133,7 @@ const CreateOrder = ({ closeModal }) => {
               />
             </Box>
           </FormField>
-          <Heading htmlFor="categories" level={3} margin="none">Categorías</Heading>
+          <Heading htmlFor="categories" level={4} margin="none">Categorías</Heading>
           <FormField
             name="categories"
             validate={() => validateSelect(
@@ -155,7 +155,7 @@ const CreateOrder = ({ closeModal }) => {
               />
             </Box>
           </FormField>
-          <Heading htmlFor="description" level={3} margin="none">Descripción</Heading>
+          <Heading htmlFor="description" level={4} margin="none">Descripción</Heading>
           <FormField
             name="description"
             validate={(value) => validateTitle(
@@ -190,13 +190,13 @@ const CreateOrder = ({ closeModal }) => {
         </Form>
       </Box>
       {invalid
-      && (
-        <ErrorModal
-          errorMessage={errorMessage}
-          setShow={setInvalid}
-          show={invalid}
-        />
-      )}
+        && (
+          <ErrorModal
+            errorMessage={errorMessage}
+            setShow={setInvalid}
+            show={invalid}
+          />
+        )}
       {loading && <Spinner />}
     </Layer>
   );
