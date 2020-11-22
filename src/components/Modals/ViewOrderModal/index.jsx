@@ -51,7 +51,7 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
 
       full={viewPortSize === 'small' ? 'horizontal' : false}
     >
-      <Card>
+      <Card style={{ minWidth: '20vw' }}>
         <CardHeader>
           <Box justify="between" fill direction="row">
             <Heading level="3" margin={{ horizontal: 'large', vertical: 'medium' }} gridArea="title">
