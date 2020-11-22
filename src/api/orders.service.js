@@ -1,6 +1,6 @@
 import HTTP from './http';
 
-const getOrders = (status) => HTTP.get(`/orders/show/all?status=${status}`);
+const getOrders = (status, id) => HTTP.get('/orders/show/all', { params: { 'status': status, 'user_id': id } });
 
 const getApplicationsList = (orderId) => HTTP.get('/orders/show/volunteers', { params: { 'order_id': orderId } })
   .then(({ data }) => data);
@@ -42,7 +42,7 @@ const acceptVolunteerForOrder = (orderId, volunteerId) => HTTP.post('/orders/acc
 
 const ordersForDistance = (id, ascDesc) => HTTP.get('/orders/show/distance', { params: { 'user_id': id, 'asc_desc': ascDesc } });
 
-const ordersForAntiquity = (status, ascDesc) => HTTP.get('/orders/show/all', { params: { 'status': status, 'asc_desc': ascDesc } });
+const ordersForAntiquity = (id, status, ascDesc) => HTTP.get('/orders/show/all', { params: { 'user_id': id, 'status': status, 'asc_desc': ascDesc } });
 
 export default {
   getOrders,
