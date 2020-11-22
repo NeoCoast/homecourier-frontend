@@ -2,7 +2,9 @@ import React, { useContext } from 'react';
 import {
   Layer, Heading, Box, Button, ResponsiveContext, Card, CardHeader, CardBody, CardFooter, Anchor, Grid, Text,
 } from 'grommet';
-import { Package, Task, Home } from 'grommet-icons';
+import {
+  Package, Task, Home, Phone,
+} from 'grommet-icons';
 import { Close } from 'grommet-icons';
 import PropTypes from 'prop-types';
 import ChipContainer from 'Components/Utils/ChipContainer';
@@ -107,9 +109,23 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
                   <Heading level="4" margin={{ vertical: 'small', horizontal: 'none' }}>
                     Información
                   </Heading>
-                  <Grid columns={['small', 'auto']}>
+                  <Grid columns={['small', 'auto']} rows={['auto', 'auto']} gap="small">
                     <Home />
                     <Text>{order.helpee.address}</Text>
+                    <Phone />
+                    <Text>{order.helpee.phoneNumber}</Text>
+                  </Grid>
+                </Box>
+              )}
+              {!userData.documentNumber && order.status !== 'created'
+              && (
+                <Box>
+                  <Heading level="4" margin={{ vertical: 'small', horizontal: 'none' }}>
+                    Información
+                  </Heading>
+                  <Grid columns={['small', 'auto']} rows={['auto', 'auto']} gap="small">
+                    <Phone />
+                    <Text>{order.volunteers[0].phoneNumber}</Text>
                   </Grid>
                 </Box>
               )}

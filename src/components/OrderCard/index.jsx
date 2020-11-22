@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import {
-  Card, CardHeader, CardFooter, CardBody, Heading, Button, Box, Paragraph, Text,
+  Card, CardHeader, CardFooter, CardBody, Heading, Button, Box, Text,
 } from 'grommet';
 import { Add } from 'grommet-icons';
 import PropTypes from 'prop-types';
@@ -25,7 +25,7 @@ const OrderCard = ({
 
   return (
     <Card
-      style={{ maxHeight: '700px' }}
+      style={{ maxHeight: '700px', boxShadow: '0.5vh 0.5vh 10px #202020' }}
       background="white"
       elevation="xlarge"
       margin={{ horizontal: 'small', bottom: 'large' }}
@@ -53,20 +53,21 @@ const OrderCard = ({
                   <MiniStatusDisplay activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]} cancelled={order.status === 'cancelled'} />
                 )}
             </Box>
-            <Box width="medium">
-              <Heading level="5" margin={{ top: 'small', bottom: 'xsmall' }}>
+            <div style={{ minWidth: '320px' }}>
+              <Heading level="5" margin={{ top: '0', bottom: 'xsmall' }}>
                 Descripción
               </Heading>
-              <Paragraph
-                style={{
-                  height: 100, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'pre',
-                }}
-                margin="xsmall"
-                size="small"
-              >
-                {order.description}
-              </Paragraph>
-            </Box>
+              <div style={{ maxWidth: '320px' }}>
+                <ClampLines
+                  className="ellipsis-class"
+                  text={`${order.description}`}
+                  lines={1}
+                  buttons
+                  moreText="Ver más"
+                  lessText="Ver menos"
+                />
+              </div>
+            </div>
           </Box>
           <ChipContainer items={order.categories} label="description" />
         </Box>

@@ -74,14 +74,22 @@ export const validateRepeatPassword = (value, formValues, errorMessage) => {
 
 export const validateDay = (value, errorMessage) => {
   if (Number.isNaN(Number(value)) || Number(value) > 31 || Number(value) <= 0) {
-    return { status: 'error', message: errorMessage('No valido') };
+    return { status: 'error', message: errorMessage('No válido') };
   }
   return { status: 'info' };
 };
 
 export const validateYear = (value, errorMessage) => {
   if (Number.isNaN(Number(value))) {
-    return { status: 'error', message: errorMessage('No valido') };
+    return { status: 'error', message: errorMessage('No válido') };
+  }
+  return { status: 'info' };
+};
+
+export const validatePhone = (value, errorMessage) => {
+  const RegExpPhone = /^09[1-9][0-9]{6}$/;
+  if (!RegExpPhone.test(value)) {
+    return { status: 'error', message: errorMessage('No válido') };
   }
   return { status: 'info' };
 };

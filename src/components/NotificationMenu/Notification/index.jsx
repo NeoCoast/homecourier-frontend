@@ -21,6 +21,7 @@ const Notification = (item) => (
           text={`${item.body}!`}
           lines={1}
           buttons
+
           moreText="Ver más"
           lessText="Ver menos"
         />
