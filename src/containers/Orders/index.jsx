@@ -15,7 +15,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       try {
         setLoading(true);
-        const res = await ordersService.getOrders('created');
+        const res = await ordersService.getOrders('created', userData.id);
         setLoading(false);
         setOrders(res.data);
         setViewOrderModal(false);
@@ -41,7 +41,7 @@ const Orders = () => {
   const ordersForAntiquity = async (ascDesc) => {
     try {
       setLoading(true);
-      const res = await ordersService.ordersForAntiquity('created', ascDesc);
+      const res = await ordersService.ordersForAntiquity(userData.id, 'created', ascDesc);
       setOrders(res.data);
       setLoading(false);
     } catch (error) {

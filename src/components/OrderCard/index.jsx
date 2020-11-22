@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Card, CardHeader, CardFooter, CardBody, Heading, Button, Box,
+  Card, CardHeader, CardFooter, CardBody, Heading, Button, Box, Text,
 } from 'grommet';
 import { Add } from 'grommet-icons';
 import PropTypes from 'prop-types';
@@ -15,6 +15,13 @@ const OrderCard = ({
   order, viewportSize, openModal,
 }) => {
   const userData = useSelector((state) => state.logUser.data);
+  const distance = order.helpee.distance * 1000;
+  let labelDistance = '';
+  if (distance < 1000) {
+    labelDistance = `${Math.round(distance / 100) * 100} metros.`;
+  } else {
+    labelDistance = `${Math.round(distance / 1000)} km.`;
+  }
 
   return (
     <Card
@@ -40,6 +47,7 @@ const OrderCard = ({
           <Box direction="row-responsive" gap="small" justify="between">
             <Box fill>
               {userData.documentNumber && <UserProfileInfo user={order.helpee} />}
+              {userData.documentNumber && order.status === 'created' && <Text size="small"> {labelDistance} </Text>}
               {((order.volunteers ? (order.volunteers.map((x) => x.id).includes(userData.id) && order.status !== 'created') : false) || userData.id === order.helpee.id)
                 && (
                   <MiniStatusDisplay activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]} cancelled={order.status === 'cancelled'} />
