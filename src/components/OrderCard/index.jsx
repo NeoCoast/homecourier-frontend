@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import {
   Card, CardHeader, CardFooter, CardBody, Heading, Button, Box, Text,
@@ -16,12 +15,13 @@ const OrderCard = ({
   order, viewportSize, openModal,
 }) => {
   const userData = useSelector((state) => state.logUser.data);
-  const dist = order.helpee.distance * 1000;
-  const distance = (dist < 450) ? 'Menos de 500 mts.'
-    : (dist >= 450 && dist < 800) ? '500 mts.'
-      : (dist >= 800 && dist < 1500) ? '1km.'
-        : (dist >= 1500 && dist < 2500) ? '2 km.'
-          : 'Más de 2km.';
+  const distance = order.helpee.distance * 1000;
+  let labelDistance = '';
+  if (distance < 1000) {
+    labelDistance = `${Math.round(distance / 100) * 100} metros.`;
+  } else {
+    labelDistance = `${Math.round(distance / 1000)} km.`;
+  }
 
   return (
     <Card
@@ -47,7 +47,7 @@ const OrderCard = ({
           <Box direction="row-responsive" gap="small" justify="between">
             <Box fill>
               {userData.documentNumber && <UserProfileInfo user={order.helpee} />}
-              {userData.documentNumber && order.status === 'created' && <Text size="small"> {distance} </Text>}
+              {userData.documentNumber && order.status === 'created' && <Text size="small"> {labelDistance} </Text>}
               {((order.volunteers ? (order.volunteers.map((x) => x.id).includes(userData.id) && order.status !== 'created') : false) || userData.id === order.helpee.id)
                 && (
                   <MiniStatusDisplay activeStep={ORDER_STATUS_PHASE_NUMBER[order.status]} cancelled={order.status === 'cancelled'} />
