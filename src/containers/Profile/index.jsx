@@ -14,7 +14,11 @@ import Spinner from 'Components/Utils/Spinner';
 import ErrorModal from 'Components/Modals/ErrorModal';
 import CalificationGradient from 'Components/Utils/CalificationGradient';
 import AddImage from 'Assets/profile-picture.png';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import {
+  InfiniteLoader,
+  List,
+  AutoSizer,
+} from 'react-virtualized';
 
 const Profile = (props) => {
   const userInfo = useSelector((state) => state.logUser.data);
@@ -29,27 +33,26 @@ const Profile = (props) => {
 
   useEffect(() => {
     async function getUserData() {
-      console.log(userInfo);
       let response = {};
+      try {
+        response = await usersService.profileData(username);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+        history.push('/404');
+      }
       if (username !== userInfo.username) {
-        try {
-          response = await usersService.profileData(username);
-          setLoading(false);
-          setUserData(response.data);
-        } catch (error) {
-          console.log(error);
-          setLoading(false);
-          history.push('/404');
-        }
+        setUserData(response.data);
+        setLoading(false);
       } else {
-        setUserData(userInfo);
+        setUserData({ ...userInfo, ordersCompleted: response.data.ordersCompleted });
         setLoading(false);
       }
       try {
         const page = { page: pageRatings };
         const id = username === userInfo.username ? userInfo.id : response.data.id;
         const ratingsResponse = await usersService.ratingsData(page, id);
-        setRatings(ratings.concat(ratingsResponse.data.ratings));
+        setRatings(ratingsResponse.data.ratings);
         if (ratingsResponse.data.ratings) {
           setPageRatings(pageRatings + 1);
         }
@@ -63,17 +66,39 @@ const Profile = (props) => {
     getUserData();
   }, [username]);
 
-  const getRatings = async () => {
-    console.log('asd');
-    setLoading(true);
-    const page = { page: pageRatings };
-    const ratingsResponse = await usersService.ratingsData(page, userData.id);
-    setRatings(ratings.concat(ratingsResponse.data.ratings));
-    if (ratingsResponse.data) {
-      setPageRatings(pageRatings + 1);
+  const getRatings = async ({ stopIndex }) => {
+    if (stopIndex >= 49 && stopIndex + 1 > ratings.length) {
+      const ratingsResponse = await usersService.ratingsData(pageRatings, userData.id);
+      setRatings(ratings.concat(ratingsResponse.data.ratings));
+      if (ratingsResponse.data) {
+        setPageRatings(pageRatings + 1);
+      }
     }
-    setLoading(false);
   };
+
+  const isItemLoaded = ({ index }) => !!ratings[index];
+
+  const rowRenderer = ({
+    index,
+    style,
+  }) => (
+    <div style={style}>
+      <Box a11yTitle="Rating" key={`rating-comment${index}`} pad={{ top: 'medium' }}>
+        <Card>
+          <Box fill pad={{ left: 'small' }}>
+            <CalificationGradient maxRating={5} percent={((Number(ratings[index].score) * 100) / 5)} />
+            <Box pad={{ bottom: 'large' }} align="center">
+              {ratings[index].comment && (
+                <Box>
+                  <Text truncate margin="small">{`"${ratings[index].comment}"`}</Text>
+                </Box>
+              )}
+            </Box>
+          </Box>
+        </Card>
+      </Box>
+    </div>
+  );
 
   return (
     <Grid
@@ -137,7 +162,7 @@ const Profile = (props) => {
             <Heading margin="none" level="3">Pedidos realizados:</Heading>
             <Text size="large">{userData.ordersCompleted}</Text>
           </Box>
-          <Box pad={{ left: 'small' }} gap="small">
+          <Box style={{ minHeight: '420px' }} pad={{ left: 'small' }} gap="small">
             <Heading margin="none" level="3">Calificaciones y comentarios:</Heading>
             {ratings.length === 0 && (
               <Card>
@@ -149,35 +174,27 @@ const Profile = (props) => {
 
             )}
             {ratings.length > 0 && (
-              <InfiniteScroll
-                dataLength={ratings.length} // This is important field to render the next data
-                next={getRatings}
-                hasMore
-                loader={<Spinner />}
-                endMessage={(
-                  <Box>
-                    <Text>No se han encontrado mas calificaciones.</Text>
-                  </Box>
-                )}
+              <InfiniteLoader
+                isRowLoaded={isItemLoaded}
+                rowCount={ratings.length + 1 || 51}
+                loadMoreRows={getRatings}
               >
-                {ratings.map((item, index) => (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <Box a11yTitle="Rating" key={`rating-comment${index}`} pad={{ top: 'medium' }}>
-                    <Card>
-                      <Box fill pad={{ left: 'small' }}>
-                        <CalificationGradient maxRating={5} percent={((Number(item.score) * 100) / 5)} />
-                        <Box pad={{ bottom: 'large' }} align="center">
-                          {item.comment && (
-                            <Box>
-                              <Text truncate margin="small">{`"${item.comment}"`}</Text>
-                            </Box>
-                          )}
-                        </Box>
-                      </Box>
-                    </Card>
-                  </Box>
-                ))}
-              </InfiniteScroll>
+                {({ onRowsRendered, registerChild }) => (
+                  <AutoSizer>
+                    {({ width }) => (
+                      <List
+                        onRowsRendered={onRowsRendered}
+                        ref={registerChild}
+                        rowCount={ratings.length || 50}
+                        rowRenderer={rowRenderer}
+                        height={400}
+                        width={width}
+                        rowHeight={150}
+                      />
+                    )}
+                  </AutoSizer>
+                )}
+              </InfiniteLoader>
             )}
           </Box>
         </Box>
