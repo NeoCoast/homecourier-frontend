@@ -16,7 +16,7 @@ const logout = () => HTTP.delete('/users/logout');
 
 const profileData = (user) => HTTP.get(`/users/profile/view?username=${user}`);
 
-const ratingsData = (page, user) => HTTP.get(`/users/ratings/view?id=${user}`, page);
+const ratingsData = (page, user) => HTTP.get(`/users/ratings/view?id=${user}&page=${page}`);
 
 HTTP.interceptors.request.use((
   async (config) => {
