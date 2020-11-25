@@ -84,10 +84,10 @@ const Profile = (props) => {
   }) => (
     <div style={style}>
       <Box a11yTitle="Rating" key={`rating-comment${index}`} pad={{ top: 'medium' }}>
-        <Card>
-          <Box fill pad={{ left: 'small' }}>
+        <Card style={{ boxShadow: '0.3vh 0.3vh 10px #202020' }} margin={{ left: 'small', right: 'small' }}>
+          <Box fill pad={{ left: 'small' }} margin={{ top: 'small' }}>
             <CalificationGradient maxRating={5} percent={((Number(ratings[index].score) * 100) / 5)} />
-            <Box pad={{ bottom: 'large' }} align="center">
+            <Box pad={{ bottom: 'large' }}>
               {ratings[index].comment && (
                 <Box>
                   <Text truncate margin="small">{`"${ratings[index].comment}"`}</Text>
@@ -130,11 +130,11 @@ const Profile = (props) => {
             <Heading level="2" margin="none" alignSelf="stretch">Perfil de {username}</Heading>
           </Box>
           <Box pad={{ left: 'small' }} direction="row-responsive" align="center" gap="small">
-            <Heading margin="none" level="3">Nombre:</Heading>
+            <Heading margin="none" level="4">Nombre:</Heading>
             <Text size="large">{`${userData.name} ${userData.lastname}`}</Text>
           </Box>
           <Box pad={{ left: 'small' }} direction="row-responsive" align="center" gap="small">
-            <Heading margin="none" level="3">Calificación:</Heading>
+            <Heading margin="none" level="4">Calificación:</Heading>
             {!userData.rating && (
               <Text size="large">Este usuario aún no tiene calificaciones</Text>
             )}
@@ -146,7 +146,7 @@ const Profile = (props) => {
           </Box>
           {userData.username === userInfo.username && (
             <Box pad={{ left: 'small' }}>
-              <Heading margin="none" level="3">Dirección:</Heading>
+              <Heading margin="none" level="4">Dirección:</Heading>
               <Box a11yTitle="Map" pad={{ top: 'xsmall' }}>
                 <ExactLocation
                   isMarkerShown
@@ -159,11 +159,11 @@ const Profile = (props) => {
             </Box>
           )}
           <Box pad={{ left: 'small' }} direction="row-responsive" align="center" gap="small">
-            <Heading margin="none" level="3">Pedidos realizados:</Heading>
+            <Heading margin="none" level="4">Pedidos realizados:</Heading>
             <Text size="large">{userData.ordersCompleted}</Text>
           </Box>
           <Box style={{ minHeight: '420px' }} pad={{ left: 'small' }} gap="small">
-            <Heading margin="none" level="3">Calificaciones y comentarios:</Heading>
+            <Heading margin="none" level="4">Calificaciones y comentarios:</Heading>
             {ratings.length === 0 && (
               <Card>
                 <Box pad="medium" gap="small" direction="row-responsive">
@@ -189,7 +189,7 @@ const Profile = (props) => {
                         rowRenderer={rowRenderer}
                         height={400}
                         width={width}
-                        rowHeight={150}
+                        rowHeight={180}
                       />
                     )}
                   </AutoSizer>
