@@ -1,8 +1,12 @@
 /* eslint-disable no-console */
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
 import './index.scss';
 import {
-  Box, Heading, Grid, Avatar, Text, Card,
+  Box, Heading, Grid, Avatar, Text, Card, ResponsiveContext,
 } from 'grommet';
 import { Alert } from 'grommet-icons';
 import { useSelector } from 'react-redux';
@@ -13,9 +17,12 @@ import { useHistory } from 'react-router-dom';
 import Spinner from 'Components/Utils/Spinner';
 import ErrorModal from 'Components/Modals/ErrorModal';
 import CalificationGradient from 'Components/Utils/CalificationGradient';
+import ClampLines from 'react-clamp-lines';
 import AddImage from 'Assets/profile-picture.png';
 import {
   InfiniteLoader,
+  CellMeasurer,
+  CellMeasurerCache,
   List,
   AutoSizer,
 } from 'react-virtualized';
@@ -30,6 +37,9 @@ const Profile = (props) => {
   const [invalid, setInvalid] = useState(false);
   const [ratings, setRatings] = useState([]);
   const [pageRatings, setPageRatings] = useState(0);
+  const [updateListIndex, setUpdateListIndex] = useState(-1);
+  const [updateList, setUpdateList] = useState(false);
+  const listRef = useRef();
 
   useEffect(() => {
     async function getUserData() {
@@ -45,7 +55,7 @@ const Profile = (props) => {
         setUserData(response.data);
         setLoading(false);
       } else {
-        setUserData({ ...userInfo, ordersCompleted: response.data.ordersCompleted });
+        setUserData({ ...userInfo, ordersCompleted: response.data.ordersCompleted, rating: response.data.rating });
         setLoading(false);
       }
       try {
@@ -66,6 +76,13 @@ const Profile = (props) => {
     getUserData();
   }, [username]);
 
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.recomputeRowHeights(updateListIndex);
+      listRef.current.forceUpdateGrid();
+    }
+  }, [updateList, updateListIndex]);
+
   const getRatings = async ({ stopIndex }) => {
     if (stopIndex >= 49 && stopIndex + 1 > ratings.length) {
       const ratingsResponse = await usersService.ratingsData(pageRatings, userData.id);
@@ -78,28 +95,64 @@ const Profile = (props) => {
 
   const isItemLoaded = ({ index }) => !!ratings[index];
 
+  const cache = new CellMeasurerCache({
+    fixedWidth: true,
+  });
+
+  const ListHeight = React.useContext(ResponsiveContext) === 'small' ? 380 : 420;
+
   const rowRenderer = ({
     index,
     style,
+    key,
+    parent,
   }) => (
-    <div style={style}>
-      <Box a11yTitle="Rating" key={`rating-comment${index}`} pad={{ top: 'medium' }}>
-        <Card style={{ boxShadow: '0.3vh 0.3vh 10px #202020' }} margin={{ left: 'small', right: 'small' }}>
-          <Box fill pad={{ left: 'small' }} margin={{ top: 'small' }}>
-            <CalificationGradient maxRating={5} percent={((Number(ratings[index].score) * 100) / 5)} />
-            <Box pad={{ bottom: 'large' }}>
-              {ratings[index].comment && (
-                <Box>
-                  <Text truncate margin="small">{`"${ratings[index].comment}"`}</Text>
+    <CellMeasurer
+      cache={cache}
+      columnIndex={0}
+      key={key}
+      parent={parent}
+      rowIndex={index}
+    >
+      {({ measure, registerChild }) => (
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+        <div
+          style={style}
+          ref={registerChild}
+          onClick={(event) => {
+            if (event.target.innerText === 'Ver más'
+            || event.target.innerText === 'Ver menos') {
+              measure();
+              setUpdateList(!updateList);
+              setUpdateListIndex(index);
+            }
+          }}
+        >
+          <Box a11yTitle="Rating" key={`rating-comment${index}`} pad={{ top: 'small' }}>
+            <Box style={{ borderBottom: '1px solid #aaaa' }} margin={{ left: 'small', right: 'small' }}>
+              <Box fill pad={{ left: 'small' }}>
+                <CalificationGradient maxRating={5} percent={((Number(ratings[index].score) * 100) / 5)} />
+                <Box pad={{ bottom: 'large' }}>
+                  {ratings[index].comment && (
+                    <Box>
+                      <ClampLines
+                        className="ellipsis-class"
+                        text={`${ratings[index].comment}`}
+                        lines={1}
+                        buttons
+                        moreText="Ver más"
+                        lessText="Ver menos"
+                      />
+                    </Box>
+                  )}
                 </Box>
-              )}
+              </Box>
             </Box>
           </Box>
-        </Card>
-      </Box>
-    </div>
+        </div>
+      )}
+    </CellMeasurer>
   );
-
   return (
     <Grid
       align="stretch"
@@ -131,12 +184,12 @@ const Profile = (props) => {
           </Box>
           <Box pad={{ left: 'small' }} direction="row-responsive" align="center" gap="small">
             <Heading margin="none" level="4">Nombre:</Heading>
-            <Text size="large">{`${userData.name} ${userData.lastname}`}</Text>
+            <Text size="medium">{`${userData.name} ${userData.lastname}`}</Text>
           </Box>
           <Box pad={{ left: 'small' }} direction="row-responsive" align="center" gap="small">
             <Heading margin="none" level="4">Calificación:</Heading>
             {!userData.rating && (
-              <Text size="large">Este usuario aún no tiene calificaciones</Text>
+              <Text size="medium">Este usuario aún no tiene calificaciones</Text>
             )}
             {userData.rating && (
               <Box a11yTitle="Score" fill pad={{ left: 'small', top: 'small' }}>
@@ -160,7 +213,7 @@ const Profile = (props) => {
           )}
           <Box pad={{ left: 'small' }} direction="row-responsive" align="center" gap="small">
             <Heading margin="none" level="4">Pedidos realizados:</Heading>
-            <Text size="large">{userData.ordersCompleted}</Text>
+            <Text size="medium">{userData.ordersCompleted}</Text>
           </Box>
           <Box style={{ minHeight: '420px' }} pad={{ left: 'small' }} gap="small">
             <Heading margin="none" level="4">Calificaciones y comentarios:</Heading>
@@ -179,17 +232,18 @@ const Profile = (props) => {
                 rowCount={ratings.length + 1 || 51}
                 loadMoreRows={getRatings}
               >
-                {({ onRowsRendered, registerChild }) => (
+                {({ onRowsRendered }) => (
                   <AutoSizer>
                     {({ width }) => (
                       <List
                         onRowsRendered={onRowsRendered}
-                        ref={registerChild}
+                        ref={listRef}
                         rowCount={ratings.length || 50}
                         rowRenderer={rowRenderer}
-                        height={400}
+                        height={ListHeight}
                         width={width}
-                        rowHeight={180}
+                        rowHeight={cache.rowHeight || 150}
+                        deferredMeasurementCache={cache}
                       />
                     )}
                   </AutoSizer>
