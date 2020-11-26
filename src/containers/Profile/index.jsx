@@ -99,7 +99,7 @@ const Profile = (props) => {
     fixedWidth: true,
   });
 
-  const viewPortSize = React.useContext(ResponsiveContext) === 'small' ? 380 : 420;
+  const ListHeight = React.useContext(ResponsiveContext) === 'small' ? 380 : 420;
 
   const rowRenderer = ({
     index,
@@ -240,7 +240,7 @@ const Profile = (props) => {
                         ref={listRef}
                         rowCount={ratings.length || 50}
                         rowRenderer={rowRenderer}
-                        height={viewPortSize}
+                        height={ListHeight}
                         width={width}
                         rowHeight={cache.rowHeight || 150}
                         deferredMeasurementCache={cache}
