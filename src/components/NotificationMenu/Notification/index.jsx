@@ -10,7 +10,12 @@ const Notification = (item) => (
     fill="horizontal"
     align="center"
     gap="small"
-    style={{ minHeight: '50px', marginLeft: '10px', marginRight: '10px' }}
+    style={{
+      minHeight: '50px',
+      marginLeft: '10px',
+      marginRight: '10px',
+      cursor: 'pointer',
+    }}
     key={item.id}
   >
     <Box align="center" direction="row" gap="small">

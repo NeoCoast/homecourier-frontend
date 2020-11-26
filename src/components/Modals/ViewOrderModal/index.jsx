@@ -109,7 +109,7 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
                   <Heading level="4" margin={{ vertical: 'small', horizontal: 'none' }}>
                     Información
                   </Heading>
-                  <Grid columns={['small', 'auto']} rows={['auto', 'auto']} gap="small">
+                  <Grid columns={['20px', 'auto']} rows={['auto', 'auto']} gap="small">
                     <Home />
                     <Text>{order.helpee.address}</Text>
                     <Phone />
