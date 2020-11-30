@@ -117,7 +117,7 @@ const ViewOrderModal = ({ order, onClose, onConfirm }) => {
                   </Grid>
                 </Box>
               )}
-              {!userData.documentNumber && order.status !== 'created'
+              {!userData.documentNumber && order.status !== 'created' && order.volunteers.length > 0
               && (
                 <Box>
                   <Heading level="4" margin={{ vertical: 'small', horizontal: 'none' }}>
